@@ -13,11 +13,14 @@ export default function useNamespaces() {
   const fetchNamespaces = async () => {
     try {
       const authToken = await Cookies.get('token')
-      const response = await fetch('http://localhost:5000/api/getNamespaces', {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
+      const response = await fetch(
+        'https://chatbot-backend-ihn7.onrender.com/api/getNamespaces',
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
         },
-      })
+      )
       const data = await response.json()
 
       if (response.ok) {

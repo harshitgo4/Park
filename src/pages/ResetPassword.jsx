@@ -17,15 +17,18 @@ function ResetPassword() {
 
     if (email && email.includes('.') && email.includes('@')) {
       setDisabled(true)
-      const res = await fetch(`http://localhost:5000/api/resetPassword1`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const res = await fetch(
+        `https://chatbot-backend-ihn7.onrender.com/api/resetPassword1`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: email,
+          }),
         },
-        body: JSON.stringify({
-          email: email,
-        }),
-      })
+      )
 
       const res2 = await res.json()
       console.log(res2)
@@ -50,16 +53,19 @@ function ResetPassword() {
           confirmButtonText: 'Submit',
           showLoaderOnConfirm: true,
           preConfirm: (otp) => {
-            return fetch(`http://localhost:5000/api/verify`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
+            return fetch(
+              `https://chatbot-backend-ihn7.onrender.com/api/verify`,
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  otp,
+                  email: email,
+                }),
               },
-              body: JSON.stringify({
-                otp,
-                email: email,
-              }),
-            })
+            )
               .then((response) => response.json())
               .then((res) => {
                 console.log(res)
@@ -77,16 +83,19 @@ function ResetPassword() {
                     confirmButtonText: 'Submit',
                     showLoaderOnConfirm: true,
                     preConfirm: (password) => {
-                      return fetch(`http://localhost:5000/api/resetPassword2`, {
-                        method: 'POST',
-                        headers: {
-                          'Content-Type': 'application/json',
+                      return fetch(
+                        `https://chatbot-backend-ihn7.onrender.com/api/resetPassword2`,
+                        {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json',
+                          },
+                          body: JSON.stringify({
+                            password,
+                            email,
+                          }),
                         },
-                        body: JSON.stringify({
-                          password,
-                          email,
-                        }),
-                      })
+                      )
                         .then((response) => response.json())
                         .then((res) => {
                           console.log(res)
