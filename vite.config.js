@@ -6,6 +6,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   define: {
     'process.env': process.env,
+    ...(process.env.NODE_ENV === 'production' ? {} : { global: 'window' }),
   },
   css: {
     postcss,
@@ -25,6 +26,6 @@ export default defineConfig({
     commonjsOptions: {
       transformMixedEsModules: true,
     },
-    outDir: 'build',
+    outDir: 'build'
   },
 })
