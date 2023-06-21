@@ -170,7 +170,7 @@ function MessageList({
               <div
                 key={`chatMessage-0`}
                 hidden={!controlSidebar.prompt}
-                className={`py-2 px-4 max-w-2xl ${bg} self-start rounded-br-3xl rounded-tr-3xl rounded-tl-xl`}
+                className={`py-2 px-4 w-3xl ${bg} self-start rounded-br-3xl rounded-tr-3xl rounded-tl-xl`}
               >
                 <div linkTarget="_blank">
                   Hey {userName ? userName.split(' ')[0] : null}! The document
@@ -216,12 +216,12 @@ function MessageList({
             ? messages.map((message, index) => {
                 let className
                 if (message.type === 'apiMessage') {
-                  className = `self-start rounded-br-3xl ${bg} rounded-tr-3xl rounded-tl-xl w-full`
+                  className = `self-start rounded-br-3xl ${bg} rounded-tr-3xl rounded-tl-xl w-3xl`
                 } else {
                   className =
                     loading && index + 1 === messages.length - 1
-                      ? 'text-[#888888] self-end pb-30'
-                      : 'text-[#888888] self-end'
+                      ? 'text-[#888888] w-3xl self-end pb-30'
+                      : 'text-[#888888] w-3xl self-end'
                 }
                 if (message.type === 'apiMessage') {
                   const date = new Date(message.date)
@@ -246,7 +246,7 @@ function MessageList({
                       </div>
                       <div
                         key={`chatMessage-${index + 1}`}
-                        className={`py-2 px-4 max-w-2xl ${className}`}
+                        className={`py-2 px-4 ${className}`}
                       >
                         <ReactMarkdown linkTarget="_blank">
                           {message.message}
