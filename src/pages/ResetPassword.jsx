@@ -17,15 +17,18 @@ function ResetPassword() {
 
     if (email && email.includes('.') && email.includes('@')) {
       setDisabled(true)
-      const res = await fetch(`http://localhost:5000/api/resetPassword1`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const res = await fetch(
+        `https://chatbot-backend-ihn7.onrender.com/api/resetPassword1`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: email,
+          }),
         },
-        body: JSON.stringify({
-          email: email,
-        }),
-      })
+      )
 
       const res2 = await res.json()
       console.log(res2)
@@ -55,17 +58,20 @@ function ResetPassword() {
           preConfirm: () => {
             const otp = document.getElementById('otp').value
             const password = document.getElementById('password').value
-            return fetch('http://localhost:5000/api/resetPassword2', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
+            return fetch(
+              'https://chatbot-backend-ihn7.onrender.com/api/resetPassword2',
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  password,
+                  email,
+                  otp,
+                }),
               },
-              body: JSON.stringify({
-                password,
-                email,
-                otp,
-              }),
-            })
+            )
               .then((response) => response.json())
               .then((res) => {
                 console.log(res)

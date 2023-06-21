@@ -96,7 +96,7 @@ const ChatForm = ({
     try {
       // Delete chat from MongoDB
       await axios.delete(
-        'http://localhost:5000/api/clear-chat', // Update the API endpoint to delete chat data
+        'https://chatbot-backend-ihn7.onrender.com/api/clear-chat', // Update the API endpoint to delete chat data
         {
           headers: {
             Authorization: `Bearer ${await Cookies.get('token')}`,
