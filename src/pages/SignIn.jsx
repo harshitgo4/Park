@@ -6,7 +6,7 @@ import { useGoogleLogin } from '@react-oauth/google'
 import Header from '../partials/Header'
 import PageIllustration from '../partials/PageIllustration'
 import { useEffect } from 'react'
-import { useToast } from '@chakra-ui/react'
+import { Button, useToast } from '@chakra-ui/react'
 
 function SignIn() {
   const navigate = useNavigate()
@@ -208,74 +208,75 @@ function SignIn() {
                     aria-hidden="true"
                   ></div>
                 </div>
-                <form onSubmit={handleSignIn}>
-                  <div className="flex flex-wrap -mx-3 mb-4">
-                    <div className="w-full px-3">
-                      <label
-                        className="block text-gray-300 text-sm font-medium mb-1"
-                        htmlFor="email"
-                      >
-                        Email
+                <div className="flex flex-wrap -mx-3 mb-4">
+                  <div className="w-full px-3">
+                    <label
+                      className="block text-gray-300 text-sm font-medium mb-1"
+                      htmlFor="email"
+                    >
+                      Email
+                    </label>
+                    <input
+                      id="email"
+                      type="email"
+                      className="form-input w-full text-gray-300"
+                      placeholder="you@yourcompany.com"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-wrap -mx-3 mb-4">
+                  <div className="w-full px-3">
+                    <label
+                      className="block text-gray-300 text-sm font-medium mb-1"
+                      htmlFor="password"
+                    >
+                      Password
+                    </label>
+                    <input
+                      id="password"
+                      type="password"
+                      className="form-input w-full text-gray-300"
+                      placeholder="Password (at least 10 characters)"
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-wrap -mx-3 mb-4">
+                  <div className="w-full px-3">
+                    <div className="flex justify-between">
+                      <label className="flex items-center">
+                        <input type="checkbox" className="form-checkbox" />
+                        <span className="text-gray-400 ml-2">
+                          Keep me signed in
+                        </span>
                       </label>
-                      <input
-                        id="email"
-                        type="email"
-                        className="form-input w-full text-gray-300"
-                        placeholder="you@yourcompany.com"
-                        required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap -mx-3 mb-4">
-                    <div className="w-full px-3">
-                      <label
-                        className="block text-gray-300 text-sm font-medium mb-1"
-                        htmlFor="password"
+                      <Link
+                        to="/reset-password"
+                        className="text-purple-600 hover:text-gray-200 transition duration-150 ease-in-out"
                       >
-                        Password
-                      </label>
-                      <input
-                        id="password"
-                        type="password"
-                        className="form-input w-full text-gray-300"
-                        placeholder="Password (at least 10 characters)"
-                        required
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                      />
+                        Forgot Password?
+                      </Link>
                     </div>
                   </div>
-                  <div className="flex flex-wrap -mx-3 mb-4">
-                    <div className="w-full px-3">
-                      <div className="flex justify-between">
-                        <label className="flex items-center">
-                          <input type="checkbox" className="form-checkbox" />
-                          <span className="text-gray-400 ml-2">
-                            Keep me signed in
-                          </span>
-                        </label>
-                        <Link
-                          to="/reset-password"
-                          className="text-purple-600 hover:text-gray-200 transition duration-150 ease-in-out"
-                        >
-                          Forgot Password?
-                        </Link>
-                      </div>
-                    </div>
+                </div>
+                <div className="flex flex-wrap -mx-3 mt-6">
+                  <div className="w-full px-3">
+                    <Button
+                      disabled={disabled}
+                      className="btn text-white bg-purple-600 hover:bg-purple-700 w-full"
+                      isLoading={disabled}
+                      bg="purple-700"
+                      onClick={handleSignIn}
+                    >
+                      Sign in
+                    </Button>
                   </div>
-                  <div className="flex flex-wrap -mx-3 mt-6">
-                    <div className="w-full px-3">
-                      <button
-                        disabled={disabled}
-                        className="btn text-white bg-purple-600 hover:bg-purple-700 w-full"
-                      >
-                        Sign in
-                      </button>
-                    </div>
-                  </div>
-                </form>
+                </div>
                 <div className="text-gray-400 text-center mt-6">
                   Don’t you have an account?{' '}
                   <Link

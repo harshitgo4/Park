@@ -5,7 +5,7 @@ import Cookies from 'js-cookie'
 import Swal from 'sweetalert2'
 import Header from '../partials/Header'
 import PageIllustration from '../partials/PageIllustration'
-import { useToast } from '@chakra-ui/react'
+import { Button, useToast } from '@chakra-ui/react'
 import { useGoogleLogin } from '@react-oauth/google'
 import axios from 'axios'
 
@@ -259,118 +259,117 @@ function SignUp() {
                     aria-hidden="true"
                   ></div>
                 </div>
-                <form onSubmit={handleSubmit}>
-                  <div className="flex flex-wrap -mx-3 mb-4">
-                    <div className="w-full px-3">
-                      <label
-                        className="block text-gray-300 text-sm font-medium mb-1"
-                        htmlFor="fName"
-                      >
-                        First Name <span className="text-red-600">*</span>
-                      </label>
-                      <input
-                        id="fName"
-                        type="text"
-                        className="form-input w-full text-gray-300"
-                        placeholder="First name"
-                        required
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap -mx-3 mb-4">
-                    <div className="w-full px-3">
-                      <label
-                        className="block text-gray-300 text-sm font-medium mb-1"
-                        htmlFor="lName"
-                      >
-                        Last Name <span className="text-red-600">*</span>
-                      </label>
-                      <input
-                        id="lName"
-                        type="text"
-                        className="form-input w-full text-gray-300"
-                        placeholder="Last name"
-                        required
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap -mx-3 mb-4">
-                    <div className="w-full px-3">
-                      <label
-                        className="block text-gray-300 text-sm font-medium mb-1"
-                        htmlFor="companyName"
-                      >
-                        Company Name <span className="text-red-600">*</span>
-                      </label>
-                      <input
-                        id="companyName"
-                        type="text"
-                        className="form-input w-full text-gray-300"
-                        placeholder="Your company or app name"
-                        required
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap -mx-3 mb-4">
-                    <div className="w-full px-3">
-                      <label
-                        className="block text-gray-300 text-sm font-medium mb-1"
-                        htmlFor="email"
-                      >
-                        Work Email <span className="text-red-600">*</span>
-                      </label>
-                      <input
-                        id="email"
-                        type="email"
-                        className="form-input w-full text-gray-300"
-                        placeholder="you@yourcompany.com"
-                        required
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap -mx-3 mb-4">
-                    <div className="w-full px-3">
-                      <label
-                        className="block text-gray-300 text-sm font-medium mb-1"
-                        htmlFor="password"
-                      >
-                        Password <span className="text-red-600">*</span>
-                      </label>
-                      <input
-                        id="password"
-                        type="password"
-                        className="form-input w-full text-gray-300"
-                        placeholder="Password (at least 10 characters)"
-                        required
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="text-sm text-gray-500 text-center">
-                    I agree to be contacted by Open PRO about this offer as per
-                    the{' '}
-                    <a
-                      href="#"
-                      className="border-b border-gray-600 border-dotted"
+                <div className="flex flex-wrap -mx-3 mb-4">
+                  <div className="w-full px-3">
+                    <label
+                      className="block text-gray-300 text-sm font-medium mb-1"
+                      htmlFor="fName"
                     >
-                      privacy policy
-                    </a>
-                    .
+                      First Name <span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      id="fName"
+                      type="text"
+                      className="form-input w-full text-gray-300"
+                      placeholder="First name"
+                      required
+                      onChange={handleChange}
+                    />
                   </div>
-                  <div className="mt-4">
-                    <button
-                      type="submit"
-                      className="btn btn-primary w-full"
-                      disabled={disabled}
+                </div>
+                <div className="flex flex-wrap -mx-3 mb-4">
+                  <div className="w-full px-3">
+                    <label
+                      className="block text-gray-300 text-sm font-medium mb-1"
+                      htmlFor="lName"
                     >
-                      Sign up
-                    </button>
+                      Last Name <span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      id="lName"
+                      type="text"
+                      className="form-input w-full text-gray-300"
+                      placeholder="Last name"
+                      required
+                      onChange={handleChange}
+                    />
                   </div>
-                </form>
+                </div>
+                <div className="flex flex-wrap -mx-3 mb-4">
+                  <div className="w-full px-3">
+                    <label
+                      className="block text-gray-300 text-sm font-medium mb-1"
+                      htmlFor="companyName"
+                    >
+                      Company Name <span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      id="companyName"
+                      type="text"
+                      className="form-input w-full text-gray-300"
+                      placeholder="Your company or app name"
+                      required
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-wrap -mx-3 mb-4">
+                  <div className="w-full px-3">
+                    <label
+                      className="block text-gray-300 text-sm font-medium mb-1"
+                      htmlFor="email"
+                    >
+                      Work Email <span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      id="email"
+                      type="email"
+                      className="form-input w-full text-gray-300"
+                      placeholder="you@yourcompany.com"
+                      required
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-wrap -mx-3 mb-4">
+                  <div className="w-full px-3">
+                    <label
+                      className="block text-gray-300 text-sm font-medium mb-1"
+                      htmlFor="password"
+                    >
+                      Password <span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      id="password"
+                      type="password"
+                      className="form-input w-full text-gray-300"
+                      placeholder="Password (at least 10 characters)"
+                      required
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+                <div className="text-sm text-gray-500 text-center">
+                  I agree to be contacted by Open PRO about this offer as per
+                  the{' '}
+                  <a
+                    href="#"
+                    className="border-b border-gray-600 border-dotted"
+                  >
+                    privacy policy
+                  </a>
+                  .
+                </div>
+                <div className="mt-4">
+                  <Button
+                    className="btn btn-primary w-full"
+                    disabled={disabled}
+                    onClick={handleSubmit}
+                    isLoading={disabled}
+                  >
+                    Sign up
+                  </Button>
+                </div>
                 <div className="mt-4 text-sm text-gray-300 text-center">
                   Already have an account?{' '}
                   <Link

@@ -47,83 +47,44 @@ function ResetPassword() {
           isClosable: true,
         })
         Swal.fire({
-          title: 'Submit your OTP',
-          input: 'number',
+          title: 'Enter new password',
+          html: `
+    <input id="otp" class="swal2-input" style="border-radius: 10px; padding: 10px; width: 75%;" placeholder="Enter OTP" type="text" autofocus>
+    <input id="password" class="swal2-input" style="border-radius: 10px; padding: 10px; width: 75%;" placeholder="Enter new password" type="password">
+  `,
           showCancelButton: true,
           confirmButtonText: 'Submit',
           showLoaderOnConfirm: true,
-          preConfirm: (otp) => {
+          preConfirm: () => {
+            const otp = document.getElementById('otp').value
+            const password = document.getElementById('password').value
             return fetch(
-              `https://chatbot-backend-ihn7.onrender.com/api/verify`,
+              'https://chatbot-backend-ihn7.onrender.com/api/resetPassword2',
               {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
+                  password,
+                  email,
                   otp,
-                  email: email,
                 }),
               },
             )
               .then((response) => response.json())
               .then((res) => {
                 console.log(res)
-                if (res.message == 'Verified!') {
+                if (res.message === 'Password Reset!') {
                   toast({
                     title: res.message,
                     status: 'success',
                     duration: 9000,
                     isClosable: true,
                   })
-                  Swal.fire({
-                    title: 'Enter new password',
-                    input: 'password',
-                    showCancelButton: true,
-                    confirmButtonText: 'Submit',
-                    showLoaderOnConfirm: true,
-                    preConfirm: (password) => {
-                      return fetch(
-                        `https://chatbot-backend-ihn7.onrender.com/api/resetPassword2`,
-                        {
-                          method: 'POST',
-                          headers: {
-                            'Content-Type': 'application/json',
-                          },
-                          body: JSON.stringify({
-                            password,
-                            email,
-                          }),
-                        },
-                      )
-                        .then((response) => response.json())
-                        .then((res) => {
-                          console.log(res)
-                          if (res.message == 'Password Reset!') {
-                            toast({
-                              title: res.message,
-                              status: 'success',
-                              duration: 9000,
-                              isClosable: true,
-                            })
-                            setTimeout(() => {
-                              router('/signin')
-                            }, 2000)
-                          } else if (res.error) {
-                            toast({
-                              title: res.error,
-                              status: 'error',
-                              duration: 9000,
-                              isClosable: true,
-                            })
-                          }
-                        })
-                        .catch((error) => {
-                          Swal.showValidationMessage(`Request failed: ${error}`)
-                        })
-                    },
-                    allowOutsideClick: () => !Swal.isLoading(),
-                  })
+                  setTimeout(() => {
+                    router('/signin')
+                  }, 2000)
                 } else if (res.error) {
                   toast({
                     title: res.error,

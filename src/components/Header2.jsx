@@ -19,6 +19,7 @@ function Header2({ user, setUser, isOpen, onOpen, onClose, current }) {
   const { colorMode, toggleColorMode } = useColorMode()
   const [subscriptionDetails, setSubscriptionDetails] = useState(null)
   const authToken = Cookies.get('token')
+  const router = useNavigate()
 
   useEffect(() => {
     const fetchSubscriptionDetails = async () => {
@@ -41,7 +42,6 @@ function Header2({ user, setUser, isOpen, onOpen, onClose, current }) {
     }
     fetchSubscriptionDetails()
   }, [])
-  const router = useNavigate()
   if (!authToken) {
     router('/signin')
   }
