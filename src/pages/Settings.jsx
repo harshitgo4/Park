@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
 import { DocumentArrowUpIcon } from '@heroicons/react/24/outline'
-import { Button, Input, InputGroup, InputRightElement } from '@chakra-ui/react'
+import {
+  Button,
+  Input,
+  InputGroup,
+  InputRightElement,
+  ModalFooter,
+} from '@chakra-ui/react'
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline'
-import { ChatBubbleLeftEllipsisIcon } from '@heroicons/react/20/solid'
+import {
+  ChatBubbleLeftEllipsisIcon,
+  FolderIcon,
+} from '@heroicons/react/20/solid'
 import {
   DocumentTextIcon,
   ChatBubbleBottomCenterTextIcon,
@@ -12,9 +21,24 @@ import {
 } from '@heroicons/react/24/outline'
 import { Menu as Menu2, MenuButton, MenuList, MenuItem } from '@chakra-ui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { useColorMode, useColorModeValue } from '@chakra-ui/react'
+import {
+  useColorMode,
+  useColorModeValue,
+  useToast,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  FormControl,
+  FormLabel,
+} from '@chakra-ui/react'
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
+import { AddIcon } from '@chakra-ui/icons'
+
 const Settings = ({
   user,
   setModalOpen,
@@ -35,6 +59,7 @@ const Settings = ({
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [selectButton, setSelectButton] = useState(0)
+  const [folderName, setFolderName] = useState('')
   const { colorMode, toggleColorMode } = useColorMode()
   useEffect(() => {
     if (foldersList && namespaces) {
@@ -52,6 +77,7 @@ const Settings = ({
   }, [namespaces, foldersList])
 
   const router = useNavigate()
+  const toast = useToast()
 
   const handleDelete = async (e, folderName, namespace) => {
     e.preventDefault()
@@ -226,37 +252,58 @@ const Settings = ({
   }
 
   const handleUpload = async () => {
-    if (!selectedFiles || selectedFiles.length === 0 || !namespaceName) return
-
-    setIsLoading(true)
-    const formData = new FormData()
-    for (let i = 0; i < selectedFiles.length; i++) {
-      formData.append(`myfile${i}`, selectedFiles[i])
-    }
-
-    try {
-      const authToken = await Cookies.get('token')
-      const response = await fetch(
-        `https://chatbot-backend-ihn7.onrender.com/api/upload?namespaceName=${namespaceName}`,
-        {
-          method: 'POST',
-          body: formData,
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        },
-      )
-
-      if (response.ok) {
-        handleIngest()
-      } else {
-        setIsLoading(false)
-        const errorData = await response.json()
-        setError(errorData.error)
+    if (!selectedFiles || selectedFiles.length === 0) {
+      toast({
+        title: 'Drag a file to Upload',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    } else if (!namespaceName) {
+      toast({
+        title: 'Title for document is required',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    } else if (!selectedFolder) {
+      toast({
+        title: 'Select a folder to upload file to!',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    } else {
+      setIsLoading(true)
+      const formData = new FormData()
+      for (let i = 0; i < selectedFiles.length; i++) {
+        formData.append(`myfile${i}`, selectedFiles[i])
       }
-    } catch (error) {
-      setIsLoading(false)
-      setError(error.message)
+
+      try {
+        const authToken = await Cookies.get('token')
+        const response = await fetch(
+          `https://chatbot-backend-ihn7.onrender.com/api/upload?namespaceName=${namespaceName}`,
+          {
+            method: 'POST',
+            body: formData,
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          },
+        )
+
+        if (response.ok) {
+          handleIngest()
+        } else {
+          setIsLoading(false)
+          const errorData = await response.json()
+          setError(errorData.error)
+        }
+      } catch (error) {
+        setIsLoading(false)
+        setError(error.message)
+      }
     }
   }
 
@@ -278,7 +325,8 @@ const Settings = ({
       if (response.ok) {
         const data = await response.json()
         setMessage('File uploaded successfully!')
-        setNamespaces([data.newNamespace])
+        setNamespaces([...namespaces, data.newNamespace])
+        setSelectedNamespace(data.newNamespace.name)
       } else {
         const errorData = await response.json()
         setError(errorData.error)
@@ -293,6 +341,45 @@ const Settings = ({
   const handleMenuItemClick = (folder) => {
     setSelectedFolder(folder)
   }
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const handleCreateFolder = async () => {
+    if (folderName) {
+      return await fetch(
+        `https://chatbot-backend-ihn7.onrender.com/api/create-folder`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${await Cookies.get('token')}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ folder: folderName }),
+        },
+      )
+        .then((response) => response.json())
+        .then((res) => {
+          console.log(res)
+          if (res.message) {
+            setFoldersList([...foldersList, folderName])
+            toast({
+              title: res.message,
+              status: 'success',
+              duration: 9000,
+              isClosable: true,
+            })
+          } else if (res.error) {
+            toast({
+              title: res.error,
+              status: 'error',
+              duration: 9000,
+              isClosable: true,
+            })
+          }
+          onClose()
+        })
+    }
+  }
+
+  const textColor = useColorModeValue('text-black', 'text-white')
 
   return (
     <>
@@ -354,7 +441,7 @@ const Settings = ({
             />
           </label>
         </div>
-        <div className="mt-6 mb-2">
+        <div className="mt-2 mb-2">
           {' '}
           <Menu2>
             <MenuButton className="py-2 px-2 text-left flex text-sm w-full border-2 text-[#5D5DFF]">
@@ -362,11 +449,14 @@ const Settings = ({
               <ChevronDownIcon className="w-6 flex-none ml-auto -mt-5" />
             </MenuButton>
             <MenuList className="text-sm">
+              <MenuItem key={0} onClick={onOpen}>
+                Create a new folder
+              </MenuItem>
               {foldersList
                 ? foldersList.map((folder, i) => {
                     return (
                       <MenuItem
-                        key={i}
+                        key={i + 1}
                         onClick={() => handleMenuItemClick(folder)}
                       >
                         {folder}
@@ -546,6 +636,29 @@ const Settings = ({
           )}
         </div>
       </div>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Create a new folder</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormControl>
+              <FormLabel>Folder name</FormLabel>
+              <Input
+                onChange={(e) => setFolderName(e.target.value)}
+                placeholder="Folder name"
+              />
+            </FormControl>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button onClick={handleCreateFolder} colorScheme="blue" mr={3}>
+              Create
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   )
 }

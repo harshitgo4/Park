@@ -106,7 +106,7 @@ function MessageList({
     onOpen()
   }
   const { isOpen, onOpen, onClose } = useDisclosure()
-
+  const namespaceURL = namespaces.filter((el) => el.name === selectedNamespace)
   const defaultLayoutPluginInstance = defaultLayoutPlugin()
   const textColor = useColorModeValue('text-black', 'text-gray-400')
   const bg = useColorModeValue('bg-[#FFF2F2]', 'bg-[#1E293B]')
@@ -120,6 +120,7 @@ function MessageList({
           className={`flex flex-col  mx-auto overflow-y-scroll h-screen gap-4 ${
             previewPdf ? 'w-1/2' : 'w-[100%] lg:w-[70%]'
           } m-auto`}
+          
         >
           <>
             <div
@@ -158,7 +159,7 @@ function MessageList({
                 Preview Document
               </Button>
             </div>
-            <div className='h-screen'>
+            <div className="h-screen">
               <div
                 hidden={!controlSidebar.prompt}
                 className="text-[0.8rem] flex flex-row"
@@ -360,7 +361,7 @@ function MessageList({
             <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
               <Viewer
                 plugins={[defaultLayoutPluginInstance]}
-                fileUrl={namespaces[0].documentURL}
+                fileUrl={namespaceURL[0].documentURL}
               />
             </Worker>
           </div>

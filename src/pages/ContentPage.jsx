@@ -16,6 +16,8 @@ import {
   Input,
   useColorModeValue,
   useColorMode,
+  InputRightElement,
+  InputGroup,
 } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
 import { Bars3Icon } from '@heroicons/react/24/outline'
@@ -35,7 +37,8 @@ import {
 import html2pdf from 'html2pdf.js'
 import { useToast } from '@chakra-ui/react'
 import Swal from 'sweetalert2'
-
+import Cookies from 'js-cookie'
+import { TrashIcon } from '@heroicons/react/20/solid'
 function ContentPage() {
   const router = useNavigate()
   const [showDrawer, setShowDrawer] = useState(false)
@@ -63,16 +66,13 @@ function ContentPage() {
 
   const [email, setEmail] = useState(null)
   const [user, setUser] = useState(null)
+  const [disabled, setDisabled] = useState(false)
   const [selectedFolder, setSelectedFolder] = useState(null)
+  const [docs, setDocs] = useState([])
   const [foldersList, setFoldersList] = useState([])
-  const [editorState, setEditorState] = useState(() => {
-    const savedState = localStorage.getItem('editorState')
-    return savedState
-      ? EditorState.createWithContent(convertFromRaw(JSON.parse(savedState)))
-      : EditorState.createEmpty()
-  })
+  const [editorState, setEditorState] = useState(EditorState.createEmpty())
 
-  const [title, setTitle] = useState(localStorage.getItem('title') || '')
+  const [title, setTitle] = useState('')
   // Initial state
   const [controlSidebar, setControlSidebar] = useState({
     mode: 'balanced',
@@ -83,31 +83,126 @@ function ContentPage() {
   const toast = useToast()
   const nameSpaceHasChats = chatList.length > 0
 
-  const updateTextDescription = async (state) => {
-    await setEditorState(state)
-    const contentState = editorState.getCurrentContent()
-    const rawContentState = convertToRaw(contentState)
-    localStorage.setItem('editorState', JSON.stringify(rawContentState))
+  const updateTextDescription = (state) => {
+    setEditorState(state)
   }
 
   useEffect(() => {
-    const savedTitle = localStorage.getItem('title')
-    if (savedTitle) {
-      setTitle(savedTitle)
+    const getDocu = async () => {
+      const res = await fetch(
+        `https://chatbot-backend-ihn7.onrender.com/api/getDocu`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${Cookies.get('token')}`,
+          },
+        },
+      )
+
+      const res2 = await res.json()
+      console.log(res2)
+      if (res2.error) {
+        toast({
+          title: res2.error,
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        })
+      } else {
+        setDocs(res2.docs)
+      }
     }
+    getDocu()
   }, [])
 
-  const saveEditorState = () => {
-    const contentState = editorState.getCurrentContent()
-    const rawContentState = convertToRaw(contentState)
-    localStorage.setItem('editorState', JSON.stringify(rawContentState))
-    localStorage.setItem('title', title)
-    toast({
-      title: 'Saved!',
-      status: 'success',
-      duration: 9000,
-      isClosable: true,
-    })
+  const saveEditorState = async () => {
+    if (!title) {
+      toast({
+        title: 'Please give a title to this document!',
+        status: 'warning',
+        duration: 9000,
+        isClosable: true,
+      })
+    } else {
+      setDisabled(true)
+
+      const contentState = editorState.getCurrentContent()
+      const rawContentState = convertToRaw(contentState)
+
+      const res = await fetch(
+        `https://chatbot-backend-ihn7.onrender.com/api/saveDocu`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${Cookies.get('token')}`,
+          },
+          body: JSON.stringify({ rawContentState, title }),
+        },
+      )
+
+      const res2 = await res.json()
+      console.log(res2)
+      if (res2.error) {
+        toast({
+          title: res2.error,
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        })
+      } else if (res2.message) {
+        toast({
+          title: 'Document saved!',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+        })
+        setDocs([
+          ...docs,
+          { rawContentState: JSON.stringify(rawContentState), title },
+        ])
+      }
+      setDisabled(false)
+    }
+  }
+  const handleDelete = async (e, title) => {
+    e.preventDefault()
+
+    setDisabled(true)
+
+    const res = await fetch(
+      `https://chatbot-backend-ihn7.onrender.com/api/deleteDocu`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${Cookies.get('token')}`,
+        },
+        body: JSON.stringify({ title }),
+      },
+    )
+
+    const res2 = await res.json()
+    console.log(res2)
+    if (res2.error) {
+      toast({
+        title: res2.error,
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    } else if (res2.message) {
+      toast({
+        title: 'Document deleted!',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
+      const temp = docs.filter((el) => el.title !== title)
+      setDocs(temp)
+    }
+    setDisabled(false)
   }
 
   const downloadPDF = () => {
@@ -247,6 +342,7 @@ function ContentPage() {
                   leftIcon={<CloudIcon className="w-5 h-5" />}
                   colorScheme="green"
                   onClick={(e) => saveEditorState(e)}
+                  isLoading={disabled}
                 >
                   Save
                 </Button>
@@ -257,6 +353,58 @@ function ContentPage() {
                 >
                   Reset
                 </Button>
+              </div>
+              <div hidden={docs.length == 0} className="my-8 ">
+                <h1 className="font-semibold my-2">Saved Documents:</h1>
+                <div className="gap-4 grid grid-cols-2 md:grid-cols-4 ">
+                  {docs
+                    ? docs.map((d, i) => (
+                        <InputGroup key={i} size="md">
+                          <Input
+                            className="p-2 border"
+                            value={d.title}
+                            readOnly
+                            onClick={() => {
+                              console.log(d.rawContentState)
+                              setTitle(d.title)
+                              if (d.rawContentState) {
+                                setEditorState(
+                                  EditorState.createWithContent(
+                                    convertFromRaw(
+                                      JSON.parse(d.rawContentState),
+                                    ),
+                                  ),
+                                )
+                              }
+                            }}
+                          />
+                          <InputRightElement className="gap-x-2">
+                            <TrashIcon
+                              color="red"
+                              onClick={(e) =>
+                                Swal.fire({
+                                  title:
+                                    'Are you sure you want to delete this document?',
+                                  text: "You won't be able to revert this!",
+                                  icon: 'warning',
+                                  showCancelButton: true,
+                                  confirmButtonColor: '#3085d6',
+                                  cancelButtonColor: '#d33',
+                                  confirmButtonText: 'Yes, delete it!',
+                                }).then((result) => {
+                                  if (result.isConfirmed) {
+                                    console.log('DELTE')
+                                    handleDelete(e, d.title)
+                                  }
+                                })
+                              }
+                              className="w-5 text-red cursor-pointer"
+                            />
+                          </InputRightElement>
+                        </InputGroup>
+                      ))
+                    : null}
+                </div>
               </div>
             </div>
           </div>

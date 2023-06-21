@@ -65,12 +65,7 @@ export default function Home({ folder, initialNamespace }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [messageState, setMessageState] = useState({
-    messages: [
-      {
-        message: 'Hi, what would you like to know about these documents?',
-        type: 'apiMessage',
-      },
-    ],
+    messages: [],
     history: [],
   })
 
@@ -147,9 +142,9 @@ export default function Home({ folder, initialNamespace }) {
   }, [])
 
   useEffect(() => {
-    setChatId(chatId)
-    setSelectedChatId(chatId)
-  }, [selectedFolder, selectedNamespace])
+    setSelectedChatId(chatList[0])
+    setChatId(chatList[0])
+  }, [chatList, selectedNamespace])
 
   useEffect(() => {
     if (initialNamespace) {
@@ -161,10 +156,6 @@ export default function Home({ folder, initialNamespace }) {
   useEffect(() => {
     textAreaRef.current?.focus()
   }, [])
-
-  useEffect(() => {
-    fetchChatHistory()
-  }, [chatId, fetchChatHistory])
 
   async function handleSubmit(e) {
     e.preventDefault()
