@@ -58,7 +58,7 @@ const Settings = ({
     try {
       const authToken = await Cookies.get('token')
       const response = await fetch(
-        `https://chatbot-backend-ihn7.onrender.com/api/deleteNamespace?namespace=${namespace}`,
+        `http://localhost:5000/api/deleteNamespace?namespace=${namespace}`,
         {
           method: 'DELETE',
           headers: {
@@ -90,7 +90,7 @@ const Settings = ({
     try {
       const authToken = await Cookies.get('token')
       const response = await fetch(
-        `https://chatbot-backend-ihn7.onrender.com/api/updateNamespace`,
+        `http://localhost:5000/api/updateNamespace`,
         {
           method: 'POST',
           headers: {
@@ -130,7 +130,7 @@ const Settings = ({
     try {
       const authToken = await Cookies.get('token')
       const response = await fetch(
-        `https://chatbot-backend-ihn7.onrender.com/api/deleteFolder?folderName=${folderName}`,
+        `http://localhost:5000/api/deleteFolder?folderName=${folderName}`,
         {
           method: 'DELETE',
           headers: {
@@ -164,20 +164,17 @@ const Settings = ({
     e.preventDefault()
     try {
       const authToken = await Cookies.get('token')
-      const response = await fetch(
-        `https://chatbot-backend-ihn7.onrender.com/api/updateFolder`,
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            folderName,
-            updatedName,
-          }),
+      const response = await fetch(`http://localhost:5000/api/updateFolder`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          'Content-Type': 'application/json',
         },
-      )
+        body: JSON.stringify({
+          folderName,
+          updatedName,
+        }),
+      })
 
       if (response.ok) {
         const newNamespaces = namespaces.map((element) => {
@@ -237,7 +234,7 @@ const Settings = ({
     try {
       const authToken = await Cookies.get('token')
       const response = await fetch(
-        `https://chatbot-backend-ihn7.onrender.com/api/upload?namespaceName=${namespaceName}`,
+        `http://localhost:5000/api/upload?namespaceName=${namespaceName}`,
         {
           method: 'POST',
           body: formData,
@@ -265,7 +262,7 @@ const Settings = ({
     try {
       const authToken = await Cookies.get('token')
       const response = await fetch(
-        `https://chatbot-backend-ihn7.onrender.com/api/consume?namespaceName=${namespaceName}`,
+        `http://localhost:5000/api/consume?namespaceName=${namespaceName}`,
         {
           method: 'POST',
           headers: {

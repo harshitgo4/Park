@@ -5,13 +5,22 @@ import { Link } from 'react-router-dom'
 import { useGoogleLogin } from '@react-oauth/google'
 import Header from '../partials/Header'
 import PageIllustration from '../partials/PageIllustration'
+import { useEffect } from 'react'
+import { useToast } from '@chakra-ui/react'
 
 function SignIn() {
   const navigate = useNavigate()
-
+  const toast = useToast()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [disabled, setDisabled] = useState(false)
+
+  useEffect(() => {
+    const authToken = Cookies.get('token');
+    if (authToken) {
+      navigate('/dashboard');
+    }
+  }, []);
 
   const handleSignIn = async (e) => {
     e.preventDefault()
@@ -19,19 +28,16 @@ function SignIn() {
     if (email.includes('.') && email.includes('@') && password.length > 2) {
       setDisabled(true)
       try {
-        const response = await fetch(
-          'https://chatbot-backend-ihn7.onrender.com/api/signin',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              email,
-              password,
-            }),
+        const response = await fetch('http://localhost:5000/api/signin', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
           },
-        )
+          body: JSON.stringify({
+            email,
+            password,
+          }),
+        })
 
         const data = await response.json()
 
@@ -81,16 +87,13 @@ function SignIn() {
   const handleSubmitGoogle = async (googleAccessToken) => {
     setDisabled(true)
     try {
-      const response = await fetch(
-        'https://chatbot-backend-ihn7.onrender.com/api/signin',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ googleAccessToken }),
+      const response = await fetch('http://localhost:5000/api/signin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      )
+        body: JSON.stringify({ googleAccessToken }),
+      })
 
       const data = await response.json()
 
