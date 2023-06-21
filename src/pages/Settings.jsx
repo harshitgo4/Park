@@ -248,7 +248,6 @@ const Settings = ({
       )
 
       if (response.ok) {
-        setMessage('Files uploaded successfully!')
         handleIngest()
       } else {
         setIsLoading(false)
@@ -278,9 +277,8 @@ const Settings = ({
 
       if (response.ok) {
         const data = await response.json()
-        setMessage(data.message)
+        setMessage('File uploaded successfully!')
         setNamespaces([data.newNamespace])
-        setModalOpen(false)
       } else {
         const errorData = await response.json()
         setError(errorData.error)

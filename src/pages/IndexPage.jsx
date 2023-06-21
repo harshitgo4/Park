@@ -141,6 +141,17 @@ export default function Home({ folder, initialNamespace }) {
   }, [selectedChatId, fetchChatHistory])
 
   useEffect(() => {
+    if (folder) {
+      setSelectedFolder(folder)
+    }
+  }, [])
+
+  useEffect(() => {
+    setChatId(chatId)
+    setSelectedChatId(chatId)
+  }, [selectedFolder, selectedNamespace])
+
+  useEffect(() => {
     if (initialNamespace) {
       setSelectedNamespace(initialNamespace)
       setSelectedFolder(folder)
@@ -363,31 +374,20 @@ export default function Home({ folder, initialNamespace }) {
                     handleSubmit={handleSubmit}
                     setQuery={setQuery}
                     controlSidebar={controlSidebar}
-                    chatDates={chatDates[selectedChatId]}
+                    chatDates={chatDates}
                     userName={user ? user.fName + ' ' + user.lName : null}
                     selectedFolder={selectedFolder}
                     selectedNamespace={selectedNamespace}
                     chatName={chatNames[chatId]}
                     user={user}
+                    error={error}
+                    query={query}
+                    textAreaRef={textAreaRef}
+                    handleEnter={handleEnter}
+                    source={namespaceSource}
+                    selectedChatId={selectedChatId}
+                    setMessageState={setMessageState}
                   />
-                  <div className="flex items-center justify-center mx-auto">
-                    <div className="fixed bottom-0 transform  w-[95%] md:w-[75%] pb-6 md:pr-6">
-                      <ChatForm
-                        loading={loading}
-                        error={error}
-                        query={query}
-                        textAreaRef={textAreaRef}
-                        handleEnter={handleEnter}
-                        handleSubmit={handleSubmit}
-                        setQuery={setQuery}
-                        messages={messages}
-                        source={namespaceSource}
-                        selectedChatId={chatId}
-                        selectedNamespace={selectedNamespace}
-                        setMessageState={setMessageState}
-                      />
-                    </div>
-                  </div>
                 </div>
               </>
             ) : (

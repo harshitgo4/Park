@@ -28,6 +28,7 @@ import Settings from './components/Settings'
 import DirectoryPage from './pages/IndexPage'
 import DirectoryPageNamespacePage from './pages/NamespacePage'
 import ContentPage from './pages/ContentPage'
+import FolderPage from './pages/FolderPage'
 
 function App() {
   const location = useLocation()
@@ -47,33 +48,36 @@ function App() {
     document.querySelector('html').style.scrollBehavior = ''
   }, [location.pathname]) // triggered on route change
 
-
   return (
-        <>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/pricing" element={<Pricing />} />
-            <Route path="/upgradePRO" element={<UpgradePRO />} />
-            <Route path="/upgradeSTANDARD" element={<UpgradeSTANDARD />} />
-            <Route path="/success" element={<SuccessPage />} />
-            <Route path="/cancel" element={<FailurePage />} />
+    <>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/upgradePRO" element={<UpgradePRO />} />
+        <Route path="/upgradeSTANDARD" element={<UpgradeSTANDARD />} />
+        <Route path="/success" element={<SuccessPage />} />
+        <Route path="/cancel" element={<FailurePage />} />
 
-            <Route path="settings" element={<Settings />} />
-            <Route path="/dashboard" element={<DirectoryPage />} />
-            <Route path="/content" element={<ContentPage />} />
-            <Route
-              path="/dashboard/:folder/:namespace"
-              element={<DirectoryPageNamespacePage />}
-            />
+        <Route path="settings" element={<Settings />} />
+        <Route path="/dashboard" element={<DirectoryPage />} />
+        <Route path="/content" element={<ContentPage />} />
+        <Route
+          path="/dashboard/:folder"
+          element={<FolderPage />}
+        />
+        <Route
+          path="/dashboard/:folder/:namespace"
+          element={<DirectoryPageNamespacePage />}
+        />
 
-            <Route path="/features" element={<Features />} />
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
-        </>
+        <Route path="/features" element={<Features />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </>
   )
 }
 

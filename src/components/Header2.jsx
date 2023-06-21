@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useColorMode } from '@chakra-ui/react'
+import { ModalContent, useColorMode } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import { useColorModeValue } from '@chakra-ui/react'
@@ -12,12 +12,16 @@ import {
   DrawerContent,
   DrawerOverlay,
   useDisclosure,
+  Modal,
+  ModalOverlay,
 } from '@chakra-ui/react'
 import { UserCircleIcon } from '@heroicons/react/24/solid'
+import { Spinner } from '@chakra-ui/react'
 
 function Header2({ user, setUser, isOpen, onOpen, onClose, current }) {
   const { colorMode, toggleColorMode } = useColorMode()
   const [subscriptionDetails, setSubscriptionDetails] = useState(null)
+  const [isLoading, setLoading] = useState(true)
   const authToken = Cookies.get('token')
   const router = useNavigate()
 
@@ -39,6 +43,7 @@ function Header2({ user, setUser, isOpen, onOpen, onClose, current }) {
       }
       setUser(data.user)
       setSubscriptionDetails(data)
+      setLoading(false)
     }
     fetchSubscriptionDetails()
   }, [])
@@ -60,6 +65,15 @@ function Header2({ user, setUser, isOpen, onOpen, onClose, current }) {
 
   return (
     <>
+      <Modal isCentered isOpen={isLoading}>
+        <ModalOverlay
+          bg="blackAlpha.300"
+          backdropFilter="blur(10px) hue-rotate(90deg)"
+          className="items-center flex justify-center"
+        >
+          <Spinner size="xl" />
+        </ModalOverlay>
+      </Modal>
       {/* Header */}
       <Box
         display={{ base: 'none', md: 'block' }}

@@ -140,7 +140,7 @@ function SideBar({
         </CheckboxGroup>
         <div className="mt-8 mb-8 flex flex-row">
           <span className="text-left font-semibold text-[#00A739] text-sm ">
-            {email}
+            {user?.email}
           </span>
           <span className="-mt-4 justify-end font-bolder text-3xl flex flex-1 text-right">
             {' '}
@@ -195,7 +195,7 @@ function SideBar({
         deleteChat={deleteChat}
         controlSidebar={controlSidebar}
         setControlSidebar={setControlSidebar}
-        email={email}
+        email={user?.email}
         router={router}
         setShowDrawer={setShowDrawer}
         selectedChatId={selectedChatId}

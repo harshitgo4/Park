@@ -119,7 +119,7 @@ const ChatForm = ({
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
-    <div className="flex flex-col space-y-1 md:w-2/3 m-auto pt-2 mt-2">
+    <div className="flex flex-col space-y-1 m-auto p-1 ">
       <Box display={{ base: 'none', md: 'block' }}>
         <div className="flex flex-row gap-x-2  text-gray-400">
           {' '}
@@ -230,7 +230,10 @@ const ChatForm = ({
           </MenuList>
         </Menu>
       </div>
-      <form onSubmit={handleSubmit} className="flex border border-gray-500">
+      <form
+        onSubmit={handleSubmit}
+        className="flex border rounded-lg ring-[0.5px] ring-black"
+      >
         <textarea
           disabled={loading}
           onKeyDown={handleEnter}
@@ -247,13 +250,13 @@ const ChatForm = ({
           }
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className={`flex-1 p-1 md:p-2 border-none resize-none h-[75px] md:h-[50px] ${bg}`}
+          className={`flex-1 p-1 md:p-2 border-none rounded-lg  focus:ring-0  resize-none h-[35px] md:h-[50px] ${bg}`}
         />
 
         <button
           type="submit"
           disabled={loading}
-          className={`text-[#5D5DFF] py-2 px-4 ${bg}`}
+          className={`text-[#5D5DFF] py-2 px-4 rounded-lg ${bg}`}
         >
           {loading ? (
             <div>
