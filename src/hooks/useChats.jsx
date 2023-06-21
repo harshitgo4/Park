@@ -67,7 +67,7 @@ export function useChats(namespace) {
     try {
       // Create chat in MongoDB
       await axios.post(
-        'http://localhost:5000/api/create-chat', // Update the API endpoint to create chat data
+        'https://chatbot-backend-ihn7.onrender.com/api/create-chat', // Update the API endpoint to create chat data
         {
           chatId: newChatId,
           chatName: 'Untitled', // Add an empty chatName field
