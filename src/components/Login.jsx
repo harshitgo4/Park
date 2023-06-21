@@ -28,19 +28,16 @@ export default function Login() {
       data.password.length > 2
     ) {
       setDisabled(true)
-      const res = await fetch(
-        `https://chatbot-backend-ihn7.onrender.com/api/signin`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: data.email,
-            password: data.password,
-          }),
+      const res = await fetch(`http://localhost:5000/api/signin`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      )
+        body: JSON.stringify({
+          email: data.email,
+          password: data.password,
+        }),
+      })
 
       const resData = await res.json()
 

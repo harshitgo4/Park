@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Dropdown from '../utils/Dropdown'
+import Cookies from 'js-cookie'
 
 function Header() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
@@ -72,39 +73,48 @@ function Header() {
                   Pricing
                 </Link>
               </li>
-              {/* 1st level: hover */}
-              <Dropdown title="Support">
-                {/* 2nd level: hover */}
-                <li>
-                  <Link
-                    to="/contact"
-                    className="font-medium text-sm text-gray-400 hover:text-purple-600 flex py-2 px-4 leading-tight"
-                  >
-                    Contact us
-                  </Link>
-                </li>
-              </Dropdown>
+              <li>
+                <Link
+                  to="/contact"
+                  className="text-gray-300 hover:text-gray-200 px-4 py-2 flex items-center transition duration-150 ease-in-out"
+                >
+                  Contact us
+                </Link>
+              </li>
             </ul>
 
             {/* Desktop sign in links */}
-            <ul className="flex grow justify-end flex-wrap items-center">
-              <li>
-                <Link
-                  to="/signin"
-                  className="font-medium text-purple-600 hover:text-gray-200 px-4 py-3 flex items-center transition duration-150 ease-in-out"
-                >
-                  Sign in
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/signup"
-                  className="btn-sm text-white bg-purple-600 hover:bg-purple-700 ml-3"
-                >
-                  Sign up
-                </Link>
-              </li>
-            </ul>
+            {Cookies.get('token') ? (
+              <ul className="flex grow justify-end flex-wrap items-center">
+                <li>
+                  <Link
+                    to="/dashboard"
+                    className="font-medium text-purple-600 hover:text-gray-200 px-4 py-3 flex items-center transition duration-150 ease-in-out"
+                  >
+                    Dashboard
+                  </Link>
+                </li>
+              </ul>
+            ) : (
+              <ul className="flex grow justify-end flex-wrap items-center">
+                <li>
+                  <Link
+                    to="/signin"
+                    className="font-medium text-purple-600 hover:text-gray-200 px-4 py-3 flex items-center transition duration-150 ease-in-out"
+                  >
+                    Sign in
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/signup"
+                    className="btn-sm text-white bg-purple-600 hover:bg-purple-700 ml-3"
+                  >
+                    Sign up
+                  </Link>
+                </li>
+              </ul>
+            )}
           </nav>
 
           {/* Mobile menu */}
@@ -157,35 +167,44 @@ function Header() {
                     Pricing
                   </Link>
                 </li>
-                <li className="py-2 my-2 border-t border-b border-gray-700">
-                  <span className="flex text-gray-300 py-2">Support</span>
-                  <ul className="pl-4">
+                <li>
+                  <Link
+                    to="/contact"
+                    className="flex text-gray-300 hover:text-gray-200 py-2"
+                  >
+                    Contact us
+                  </Link>
+                </li>
+                {Cookies.get('token') ? (
+                  <li>
+                    <Link
+                      to="/dashboard"
+                      className="flex font-medium w-full text-purple-600 hover:text-gray-200 py-2 justify-center"
+                    >
+                      Dashboard
+                    </Link>
+                  </li>
+                ) : (
+                  <>
+                    {' '}
                     <li>
                       <Link
-                        to="/contact"
-                        className="text-sm flex font-medium text-gray-400 hover:text-gray-200 py-2"
+                        to="/signin"
+                        className="flex font-medium w-full text-purple-600 hover:text-gray-200 py-2 justify-center"
                       >
-                        Contact us
+                        Sign in
                       </Link>
                     </li>
-                  </ul>
-                </li>
-                <li>
-                  <Link
-                    to="/signin"
-                    className="flex font-medium w-full text-purple-600 hover:text-gray-200 py-2 justify-center"
-                  >
-                    Sign in
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/signup"
-                    className="font-medium w-full inline-flex items-center justify-center border border-transparent px-4 py-2 my-2 rounded-sm text-white bg-purple-600 hover:bg-purple-700 transition duration-150 ease-in-out"
-                  >
-                    Sign up
-                  </Link>
-                </li>
+                    <li>
+                      <Link
+                        to="/signup"
+                        className="font-medium w-full inline-flex items-center justify-center border border-transparent px-4 py-2 my-2 rounded-sm text-white bg-purple-600 hover:bg-purple-700 transition duration-150 ease-in-out"
+                      >
+                        Sign up
+                      </Link>
+                    </li>
+                  </>
+                )}
               </ul>
             </nav>
           </div>

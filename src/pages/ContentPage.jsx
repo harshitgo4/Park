@@ -89,16 +89,13 @@ function ContentPage() {
 
   useEffect(() => {
     const getDocu = async () => {
-      const res = await fetch(
-        `https://chatbot-backend-ihn7.onrender.com/api/getDocu`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${Cookies.get('token')}`,
-          },
+      const res = await fetch(`http://localhost:5000/api/getDocu`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${Cookies.get('token')}`,
         },
-      )
+      })
 
       const res2 = await res.json()
       console.log(res2)
@@ -130,17 +127,14 @@ function ContentPage() {
       const contentState = editorState.getCurrentContent()
       const rawContentState = convertToRaw(contentState)
 
-      const res = await fetch(
-        `https://chatbot-backend-ihn7.onrender.com/api/saveDocu`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${Cookies.get('token')}`,
-          },
-          body: JSON.stringify({ rawContentState, title }),
+      const res = await fetch(`http://localhost:5000/api/saveDocu`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${Cookies.get('token')}`,
         },
-      )
+        body: JSON.stringify({ rawContentState, title }),
+      })
 
       const res2 = await res.json()
       console.log(res2)
@@ -171,17 +165,14 @@ function ContentPage() {
 
     setDisabled(true)
 
-    const res = await fetch(
-      `https://chatbot-backend-ihn7.onrender.com/api/deleteDocu`,
-      {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${Cookies.get('token')}`,
-        },
-        body: JSON.stringify({ title }),
+    const res = await fetch(`http://localhost:5000/api/deleteDocu`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${Cookies.get('token')}`,
       },
-    )
+      body: JSON.stringify({ title }),
+    })
 
     const res2 = await res.json()
     console.log(res2)

@@ -72,6 +72,7 @@ function App() {
         />
 
         <Route path="/features" element={<Features />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/reset-password" element={<ResetPassword />} />

@@ -106,7 +106,7 @@ export default function Home({ folder, initialNamespace }) {
     try {
       const authToken = await Cookies.get('token')
       const response = await fetch(
-        `https://chatbot-backend-ihn7.onrender.com/api/history?chatId=${chatId}`,
+        `http://localhost:5000/api/history?chatId=${chatId}`,
         {
           headers: {
             Authorization: `Bearer ${authToken}`,
@@ -186,23 +186,20 @@ export default function Home({ folder, initialNamespace }) {
     try {
       const authToken = await Cookies.get('token')
 
-      const response = await fetch(
-        'https://chatbot-backend-ihn7.onrender.com/api/chat',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${authToken}`,
-          },
-          body: JSON.stringify({
-            question,
-            history,
-            chatId,
-            selectedNamespace,
-            temp: controlSidebar.mode === 'balanced' ? 0.5 : 0,
-          }),
+      const response = await fetch('http://localhost:5000/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
         },
-      )
+        body: JSON.stringify({
+          question,
+          history,
+          chatId,
+          selectedNamespace,
+          temp: controlSidebar.mode === 'balanced' ? 0.5 : 0,
+        }),
+      })
 
       const data = await response.json()
       console.log('data', data)

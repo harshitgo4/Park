@@ -38,22 +38,19 @@ function SignUp() {
       data.password.length > 2
     ) {
       setDisabled(true)
-      const res = await fetch(
-        `https://chatbot-backend-ihn7.onrender.com/api/signup`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            fName: data.fName,
-            lName: data.lName,
-            email: data.email,
-            password: data.password,
-            companyName: data.companyName,
-          }),
+      const res = await fetch(`http://localhost:5000/api/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      )
+        body: JSON.stringify({
+          fName: data.fName,
+          lName: data.lName,
+          email: data.email,
+          password: data.password,
+          companyName: data.companyName,
+        }),
+      })
 
       const res2 = await res.json()
       console.log(res2)
@@ -78,19 +75,16 @@ function SignUp() {
           confirmButtonText: 'Submit',
           showLoaderOnConfirm: true,
           preConfirm: (otp) => {
-            return fetch(
-              `https://chatbot-backend-ihn7.onrender.com/api/verify`,
-              {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  otp,
-                  email: data.email,
-                }),
+            return fetch(`http://localhost:5000/api/verify`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
               },
-            )
+              body: JSON.stringify({
+                otp,
+                email: data.email,
+              }),
+            })
               .then((response) => response.json())
               .then((res) => {
                 console.log(res)
@@ -141,16 +135,13 @@ function SignUp() {
 
   const handleSubmitGoogle = async (googleAccessToken) => {
     setDisabled(true)
-    const res = await fetch(
-      `https://chatbot-backend-ihn7.onrender.com/api/signup`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ googleAccessToken }),
+    const res = await fetch(`http://localhost:5000/api/signup`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    )
+      body: JSON.stringify({ googleAccessToken }),
+    })
 
     const res2 = await res.json()
     console.log(res2)

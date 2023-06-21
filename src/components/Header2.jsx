@@ -28,7 +28,7 @@ function Header2({ user, setUser, isOpen, onOpen, onClose, current }) {
   useEffect(() => {
     const fetchSubscriptionDetails = async () => {
       const response = await fetch(
-        'https://chatbot-backend-ihn7.onrender.com/api/getSubscription',
+        'http://localhost:5000/api/getSubscription',
         {
           headers: {
             Authorization: `Bearer ${authToken}`,
