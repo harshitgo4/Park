@@ -7,7 +7,7 @@ import Header from '../partials/Header'
 import PageIllustration from '../partials/PageIllustration'
 import { Button, Input, useToast } from '@chakra-ui/react'
 import { useGoogleLogin } from '@react-oauth/google'
-import { LoginSocialFacebook } from 'reactjs-social-login'
+// import { LoginSocialFacebook } from 'reactjs-social-login'
 import {
   useColorMode,
   useColorModeValue,
@@ -325,7 +325,7 @@ function SignUp() {
                       </span>
                     </button>
                   </div>
-                  <LoginSocialFacebook
+                  {/* <LoginSocialFacebook
                     appId="707856684325818"
                     onResolve={(res) => {
                       preHandlerSocialLogin(null, res)
@@ -360,7 +360,7 @@ function SignUp() {
                         </span>
                       </button>
                     </div>
-                  </LoginSocialFacebook>
+                  </LoginSocialFacebook> */}
                 </div>
                 <div className="flex items-center my-6">
                   <div

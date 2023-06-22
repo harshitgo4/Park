@@ -7,7 +7,7 @@ import Header from '../partials/Header'
 import PageIllustration from '../partials/PageIllustration'
 import { useEffect } from 'react'
 import { Button, useToast } from '@chakra-ui/react'
-// import { LoginSocialFacebook } from 'reactjs-social-login'
+import { LoginSocialFacebook } from 'reactjs-social-login'
 
 function SignIn() {
   const navigate = useNavigate()
@@ -229,7 +229,7 @@ function SignIn() {
                         </span>
                       </button>
                     </div>
-                    {/* <LoginSocialFacebook
+                    <LoginSocialFacebook
                       appId="707856684325818"
                       onResolve={(res) => {
                         handleSubmitFB(res)
@@ -264,7 +264,7 @@ function SignIn() {
                           </span>
                         </button>
                       </div>
-                    </LoginSocialFacebook> */}
+                    </LoginSocialFacebook>
                   </div>
                   <div className="flex items-center my-6">
                     <div
