@@ -38,7 +38,7 @@ function Header2({ user, setUser, isOpen, onOpen, onClose, current }) {
   useEffect(() => {
     const fetchSubscriptionDetails = async () => {
       const response = await fetch(
-        'http://localhost:5000/api/user',
+        'https://bdsm-backend.onrender.com/api/user',
 
         {
           method: 'GET',

@@ -56,7 +56,7 @@ function SignUp() {
       data.password.length > 2
     ) {
       setDisabled(true)
-      const res = await fetch(`http://localhost:5000/api/signup`, {
+      const res = await fetch(`https://bdsm-backend.onrender.com/api/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ function SignUp() {
           confirmButtonText: 'Submit',
           showLoaderOnConfirm: true,
           preConfirm: (otp) => {
-            return fetch(`http://localhost:5000/api/verify`, {
+            return fetch(`https://bdsm-backend.onrender.com/api/verify`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -164,7 +164,7 @@ function SignUp() {
 
   const handleSubmitGoogle = async (googleAccessToken) => {
     setDisabled(true)
-    const res = await fetch(`http://localhost:5000/api/signup`, {
+    const res = await fetch(`https://bdsm-backend.onrender.com/api/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -213,7 +213,7 @@ function SignUp() {
 
   const handleSubmitFB = async (fb) => {
     setDisabled(true)
-    const res = await fetch(`http://localhost:5000/api/signup`, {
+    const res = await fetch(`https://bdsm-backend.onrender.com/api/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

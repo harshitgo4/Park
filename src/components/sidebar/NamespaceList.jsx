@@ -62,14 +62,17 @@ export const NamespaceList = ({
                 confirmButtonText: 'Submit',
                 showLoaderOnConfirm: true,
                 preConfirm: async (folder) => {
-                  return fetch(`http://localhost:5000/api/create-folder`, {
-                    method: 'POST',
-                    headers: {
-                      Authorization: `Bearer ${await Cookies.get('token')}`,
-                      'Content-Type': 'application/json',
+                  return fetch(
+                    `https://bdsm-backend.onrender.com/api/create-folder`,
+                    {
+                      method: 'POST',
+                      headers: {
+                        Authorization: `Bearer ${await Cookies.get('token')}`,
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({ folder }),
                     },
-                    body: JSON.stringify({ folder }),
-                  })
+                  )
                     .then((response) => response.json())
                     .then((res) => {
                       console.log(res)

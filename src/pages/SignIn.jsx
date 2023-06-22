@@ -29,16 +29,19 @@ function SignIn() {
     if (email.includes('.') && email.includes('@') && password.length > 2) {
       setDisabled(true)
       try {
-        const response = await fetch('http://localhost:5000/api/signin', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+        const response = await fetch(
+          'https://bdsm-backend.onrender.com/api/signin',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email,
+              password,
+            }),
           },
-          body: JSON.stringify({
-            email,
-            password,
-          }),
-        })
+        )
 
         const data = await response.json()
 
@@ -88,13 +91,16 @@ function SignIn() {
   const handleSubmitGoogle = async (googleAccessToken) => {
     setDisabled(true)
     try {
-      const response = await fetch('http://localhost:5000/api/signin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        'https://bdsm-backend.onrender.com/api/signin',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ googleAccessToken }),
         },
-        body: JSON.stringify({ googleAccessToken }),
-      })
+      )
 
       const data = await response.json()
 
@@ -135,7 +141,7 @@ function SignIn() {
 
   const handleSubmitFB = async (data) => {
     setDisabled(true)
-    const res = await fetch(`http://localhost:5000/api/signin`, {
+    const res = await fetch(`https://bdsm-backend.onrender.com/api/signin`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
