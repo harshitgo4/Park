@@ -264,8 +264,8 @@ function SignIn() {
                           </span>
                         </button>
                       </div>
-                    </LoginSocialFacebook>
-                  </div> */}
+                    </LoginSocialFacebook> */}
+                  </div>
                   <div className="flex items-center my-6">
                     <div
                       className="border-t border-gray-700 border-dotted grow mr-3"
