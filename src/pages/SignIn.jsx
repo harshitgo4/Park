@@ -206,7 +206,6 @@ function SignIn() {
               </div>
 
               {/* Form */}
-              <form>
                 <div className="max-w-sm mx-auto">
                   <div className="flex flex-wrap -mx-3">
                     <div className="w-full px-3">
@@ -230,7 +229,7 @@ function SignIn() {
                         </span>
                       </button>
                     </div>
-                    <LoginSocialFacebook
+                    {/* <LoginSocialFacebook
                       appId="707856684325818"
                       onResolve={(res) => {
                         handleSubmitFB(res)
@@ -266,7 +265,7 @@ function SignIn() {
                         </button>
                       </div>
                     </LoginSocialFacebook>
-                  </div>
+                  </div> */}
                   <div className="flex items-center my-6">
                     <div
                       className="border-t border-gray-700 border-dotted grow mr-3"
@@ -359,7 +358,6 @@ function SignIn() {
                     </Link>
                   </div>
                 </div>
-              </form>
             </div>
           </div>
         </section>
