@@ -6,7 +6,7 @@ import Swal from 'sweetalert2'
 import Header from '../partials/Header'
 import PageIllustration from '../partials/PageIllustration'
 import { Button, Input, useToast } from '@chakra-ui/react'
-import { useGoogleLogin } from '@react-oauth/google'
+// import { useGoogleLogin } from '@react-oauth/google'
 // import { LoginSocialFacebook } from 'reactjs-social-login'
 import {
   useColorMode,
@@ -266,13 +266,13 @@ function SignUp() {
     setData(newdata)
   }
 
-  const googleLogin = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      console.log(tokenResponse)
-      preHandlerSocialLogin(tokenResponse.access_token, '')
-    },
-    // flow: 'implicit', // implicit is the default
-  })
+  // const googleLogin = useGoogleLogin({
+  //   onSuccess: async (tokenResponse) => {
+  //     console.log(tokenResponse)
+  //     preHandlerSocialLogin(tokenResponse.access_token, '')
+  //   },
+  //   // flow: 'implicit', // implicit is the default
+  // })
 
   const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -304,7 +304,7 @@ function SignUp() {
               {/* Form */}
               <div className="max-w-sm mx-auto">
                 <div className="flex flex-wrap -mx-3">
-                  <div className="w-full px-3">
+                  {/* <div className="w-full px-3">
                     <button
                       onClick={googleLogin}
                       className="btn px-0 text-white bg-red-600 hover:bg-red-700 w-full relative flex items-center"
@@ -324,7 +324,7 @@ function SignUp() {
                         Sign up with Google
                       </span>
                     </button>
-                  </div>
+                  </div> */}
                   {/* <LoginSocialFacebook
                     appId="707856684325818"
                     onResolve={(res) => {
