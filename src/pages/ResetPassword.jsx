@@ -17,18 +17,15 @@ function ResetPassword() {
 
     if (email && email.includes('.') && email.includes('@')) {
       setDisabled(true)
-      const res = await fetch(
-        `https://chatbot-backend-ihn7.onrender.com/api/resetPassword1`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: email,
-          }),
+      const res = await fetch(`http://localhost:5000/api/resetPassword1`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      )
+        body: JSON.stringify({
+          email: email,
+        }),
+      })
 
       const res2 = await res.json()
       console.log(res2)
@@ -58,20 +55,17 @@ function ResetPassword() {
           preConfirm: () => {
             const otp = document.getElementById('otp').value
             const password = document.getElementById('password').value
-            return fetch(
-              'https://chatbot-backend-ihn7.onrender.com/api/resetPassword2',
-              {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  password,
-                  email,
-                  otp,
-                }),
+            return fetch('http://localhost:5000/api/resetPassword2', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
               },
-            )
+              body: JSON.stringify({
+                password,
+                email,
+                otp,
+              }),
+            })
               .then((response) => response.json())
               .then((res) => {
                 console.log(res)
@@ -152,7 +146,7 @@ function ResetPassword() {
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label
-                        className="block text-gray-300 text-sm font-medium mb-1"
+                        className="block  text-sm font-medium mb-1"
                         htmlFor="email"
                       >
                         Email
@@ -160,7 +154,7 @@ function ResetPassword() {
                       <input
                         id="email"
                         type="email"
-                        className="form-input w-full text-gray-300"
+                        className="form-input w-full "
                         placeholder="you@yourcompany.com"
                         required
                         value={email}

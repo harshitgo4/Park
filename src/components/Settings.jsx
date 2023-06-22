@@ -65,7 +65,7 @@ function Settings() {
     formData.append('lName', data.lName)
     formData.append('image', imageFile)
 
-    fetch('https://chatbot-backend-ihn7.onrender.com/api/updateUser', {
+    fetch('http://localhost:5000/api/updateUser', {
       method: 'POST',
       body: formData,
       headers: {
@@ -89,7 +89,7 @@ function Settings() {
     setIsLoading2(true)
     const token = Cookies.get('token') // Assuming you have a library like 'js-cookie' to retrieve the token from the cookie
 
-    fetch('https://chatbot-backend-ihn7.onrender.com/api/user', {
+    fetch('http://localhost:5000/api/user', {
       method: 'DELETE',
       body: JSON.stringify({
         keyword: keyword, // Make sure to include the keyword property with its value

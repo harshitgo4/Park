@@ -1,9 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import { ModalContent, useColorMode } from '@chakra-ui/react'
+import {
+  Input,
+  InputGroup,
+  InputRightElement,
+  ModalContent,
+  useColorMode,
+} from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import { useColorModeValue } from '@chakra-ui/react'
-import { QuestionMarkCircleIcon, TrashIcon } from '@heroicons/react/24/outline'
+import {
+  BellAlertIcon,
+  ChatBubbleLeftEllipsisIcon,
+  QuestionMarkCircleIcon,
+  TrashIcon,
+} from '@heroicons/react/24/outline'
 import { LinkIcon } from '@heroicons/react/24/outline'
 import {
   Box,
@@ -17,10 +28,9 @@ import {
 } from '@chakra-ui/react'
 import { UserCircleIcon } from '@heroicons/react/24/solid'
 import { Spinner } from '@chakra-ui/react'
+import { Search2Icon } from '@chakra-ui/icons'
 
 function Header2({ user, setUser, isOpen, onOpen, onClose, current }) {
-  const { colorMode, toggleColorMode } = useColorMode()
-  const [subscriptionDetails, setSubscriptionDetails] = useState(null)
   const [isLoading, setLoading] = useState(true)
   const authToken = Cookies.get('token')
   const router = useNavigate()
@@ -28,8 +38,10 @@ function Header2({ user, setUser, isOpen, onOpen, onClose, current }) {
   useEffect(() => {
     const fetchSubscriptionDetails = async () => {
       const response = await fetch(
-        'https://chatbot-backend-ihn7.onrender.com/api/getSubscription',
+        'http://localhost:5000/api/user',
+
         {
+          method: 'GET',
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
@@ -42,7 +54,6 @@ function Header2({ user, setUser, isOpen, onOpen, onClose, current }) {
         router('/signin')
       }
       setUser(data.user)
-      setSubscriptionDetails(data)
       setLoading(false)
     }
     fetchSubscriptionDetails()
@@ -81,79 +92,38 @@ function Header2({ user, setUser, isOpen, onOpen, onClose, current }) {
       >
         {/* Menu */}
         <div className="flex-1 flex relative">
-          <div className="text-[#C5D2DC] px-2 w-[19.1rem] flex py-2 pr-2 border-[#CEC7C7] border-r-2">
-            <a
-              className={`px-6 py-2 font-medium rounded-lg flex gap-2 ${
-                current === 0 ? 'text-[#5D5DFF]' : ''
-              }`}
-              href="/dashboard"
-              onClick={() => handleLinkClick(0)}
-            >
-              Chat
-            </a>
-            <a
-              className={`px-6 py-2 font-medium rounded-lg flex gap-2 ${
-                current === 1 ? 'text-[#5D5DFF]' : ''
-              }`}
-              href="/content"
-              onClick={() => handleLinkClick(1)}
-            >
-              Content
-            </a>
-            <a
-              className={`px-6 py-2 font-medium rounded-lg flex gap-2 ${
-                current === 2 ? 'text-[#5D5DFF]' : ''
-              }`}
-              href="/bot"
-              onClick={() => handleLinkClick(2)}
-            >
-              Bot
-            </a>
-          </div>
-
           {/* User */}
-          <div className="lg:ml-10 flex flex-row">
-            {user && user.avatar ? (
-              <img
-                alt="Avatar"
-                className="rounded-full my-2 mx-4 h-[3rem] w-[3rem]"
-                src={user?.avatar}
-              />
-            ) : (
-              <UserCircleIcon className="my-2 mx-4 h-[3rem] w-[3rem]" />
-            )}
-            <div className="m-auto flex justify-center flex-col text-md font-semibold">
-              {subscriptionDetails?.planId}
-              <div className="text-[#48BB78] text-sm">Activated</div>
-            </div>
-          </div>
 
           {/* Actions */}
-          <div className="ml-auto inline-flex items-center justify-center mr-10 lg:gap-x-4">
-            {/* Upgrade Plan */}
-            <button
-              hidden={subscriptionDetails?.planId === 'Pro Plan'}
-              onClick={() => router('/pricing')}
-              className="inline-flex items-center text-[#D69D0B] justify-center text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background bg-secondary text-secondary-foreground hover:bg-secondary/80 h-9 rounded-md px-4"
-            >
-              Upgrade Plan
-            </button>
-
-            {/* Help */}
-            <button className="inline-flex items-center text-[#767676] justify-center text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background bg-secondary text-secondary-foreground hover:bg-secondary/80 h-9 rounded-md px-4">
-              Help
-            </button>
-
-            {/* API */}
-            <button className="inline-flex items-center text-[#767676] justify-center text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background bg-secondary text-secondary-foreground hover:bg-secondary/80 h-9 rounded-md px-4">
-              API
-            </button>
+          <div className="ml-auto inline-flex items-center justify-center mr-10 lg:gap-x-2">
+            <div className="mx-4">
+              <InputGroup>
+                <Input placeholder="Search" />
+                <InputRightElement>
+                  <Search2Icon color="white" />
+                </InputRightElement>
+              </InputGroup>
+            </div>
+            <div className="mx-4 flex flex-row gap-4">
+              {' '}
+              <BellAlertIcon className="my-2  h-[1.5rem] w-[1.5rem]" />
+              <ChatBubbleLeftEllipsisIcon className="my-2  h-[1.5rem] w-[1.5rem]" />
+            </div>
+            <div className="flex flex-row">
+              {user && user.avatar ? (
+                <img
+                  alt="Avatar"
+                  className="rounded-full my-2  h-[3rem] w-[3rem]"
+                  src={user?.avatar}
+                />
+              ) : (
+                <UserCircleIcon className="my-2  h-[3rem] w-[3rem]" />
+              )}
+            </div>
 
             {/* User Name */}
             <button className="inline-flex items-center text-[#767676] justify-center text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background bg-secondary text-secondary-foreground hover:bg-secondary/80 h-9 rounded-md px-4">
-              {subscriptionDetails?.user.fName +
-                ' ' +
-                subscriptionDetails?.user.lName}
+              {user?.fName}
             </button>
           </div>
         </div>
@@ -173,56 +143,18 @@ function Header2({ user, setUser, isOpen, onOpen, onClose, current }) {
         <DrawerContent>
           <DrawerBody>
             <Box py={2}>
-              <a
-                className={`px-4 py-2 font-medium rounded-lg flex gap-2 ${
-                  current === 0 ? 'text-[#5D5DFF]' : ''
-                }`}
-                href="/dashboard"
-                onClick={() => handleLinkClick(0)}
-              >
-                Chat
-              </a>
-              <a
-                className={`px-4 py-2 font-medium rounded-lg flex gap-2 ${
-                  current === 1 ? 'text-[#5D5DFF]' : ''
-                }`}
-                href="/content"
-                onClick={() => handleLinkClick(1)}
-              >
-                Content
-              </a>
-              <a
-                className={`px-4 py-2 font-medium rounded-lg flex gap-2 ${
-                  current === 2 ? 'text-[#5D5DFF]' : ''
-                }`}
-                href="/bot"
-                onClick={() => handleLinkClick(2)}
-              >
-                Bot
-              </a>
-
-              {/* Upgrade Plan */}
-              <button
-                hidden={subscriptionDetails?.planId === 'Pro Plan'}
-                onClick={() => router('/pricing')}
-                className="px-4 py-2 font-medium rounded-lg flex gap-2 text-[#D69D0B] hover:text-[#D69D0B]"
-              >
-                Upgrade Plan
-              </button>
-
-              {/* API */}
-              <button className="px-4 py-2 font-medium rounded-lg flex gap-2 hover:text-[#767676]">
-                API
-              </button>
-
               {/* User Name */}
               {/* Plan ID */}
+              <InputGroup>
+                <Input placeholder="Search" />
+                <InputRightElement>
+                  <Search2Icon color="white" />
+                </InputRightElement>
+              </InputGroup>
+              <BellAlertIcon className="my-4 mx-2 h-[1.5rem] w-[1.5rem]" />
+              <ChatBubbleLeftEllipsisIcon className="my-4 mx-2 h-[1.5rem] w-[1.5rem]" />
               <button className="px-4 py-2 font-medium rounded-lg flex gap-2 hover:text-[#767676]">
-                {subscriptionDetails?.planId +
-                  ' - ' +
-                  subscriptionDetails?.user.fName +
-                  ' ' +
-                  subscriptionDetails?.user.lName}
+                {user?.fName}
               </button>
             </Box>
           </DrawerBody>

@@ -2,12 +2,16 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Dropdown from '../utils/Dropdown'
 import Cookies from 'js-cookie'
+import { Box, Button, useColorModeValue, useColorMode } from '@chakra-ui/react'
+import { MoonIcon } from '@heroicons/react/20/solid'
+import { SunIcon } from '@chakra-ui/icons'
 
 function Header() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
 
   const trigger = useRef(null)
   const mobileNav = useRef(null)
+  const { colorMode, toggleColorMode } = useColorMode()
 
   // close the mobile menu on click outside
   useEffect(() => {
@@ -94,6 +98,18 @@ function Header() {
                     Dashboard
                   </Link>
                 </li>
+                <li>
+                  <Button
+                    onClick={toggleColorMode}
+                    className="font-medium text-purple-600 px-4 py-3 flex items-center transition duration-150 ease-in-out"
+                  >
+                    {colorMode == 'light' ? (
+                      <MoonIcon className="w-5" />
+                    ) : (
+                      <SunIcon className="w-5" />
+                    )}
+                  </Button>
+                </li>
               </ul>
             ) : (
               <ul className="flex grow justify-end flex-wrap items-center">
@@ -112,6 +128,18 @@ function Header() {
                   >
                     Sign up
                   </Link>
+                </li>
+                <li>
+                  <Button
+                    onClick={toggleColorMode}
+                    className="font-medium text-purple-600 px-4 py-3 flex items-center transition duration-150  ml-3 ease-in-out"
+                  >
+                    {colorMode == 'light' ? (
+                      <MoonIcon className="w-5" />
+                    ) : (
+                      <SunIcon className="w-5" />
+                    )}
+                  </Button>
                 </li>
               </ul>
             )}
@@ -202,6 +230,18 @@ function Header() {
                       >
                         Sign up
                       </Link>
+                    </li>
+                    <li>
+                      <Button
+                        onClick={toggleColorMode}
+                        className="font-medium w-full inline-flex items-center justify-center border border-transparent px-4 py-2 my-2 rounded-sm text-white bg-purple-600 hover:bg-purple-700 transition duration-150 ease-in-out"
+                      >
+                        {colorMode == 'light' ? (
+                          <MoonIcon className="w-5" />
+                        ) : (
+                          <SunIcon className="w-5" />
+                        )}
+                      </Button>
                     </li>
                   </>
                 )}
