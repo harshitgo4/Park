@@ -5,7 +5,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 const manifestForPlugin = {
   registerType: 'prompt',
-  includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
+  includeAssets: ['favicon.ico', 'apple-touch-icon-180x180.png', 'logo.svg'],
   manifest: {
     name: 'TiedUp.app',
     short_name: 'TiedUp',
@@ -22,13 +22,13 @@ const manifestForPlugin = {
         type: 'image/png',
       },
       {
-        src: '/apple-touch-icon.png',
+        src: '/apple-touch-icon-180x180.png',
         sizes: '180x180',
         type: 'image/png',
         purpose: 'apple touch icon',
       },
       {
-        src: '/maskable_icon.png',
+        src: '/maskable-icon-512x512.png',
         sizes: '225x225',
         type: 'image/png',
         purpose: 'any maskable',
