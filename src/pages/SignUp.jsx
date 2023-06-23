@@ -211,54 +211,54 @@ function SignUp() {
     setDisabled(false)
   }
 
-  const handleSubmitFB = async (fb) => {
-    setDisabled(true)
-    const res = await fetch(`https://bdsm-backend.onrender.com/api/signup`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        fb: fb.data,
-        fName: data.fName,
-        lName: data.lName,
-        email: data.email,
-        password: data.password,
-        phone: data.phone,
-        type: data.type,
-      }),
-    })
+  // const handleSubmitFB = async (fb) => {
+  //   setDisabled(true)
+  //   const res = await fetch(`https://bdsm-backend.onrender.com/api/signup`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       fb: fb.data,
+  //       fName: data.fName,
+  //       lName: data.lName,
+  //       email: data.email,
+  //       password: data.password,
+  //       phone: data.phone,
+  //       type: data.type,
+  //     }),
+  //   })
 
-    const res2 = await res.json()
-    console.log(res2)
-    if (res2.error) {
-      toast({
-        title: res2.error,
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      })
-    } else if (res2.message) {
-      toast({
-        title: 'User Created!',
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
-      })
-      setTimeout(() => {
-        router('/signin')
-      }, 2000)
-    } else {
-      toast({
-        title: 'Something went wrong!',
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      })
-    }
+  //   const res2 = await res.json()
+  //   console.log(res2)
+  //   if (res2.error) {
+  //     toast({
+  //       title: res2.error,
+  //       status: 'error',
+  //       duration: 9000,
+  //       isClosable: true,
+  //     })
+  //   } else if (res2.message) {
+  //     toast({
+  //       title: 'User Created!',
+  //       status: 'success',
+  //       duration: 9000,
+  //       isClosable: true,
+  //     })
+  //     setTimeout(() => {
+  //       router('/signin')
+  //     }, 2000)
+  //   } else {
+  //     toast({
+  //       title: 'Something went wrong!',
+  //       status: 'error',
+  //       duration: 9000,
+  //       isClosable: true,
+  //     })
+  //   }
 
-    setDisabled(false)
-  }
+  //   setDisabled(false)
+  // }
 
   const handleChange = (e) => {
     const newdata = { ...data }
@@ -266,13 +266,13 @@ function SignUp() {
     setData(newdata)
   }
 
-  // const googleLogin = useGoogleLogin({
-  //   onSuccess: async (tokenResponse) => {
-  //     console.log(tokenResponse)
-  //     preHandlerSocialLogin(tokenResponse.access_token, '')
-  //   },
-  //   // flow: 'implicit', // implicit is the default
-  // })
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      console.log(tokenResponse)
+      handleSubmitGoogle(tokenResponse.access_token)
+    },
+    // flow: 'implicit', // implicit is the default
+  })
 
   const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -325,7 +325,7 @@ function SignUp() {
                       </span>
                     </button>
                   </div>
-                  <LoginSocialFacebook
+                  {/* <LoginSocialFacebook
                     appId="707856684325818"
                     onResolve={(res) => {
                       preHandlerSocialLogin(null, res)
@@ -333,7 +333,7 @@ function SignUp() {
                     onReject={(err) => console.log(err)}
                     className="w-full my-2"
                   >
-                    {/* <div className="w-full px-3">
+                    <div className="w-full px-3">
                       <button className="btn px-0 text-white bg-blue-700 hover:bg-blue-800 w-full relative flex items-center">
                         <svg
                           className="w-4 h-4 fill-current text-white opacity-75 shrink-0 mx-4"
@@ -359,9 +359,9 @@ function SignUp() {
                           Sign up with Facebook
                         </span>
                       </button>
-                    </div> */}
+                    </div>
                     <FacebookLoginButton />
-                  </LoginSocialFacebook>
+                  </LoginSocialFacebook> */}
                 </div>
                 <div className="flex items-center my-6">
                   <div
@@ -577,15 +577,6 @@ function SignUp() {
             <Button
               onClick={() => {
                 onClose()
-                if (token.googleAccessToken) {
-                  console.log(token.googleAccessToken)
-                  handleSubmitGoogle(token.googleAccessToken)
-                  setToken({ token: null, fb: null })
-                } else if (token.fb) {
-                  console.log(token.fb)
-                  handleSubmitFB(token.fb)
-                  setToken({ token: null, fb: null })
-                }
               }}
               colorScheme="blue"
               mr={3}

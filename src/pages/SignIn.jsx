@@ -138,39 +138,39 @@ function SignIn() {
     }
   }
 
-  const handleSubmitFB = async (data) => {
-    setDisabled(true)
-    const res = await fetch(`https://bdsm-backend.onrender.com/api/signin`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ fb: data.data }),
-    })
+  // const handleSubmitFB = async (data) => {
+  //   setDisabled(true)
+  //   const res = await fetch(`https://bdsm-backend.onrender.com/api/signin`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({ fb: data.data }),
+  //   })
 
-    const res2 = await res.json()
-    console.log(res2)
-    if (res2.error) {
-      toast({
-        title: res2.error,
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      })
-    } else if (res2.token) {
-      Cookies.set('token', res2.token, { expires: 7 })
-      Cookies.set('email', res2.email, { expires: 7 })
-      navigate('/dashboard')
-    } else {
-      toast({
-        title: 'Something went wrong!',
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      })
-    }
-    setDisabled(false)
-  }
+  //   const res2 = await res.json()
+  //   console.log(res2)
+  //   if (res2.error) {
+  //     toast({
+  //       title: res2.error,
+  //       status: 'error',
+  //       duration: 9000,
+  //       isClosable: true,
+  //     })
+  //   } else if (res2.token) {
+  //     Cookies.set('token', res2.token, { expires: 7 })
+  //     Cookies.set('email', res2.email, { expires: 7 })
+  //     navigate('/dashboard')
+  //   } else {
+  //     toast({
+  //       title: 'Something went wrong!',
+  //       status: 'error',
+  //       duration: 9000,
+  //       isClosable: true,
+  //     })
+  //   }
+  //   setDisabled(false)
+  // }
 
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
