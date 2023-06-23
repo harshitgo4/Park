@@ -7,7 +7,7 @@ import Header from '../partials/Header'
 import PageIllustration from '../partials/PageIllustration'
 import { useEffect } from 'react'
 import { Button, useToast } from '@chakra-ui/react'
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import FacebookLogin from 'react-facebook-login'
 
 function SignIn() {
   const navigate = useNavigate()
