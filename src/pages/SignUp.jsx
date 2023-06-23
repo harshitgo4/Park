@@ -7,7 +7,6 @@ import Header from '../partials/Header'
 import PageIllustration from '../partials/PageIllustration'
 import { Button, Input, useToast } from '@chakra-ui/react'
 import { useGoogleLogin } from '@react-oauth/google'
-import { LoginSocialFacebook } from 'reactjs-social-login'
 import {
   useColorMode,
   useColorModeValue,
@@ -22,7 +21,8 @@ import {
   FormLabel,
   ModalFooter,
 } from '@chakra-ui/react'
-import { FacebookLoginButton } from 'react-social-login-buttons'
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+
 function SignUp() {
   const router = useNavigate()
   const toast = useToast()
@@ -220,11 +220,7 @@ function SignUp() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        fb: fb.data,
-        fName: data.fName,
-        lName: data.lName,
-        email: data.email,
-        password: data.password,
+        fb: fb,
         phone: data.phone,
         type: data.type,
       }),
@@ -272,6 +268,10 @@ function SignUp() {
       preHandlerSocialLogin(tokenResponse.access_token, res),
     // flow: 'implicit', // implicit is the default
   })
+
+  const responseFacebook = (response) => {
+    preHandlerSocialLogin('', response)
+  }
 
   const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -324,43 +324,41 @@ function SignUp() {
                       </span>
                     </button>
                   </div>
-                  <LoginSocialFacebook
-                    appId="707856684325818"
-                    onResolve={(res) => {
-                      preHandlerSocialLogin(null, res)
-                    }}
-                    onReject={(err) => console.log(err)}
-                    className="w-full my-2"
-                  >
-                    {/* <div className="w-full px-3">
-                      <button className="btn px-0 text-white bg-blue-700 hover:bg-blue-800 w-full relative flex items-center">
-                        <svg
-                          className="w-4 h-4 fill-current text-white opacity-75 shrink-0 mx-4"
-                          xmlns="http://www.w3.org/2000/svg"
-                          xmlnsXlink="http://www.w3.org/1999/xlink"
-                          version="1.1"
-                          id="Layer_1"
-                          viewBox="0 0 310 310"
-                          xmlSpace="preserve"
-                        >
-                          <g id="XMLID_834_">
-                            <path
-                              id="XMLID_835_"
-                              d="M81.703,165.106h33.981V305c0,2.762,2.238,5,5,5h57.616c2.762,0,5-2.238,5-5V165.765h39.064   c2.54,0,4.677-1.906,4.967-4.429l5.933-51.502c0.163-1.417-0.286-2.836-1.234-3.899c-0.949-1.064-2.307-1.673-3.732-1.673h-44.996   V71.978c0-9.732,5.24-14.667,15.576-14.667c1.473,0,29.42,0,29.42,0c2.762,0,5-2.239,5-5V5.037c0-2.762-2.238-5-5-5h-40.545   C187.467,0.023,186.832,0,185.896,0c-7.035,0-31.488,1.381-50.804,19.151c-21.402,19.692-18.427,43.27-17.716,47.358v37.752H81.703   c-2.762,0-5,2.238-5,5v50.844C76.703,162.867,78.941,165.106,81.703,165.106z"
-                            />
-                          </g>
-                        </svg>
-                        <span
-                          className="h-6 flex items-center border-r border-white border-opacity-25 mr-4"
-                          aria-hidden="true"
-                        ></span>
-                        <span className="flex-auto pl-16 pr-8 -ml-16">
-                          Sign up with Facebook
-                        </span>
-                      </button>
-                    </div> */}
-                    <FacebookLoginButton />
-                  </LoginSocialFacebook>
+                  <div className="w-full px-3 my-2">
+                    <FacebookLogin
+                      appId="707856684325818"
+                      autoLoad={false}
+                      fields="first_name, last_name, email, picture"
+                      callback={responseFacebook}
+                      render={(renderProps) => (
+                        <button className="btn px-0 text-white bg-blue-700 hover:bg-blue-800 w-full relative flex items-center">
+                          <svg
+                            className="w-4 h-4 fill-current text-white opacity-75 shrink-0 mx-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            xmlnsXlink="http://www.w3.org/1999/xlink"
+                            version="1.1"
+                            id="Layer_1"
+                            viewBox="0 0 310 310"
+                            xmlSpace="preserve"
+                          >
+                            <g id="XMLID_834_">
+                              <path
+                                id="XMLID_835_"
+                                d="M81.703,165.106h33.981V305c0,2.762,2.238,5,5,5h57.616c2.762,0,5-2.238,5-5V165.765h39.064   c2.54,0,4.677-1.906,4.967-4.429l5.933-51.502c0.163-1.417-0.286-2.836-1.234-3.899c-0.949-1.064-2.307-1.673-3.732-1.673h-44.996   V71.978c0-9.732,5.24-14.667,15.576-14.667c1.473,0,29.42,0,29.42,0c2.762,0,5-2.239,5-5V5.037c0-2.762-2.238-5-5-5h-40.545   C187.467,0.023,186.832,0,185.896,0c-7.035,0-31.488,1.381-50.804,19.151c-21.402,19.692-18.427,43.27-17.716,47.358v37.752H81.703   c-2.762,0-5,2.238-5,5v50.844C76.703,162.867,78.941,165.106,81.703,165.106z"
+                              />
+                            </g>
+                          </svg>
+                          <span
+                            className="h-6 flex items-center border-r border-white border-opacity-25 mr-4"
+                            aria-hidden="true"
+                          ></span>
+                          <span className="flex-auto pl-16 pr-8 -ml-16">
+                            Sign up with Facebook
+                          </span>
+                        </button>
+                      )}
+                    />
+                  </div>
                 </div>
                 <div className="flex items-center my-6">
                   <div
