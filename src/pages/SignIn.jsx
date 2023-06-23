@@ -1,10 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
-import { Link } from 'react-router-dom'
-import Header from '../partials/Header'
-import PageIllustration from '../partials/PageIllustration'
-import { useEffect } from 'react'
 import { Button, useToast } from '@chakra-ui/react'
 
 function SignIn() {

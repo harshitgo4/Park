@@ -15,11 +15,11 @@ const theme = extendTheme({
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
-      <GoogleOAuthProvider clientId="429483041271-ejdh5sm4c42q0f2bbrnfre9o0fcsvf6i.apps.googleusercontent.com">
+      {/* <GoogleOAuthProvider clientId="429483041271-ejdh5sm4c42q0f2bbrnfre9o0fcsvf6i.apps.googleusercontent.com"> */}
         <Router>
           <App />
         </Router>
-      </GoogleOAuthProvider>
+      {/* </GoogleOAuthProvider> */}
     </ChakraProvider>
   </React.StrictMode>,
 )
