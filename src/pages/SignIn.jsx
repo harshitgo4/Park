@@ -2,13 +2,10 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import { Link } from 'react-router-dom'
-import { useGoogleLogin } from '@react-oauth/google'
 import Header from '../partials/Header'
 import PageIllustration from '../partials/PageIllustration'
 import { useEffect } from 'react'
 import { Button, useToast } from '@chakra-ui/react'
-import { LoginSocialFacebook } from 'reactjs-social-login'
-import { FacebookLoginButton } from 'react-social-login-buttons'
 
 function SignIn() {
   const navigate = useNavigate()
@@ -17,12 +14,12 @@ function SignIn() {
   const [password, setPassword] = useState('')
   const [disabled, setDisabled] = useState(false)
 
-  useEffect(() => {
-    const authToken = Cookies.get('token')
-    if (authToken) {
-      navigate('/dashboard')
-    }
-  }, [])
+  // useEffect(() => {
+  //   const authToken = Cookies.get('token')
+  //   if (authToken) {
+  //     navigate('/dashboard')
+  //   }
+  // }, [])
 
   const handleSignIn = async (e) => {
     e.preventDefault()
@@ -89,95 +86,95 @@ function SignIn() {
     }
   }
 
-  const handleSubmitGoogle = async (googleAccessToken) => {
-    setDisabled(true)
-    try {
-      const response = await fetch(
-        'https://bdsm-backend.onrender.com/api/signin',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ googleAccessToken }),
-        },
-      )
+  // const handleSubmitGoogle = async (googleAccessToken) => {
+  //   setDisabled(true)
+  //   try {
+  //     const response = await fetch(
+  //       'https://bdsm-backend.onrender.com/api/signin',
+  //       {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //         body: JSON.stringify({ googleAccessToken }),
+  //       },
+  //     )
 
-      const data = await response.json()
+  //     const data = await response.json()
 
-      if (data.error) {
-        toast({
-          title: data.error,
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
-        })
-      } else if (data.token) {
-        Cookies.set('token', data.token, { expires: 7 })
-        Cookies.set('email', data.email, { expires: 7 })
-        setTimeout(() => {
-          navigate('/dashboard')
-        }, 2000)
-      } else {
-        toast({
-          title: 'Something went wrong!',
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
-        })
-      }
+  //     if (data.error) {
+  //       toast({
+  //         title: data.error,
+  //         status: 'error',
+  //         duration: 9000,
+  //         isClosable: true,
+  //       })
+  //     } else if (data.token) {
+  //       Cookies.set('token', data.token, { expires: 7 })
+  //       Cookies.set('email', data.email, { expires: 7 })
+  //       setTimeout(() => {
+  //         navigate('/dashboard')
+  //       }, 2000)
+  //     } else {
+  //       toast({
+  //         title: 'Something went wrong!',
+  //         status: 'error',
+  //         duration: 9000,
+  //         isClosable: true,
+  //       })
+  //     }
 
-      setDisabled(false)
-    } catch (error) {
-      console.log('Error occurred:', error)
-      toast({
-        title: 'An error occured during signin',
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      })
-      setDisabled(false)
-    }
-  }
+  //     setDisabled(false)
+  //   } catch (error) {
+  //     console.log('Error occurred:', error)
+  //     toast({
+  //       title: 'An error occured during signin',
+  //       status: 'error',
+  //       duration: 9000,
+  //       isClosable: true,
+  //     })
+  //     setDisabled(false)
+  //   }
+  // }
 
-  const handleSubmitFB = async (data) => {
-    setDisabled(true)
-    const res = await fetch(`https://bdsm-backend.onrender.com/api/signin`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ fb: data.data }),
-    })
+  // const handleSubmitFB = async (data) => {
+  //   setDisabled(true)
+  //   const res = await fetch(`https://bdsm-backend.onrender.com/api/signin`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({ fb: data.data }),
+  //   })
 
-    const res2 = await res.json()
-    console.log(res2)
-    if (res2.error) {
-      toast({
-        title: res2.error,
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      })
-    } else if (res2.token) {
-      Cookies.set('token', res2.token, { expires: 7 })
-      Cookies.set('email', res2.email, { expires: 7 })
-      navigate('/dashboard')
-    } else {
-      toast({
-        title: 'Something went wrong!',
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      })
-    }
-    setDisabled(false)
-  }
+  //   const res2 = await res.json()
+  //   console.log(res2)
+  //   if (res2.error) {
+  //     toast({
+  //       title: res2.error,
+  //       status: 'error',
+  //       duration: 9000,
+  //       isClosable: true,
+  //     })
+  //   } else if (res2.token) {
+  //     Cookies.set('token', res2.token, { expires: 7 })
+  //     Cookies.set('email', res2.email, { expires: 7 })
+  //     navigate('/dashboard')
+  //   } else {
+  //     toast({
+  //       title: 'Something went wrong!',
+  //       status: 'error',
+  //       duration: 9000,
+  //       isClosable: true,
+  //     })
+  //   }
+  //   setDisabled(false)
+  // }
 
-  const googleLogin = useGoogleLogin({
-    onSuccess: async (tokenResponse) =>
-      handleSubmitGoogle(tokenResponse.access_token),
-  })
+  // const googleLogin = useGoogleLogin({
+  //   onSuccess: async (tokenResponse) =>
+  //     handleSubmitGoogle(tokenResponse.access_token),
+  // })
 
   return (
     <div className="flex flex-col min-h-screen overflow-hidden">
@@ -206,8 +203,8 @@ function SignIn() {
 
               {/* Form */}
               <div className="max-w-sm mx-auto">
-                <div className="flex flex-wrap -mx-3">
-                  <div className="w-full px-3">
+                {/* <div className="flex flex-wrap -mx-3"> */}
+                  {/* <div className="w-full px-3">
                     <button
                       onClick={googleLogin}
                       className="btn px-0 text-white bg-red-600 hover:bg-red-700 w-full relative flex items-center"
@@ -236,7 +233,7 @@ function SignIn() {
                     onReject={(err) => console.log(err)}
                     className="w-full my-2"
                   >
-                    {/* <div className="w-full px-3">
+                    <div className="w-full px-3">
                       <button className="btn px-0 text-white bg-blue-700 hover:bg-blue-800 w-full relative flex items-center">
                         <svg
                           className="w-4 h-4 fill-current text-white opacity-75 shrink-0 mx-4"
@@ -262,10 +259,10 @@ function SignIn() {
                           Sign in with Facebook
                         </span>
                       </button>
-                    </div> */}
+                    </div>
                     <FacebookLoginButton />
                   </LoginSocialFacebook>
-                </div>
+                </div> */}
                 <div className="flex items-center my-6">
                   <div
                     className="border-t border-gray-700 border-dotted grow mr-3"
