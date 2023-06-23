@@ -7,8 +7,6 @@ import Header from '../partials/Header'
 import PageIllustration from '../partials/PageIllustration'
 import { useEffect } from 'react'
 import { Button, useToast } from '@chakra-ui/react'
-import { LoginSocialFacebook } from 'reactjs-social-login'
-import { FacebookLoginButton } from 'react-social-login-buttons'
 
 function SignIn() {
   const navigate = useNavigate()
@@ -230,7 +228,7 @@ function SignIn() {
                       </span>
                     </button>
                   </div>
-                  <LoginSocialFacebook
+                  {/* <LoginSocialFacebook
                     appId="707856684325818"
                     onResolve={(res) => {
                       handleSubmitFB(res)
@@ -239,7 +237,7 @@ function SignIn() {
                     className="w-full my-2"
                   >
                     <FacebookLoginButton />
-                    {/* <div className="w-full px-3">
+                    <div className="w-full px-3">
                         <button className="btn px-0 text-white bg-blue-700 hover:bg-blue-800 w-full relative flex items-center">
                           <svg
                             className="w-4 h-4 fill-current text-white opacity-75 shrink-0 mx-4"
@@ -265,8 +263,8 @@ function SignIn() {
                             Sign in with Facebook
                           </span>
                         </button>
-                      </div> */}
-                  </LoginSocialFacebook>
+                      </div>
+                  </LoginSocialFacebook> */}
                 </div>
                 <div className="flex items-center my-6">
                   <div
