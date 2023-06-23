@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import App from './App'
-import { GoogleOAuthProvider } from '@react-oauth/google'
 
 const theme = extendTheme({
   colors: {

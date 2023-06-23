@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Cookies from 'js-cookie'
-import { Button, useToast } from '@chakra-ui/react'
+// import { useNavigate } from 'react-router-dom'
+// import Cookies from 'js-cookie'
+// import { Button, useToast } from '@chakra-ui/react'
 
 function SignIn() {
-  const navigate = useNavigate()
-  const toast = useToast()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [disabled, setDisabled] = useState(false)
+  // const navigate = useNavigate()
+  // const toast = useToast()
+  // const [email, setEmail] = useState('')
+  // const [password, setPassword] = useState('')
+  // const [disabled, setDisabled] = useState(false)
 
   // useEffect(() => {
   //   const authToken = Cookies.get('token')
@@ -17,70 +17,70 @@ function SignIn() {
   //   }
   // }, [])
 
-  const handleSignIn = async (e) => {
-    e.preventDefault()
+  // const handleSignIn = async (e) => {
+  //   e.preventDefault()
 
-    if (email.includes('.') && email.includes('@') && password.length > 2) {
-      setDisabled(true)
-      try {
-        const response = await fetch(
-          'https://bdsm-backend.onrender.com/api/signin',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              email,
-              password,
-            }),
-          },
-        )
+  //   if (email.includes('.') && email.includes('@') && password.length > 2) {
+  //     setDisabled(true)
+  //     try {
+  //       const response = await fetch(
+  //         'https://bdsm-backend.onrender.com/api/signin',
+  //         {
+  //           method: 'POST',
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //           },
+  //           body: JSON.stringify({
+  //             email,
+  //             password,
+  //           }),
+  //         },
+  //       )
 
-        const data = await response.json()
+  //       const data = await response.json()
 
-        if (data.error) {
-          toast({
-            title: data.error,
-            status: 'error',
-            duration: 9000,
-            isClosable: true,
-          })
-        } else if (data.token) {
-          Cookies.set('token', data.token, { expires: 7 })
-          Cookies.set('email', data.email, { expires: 7 })
-          setTimeout(() => {
-            navigate('/dashboard')
-          }, 2000)
-        } else {
-          toast({
-            title: 'Something went wrong!',
-            status: 'error',
-            duration: 9000,
-            isClosable: true,
-          })
-        }
+  //       if (data.error) {
+  //         toast({
+  //           title: data.error,
+  //           status: 'error',
+  //           duration: 9000,
+  //           isClosable: true,
+  //         })
+  //       } else if (data.token) {
+  //         Cookies.set('token', data.token, { expires: 7 })
+  //         Cookies.set('email', data.email, { expires: 7 })
+  //         setTimeout(() => {
+  //           navigate('/dashboard')
+  //         }, 2000)
+  //       } else {
+  //         toast({
+  //           title: 'Something went wrong!',
+  //           status: 'error',
+  //           duration: 9000,
+  //           isClosable: true,
+  //         })
+  //       }
 
-        setDisabled(false)
-      } catch (error) {
-        console.log('Error occurred:', error)
-        toast({
-          title: 'An error occured during signin',
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
-        })
-        setDisabled(false)
-      }
-    } else {
-      toast({
-        title: 'Invalid email or password',
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      })
-    }
-  }
+  //       setDisabled(false)
+  //     } catch (error) {
+  //       console.log('Error occurred:', error)
+  //       toast({
+  //         title: 'An error occured during signin',
+  //         status: 'error',
+  //         duration: 9000,
+  //         isClosable: true,
+  //       })
+  //       setDisabled(false)
+  //     }
+  //   } else {
+  //     toast({
+  //       title: 'Invalid email or password',
+  //       status: 'error',
+  //       duration: 9000,
+  //       isClosable: true,
+  //     })
+  //   }
+  // }
 
   // const handleSubmitGoogle = async (googleAccessToken) => {
   //   setDisabled(true)
