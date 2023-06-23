@@ -236,7 +236,6 @@ function SignIn() {
                     onReject={(err) => console.log(err)}
                     className="w-full my-2"
                   >
-                    <FacebookLoginButton />
                     <div className="w-full px-3">
                         <button className="btn px-0 text-white bg-blue-700 hover:bg-blue-800 w-full relative flex items-center">
                           <svg
