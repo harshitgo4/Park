@@ -22,6 +22,7 @@ import {
   FormLabel,
   ModalFooter,
 } from '@chakra-ui/react'
+import { FacebookLoginButton } from 'react-social-login-buttons'
 function SignUp() {
   const router = useNavigate()
   const toast = useToast()
@@ -331,7 +332,7 @@ function SignUp() {
                     onReject={(err) => console.log(err)}
                     className="w-full my-2"
                   >
-                    <div className="w-full px-3">
+                    {/* <div className="w-full px-3">
                       <button className="btn px-0 text-white bg-blue-700 hover:bg-blue-800 w-full relative flex items-center">
                         <svg
                           className="w-4 h-4 fill-current text-white opacity-75 shrink-0 mx-4"
@@ -357,7 +358,8 @@ function SignUp() {
                           Sign up with Facebook
                         </span>
                       </button>
-                    </div>
+                    </div> */}
+                    <FacebookLoginButton />
                   </LoginSocialFacebook>
                 </div>
                 <div className="flex items-center my-6">
