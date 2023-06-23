@@ -7,7 +7,8 @@ import Header from '../partials/Header'
 import PageIllustration from '../partials/PageIllustration'
 import { useEffect } from 'react'
 import { Button, useToast } from '@chakra-ui/react'
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import FacebookLogin from 'react-facebook-login'
+import { FaceFrownIcon } from '@heroicons/react/20/solid'
 
 function SignIn() {
   const navigate = useNavigate()
@@ -235,39 +236,16 @@ function SignIn() {
                     </button>
                   </div>
                   <div className="w-full my-2 px-3">
-                    <FacebookLogin
-                      appId="707856684325818"
-                      autoLoad={false}
-                      fields="email"
-                      callback={responseFacebook}
-                      render={(renderProps) => (
-                        <button className="btn px-0 text-white bg-blue-700 hover:bg-blue-800 w-full relative flex items-center">
-                          <svg
-                            className="w-4 h-4 fill-current text-white opacity-75 shrink-0 mx-4"
-                            xmlns="http://www.w3.org/2000/svg"
-                            xmlnsXlink="http://www.w3.org/1999/xlink"
-                            version="1.1"
-                            id="Layer_1"
-                            viewBox="0 0 310 310"
-                            xmlSpace="preserve"
-                          >
-                            <g id="XMLID_834_">
-                              <path
-                                id="XMLID_835_"
-                                d="M81.703,165.106h33.981V305c0,2.762,2.238,5,5,5h57.616c2.762,0,5-2.238,5-5V165.765h39.064   c2.54,0,4.677-1.906,4.967-4.429l5.933-51.502c0.163-1.417-0.286-2.836-1.234-3.899c-0.949-1.064-2.307-1.673-3.732-1.673h-44.996   V71.978c0-9.732,5.24-14.667,15.576-14.667c1.473,0,29.42,0,29.42,0c2.762,0,5-2.239,5-5V5.037c0-2.762-2.238-5-5-5h-40.545   C187.467,0.023,186.832,0,185.896,0c-7.035,0-31.488,1.381-50.804,19.151c-21.402,19.692-18.427,43.27-17.716,47.358v37.752H81.703   c-2.762,0-5,2.238-5,5v50.844C76.703,162.867,78.941,165.106,81.703,165.106z"
-                              />
-                            </g>
-                          </svg>
-                          <span
-                            className="h-6 flex items-center border-r border-white border-opacity-25 mr-4"
-                            aria-hidden="true"
-                          ></span>
-                          <span className="flex-auto pl-16 pr-8 -ml-16">
-                            Sign in with Facebook
-                          </span>
-                        </button>
-                      )}
-                    />
+                  {/* btn px-0 text-white bg-blue-600 hover:bg-blue-700 w-full relative flex items-center */}
+                      <FacebookLogin
+                        appId="707856684325818"
+                        autoLoad={false}
+                        fields="email"
+                        callback={responseFacebook}
+                        textButton="Sign in with Facebook"
+                        cssClass="my-facebook-button-class"
+                        buttonStyle={{backgroundColor: 'blue', padding: '1rem', paddingInline:'4.7rem' , width: '100%', marginTop:'0.5rem', borderRadius: '2px'}}
+                      />
                   </div>
                 </div>
                 <div className="flex items-center my-6">
