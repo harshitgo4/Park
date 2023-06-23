@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import { Link } from 'react-router-dom'
-import { useGoogleLogin } from '@react-oauth/google'
+// import { useGoogleLogin } from '@react-oauth/google'
 import Header from '../partials/Header'
 import PageIllustration from '../partials/PageIllustration'
 import { useEffect } from 'react'
@@ -172,12 +172,10 @@ function SignIn() {
   //   setDisabled(false)
   // }
 
-  const googleLogin = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      console.log(tokenResponse)
-      handleSubmitGoogle(tokenResponse.access_token)
-    },
-  })
+  // const googleLogin = useGoogleLogin({
+  //   onSuccess: async (tokenResponse) =>
+  //     handleSubmitGoogle(tokenResponse.access_token),
+  // })
 
   return (
     <div className="flex flex-col min-h-screen overflow-hidden">
@@ -207,7 +205,7 @@ function SignIn() {
               {/* Form */}
               <div className="max-w-sm mx-auto">
                 <div className="flex flex-wrap -mx-3">
-                  <div className="w-full px-3">
+                  {/* <div className="w-full px-3">
                     <button
                       onClick={googleLogin}
                       className="btn px-0 text-white bg-red-600 hover:bg-red-700 w-full relative flex items-center"
@@ -227,7 +225,7 @@ function SignIn() {
                         Sign in with Google
                       </span>
                     </button>
-                  </div>
+                  </div> */}
                   {/* <LoginSocialFacebook
                     appId="707856684325818"
                     onResolve={(res) => {
