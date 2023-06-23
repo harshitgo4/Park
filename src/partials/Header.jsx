@@ -11,7 +11,7 @@ function Header() {
 
   const trigger = useRef(null)
   const mobileNav = useRef(null)
-  const { colorMode, toggleColorMode } = useColorMode()
+
 
   // close the mobile menu on click outside
   useEffect(() => {
@@ -38,6 +38,8 @@ function Header() {
     document.addEventListener('keydown', keyHandler)
     return () => document.removeEventListener('keydown', keyHandler)
   })
+
+    const { colorMode, toggleColorMode } = useColorMode()
 
   return (
     <header className="absolute w-full z-30">
