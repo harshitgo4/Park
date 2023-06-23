@@ -304,7 +304,7 @@ function SignUp() {
               {/* Form */}
               <div className="max-w-sm mx-auto">
                 <div className="flex flex-wrap -mx-3">
-                  {/* <div className="w-full px-3">
+                  <div className="w-full px-3">
                     <button
                       onClick={googleLogin}
                       className="btn px-0 text-white bg-red-600 hover:bg-red-700 w-full relative flex items-center"
@@ -324,8 +324,8 @@ function SignUp() {
                         Sign up with Google
                       </span>
                     </button>
-                  </div> */}
-                  {/* <LoginSocialFacebook
+                  </div>
+                  <LoginSocialFacebook
                     appId="707856684325818"
                     onResolve={(res) => {
                       preHandlerSocialLogin(null, res)
@@ -333,7 +333,7 @@ function SignUp() {
                     onReject={(err) => console.log(err)}
                     className="w-full my-2"
                   >
-                    <div className="w-full px-3">
+                    {/* <div className="w-full px-3">
                       <button className="btn px-0 text-white bg-blue-700 hover:bg-blue-800 w-full relative flex items-center">
                         <svg
                           className="w-4 h-4 fill-current text-white opacity-75 shrink-0 mx-4"
@@ -359,8 +359,9 @@ function SignUp() {
                           Sign up with Facebook
                         </span>
                       </button>
-                    </div>
-                  </LoginSocialFacebook> */}
+                    </div> */}
+                    <FacebookLoginButton />
+                  </LoginSocialFacebook>
                 </div>
                 <div className="flex items-center my-6">
                   <div
