@@ -6,7 +6,7 @@ import Swal from 'sweetalert2'
 import Header from '../partials/Header'
 import PageIllustration from '../partials/PageIllustration'
 import { Button, Input, useToast } from '@chakra-ui/react'
-// import { useGoogleLogin } from '@react-oauth/google'
+import { useGoogleLogin } from '@react-oauth/google'
 // import { LoginSocialFacebook } from 'reactjs-social-login'
 import {
   useColorMode,
