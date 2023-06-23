@@ -240,6 +240,9 @@ function SignIn() {
                       autoLoad={false}
                       fields="email"
                       callback={responseFacebook}
+                      textButton="Login with Facebook"
+                      cssClass="my-facebook-button-class"
+                      icon="fa-facebook"
                     />
                   </div>
                 </div>
