@@ -236,16 +236,23 @@ function SignIn() {
                     </button>
                   </div>
                   <div className="w-full my-2 px-3">
-                  {/* btn px-0 text-white bg-blue-600 hover:bg-blue-700 w-full relative flex items-center */}
-                      <FacebookLogin
-                        appId="707856684325818"
-                        autoLoad={false}
-                        fields="email"
-                        callback={responseFacebook}
-                        textButton="Sign in with Facebook"
-                        cssClass="my-facebook-button-class"
-                        buttonStyle={{backgroundColor: 'blue', padding: '1rem', paddingInline:'4.7rem' , width: '100%', marginTop:'0.5rem', borderRadius: '2px'}}
-                      />
+                    {/* btn px-0 text-white bg-blue-600 hover:bg-blue-700 w-full relative flex items-center */}
+                    <FacebookLogin
+                      appId="707856684325818"
+                      autoLoad={false}
+                      fields="email"
+                      callback={responseFacebook}
+                      textButton="Sign in with Facebook"
+                      cssClass="my-facebook-button-class"
+                      buttonStyle={{
+                        backgroundColor: 'blue',
+                        padding: '1rem',
+                        paddingInline: '4.7rem',
+                        width: '100%',
+                        marginTop: '0.5rem',
+                        borderRadius: '2px',
+                      }}
+                    />
                   </div>
                 </div>
                 <div className="flex items-center my-6">

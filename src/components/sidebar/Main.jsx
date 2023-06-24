@@ -1,11 +1,16 @@
 import {
   Box,
+  Button,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
 } from '@chakra-ui/react'
-import { Cog6ToothIcon } from '@heroicons/react/24/outline'
+import {
+  AdjustmentsVerticalIcon,
+  CalendarDaysIcon,
+  Cog6ToothIcon,
+} from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
 import { BanknotesIcon } from '@heroicons/react/20/solid'
 import { ArrowRightOnRectangleIcon } from '@heroicons/react/20/solid'
@@ -25,13 +30,50 @@ function SideBar({
       {' '}
       <Box
         display={{ base: 'none', md: 'block' }}
-        className={`z-99 overflow-y-scroll fixed left-0 w-[19.1rem] h-screen flex flex-col px-6 border-[#CEC7C7] border-r-2`}
+        className={`pt-2 pl-2 pr-0 z-99 overflow-y-scroll w-[19.1rem] fixed left-0 h-screen flex flex-col border-[#CEC7C7] border-r-2`}
         id="responsive"
       >
-        <nav className="mb-8 mt-8 h-auto">
-          <ul role="list" className="gap-y-6"></ul>
-        </nav>
-        <div className="mt-8 mb-8 flex flex-row">
+        <div className="my-8">
+          <h1 className="font-semibold">Main</h1>
+          <div className="text-right p-4 my-2 rounded-lg bg-white text-blue-500">
+            <button className="flex flex-row text-right">
+              <AdjustmentsVerticalIcon className="w-5 mx-2" />
+              Dashboard
+            </button>
+          </div>
+        </div>
+        <div className="pb-12 my-8 space-y-4">
+          <h1 className="font-semibold">Get Details</h1>
+          <button className="flex flex-row text-right">
+            <CalendarDaysIcon className="w-5 mx-2" />
+            {user?.type === 'sub' ? 'Search DOM' : 'Submit requests'}
+          </button>
+          <button className="flex flex-row text-right">
+            <CalendarDaysIcon className="w-5 mx-2" />
+            {user?.type === 'sub' ? 'Get Task' : 'Connected Sub'}
+          </button>
+          <button className="flex flex-row text-right">
+            <CalendarDaysIcon className="w-5 mx-2" />
+            {user?.type === 'sub' ? 'Assigned Tasks' : 'Add a Task'}
+          </button>
+          <button className="flex flex-row text-right">
+            <CalendarDaysIcon className="w-5 mx-2" />
+            {user?.type === 'sub' ? 'Reward Points' : 'Create Reward'}
+          </button>
+          <button className="flex flex-row text-right">
+            <CalendarDaysIcon className="w-5 mx-2" />
+            {user?.type === 'sub' ? 'Buy Reward' : 'Manage Tasks'}
+          </button>
+          <button hidden={user?.type==='sub'} className="flex flex-row text-right">
+            <CalendarDaysIcon className="w-5 mx-2" />
+            {user?.type === 'sub' ? '' : 'Submitted Tasks'}
+          </button>
+          <button hidden={user?.type==='sub'} className="flex flex-row text-right">
+            <CalendarDaysIcon className="w-5 mx-2" />
+            {user?.type === 'sub' ? '' : 'Submission List'}
+          </button>
+        </div>
+        <div className="bottom-0 flex flex-row">
           <span className="text-left font-semibold text-[#00A739] text-sm ">
             {user?.email}
           </span>
@@ -40,10 +82,6 @@ function SideBar({
             <Menu>
               <MenuButton rightIcon={<ChevronDownIcon />}>...</MenuButton>
               <MenuList className="text-sm">
-                <MenuItem onClick={() => router('/pricing')}>
-                  Pricing{' '}
-                  <BanknotesIcon className="-mr-[8rem] h-5 w-5 flex flex-1" />
-                </MenuItem>
                 <MenuItem onClick={() => router('/settings')}>
                   Settings{' '}
                   <Cog6ToothIcon className="-mr-[8rem] h-5 w-5 flex flex-1" />
@@ -72,7 +110,7 @@ function SideBar({
       <ControlBar
         showDrawer={showDrawer}
         user={user}
-        email={email}
+        email={user?.email}
         router={router}
         setShowDrawer={setShowDrawer}
         toggleColorMode={toggleColorMode}

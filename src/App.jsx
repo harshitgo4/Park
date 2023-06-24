@@ -16,6 +16,7 @@ import ResetPassword from './pages/ResetPassword'
 import PageNotFound from './pages/PageNotFound'
 import Settings from './components/Settings'
 import DirectoryPage from './pages/IndexPage'
+import CompletedTask from './pages/CompletedTask'
 
 function App() {
   const location = useLocation()
@@ -43,7 +44,7 @@ function App() {
 
         <Route path="settings" element={<Settings />} />
         <Route path="/dashboard" element={<DirectoryPage />} />
-
+        <Route path="/CompletedTask" element={<CompletedTask />} />
         <Route path="/features" element={<Features />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/signin" element={<SignIn />} />

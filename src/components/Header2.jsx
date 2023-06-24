@@ -29,8 +29,18 @@ import {
 import { UserCircleIcon } from '@heroicons/react/24/solid'
 import { Spinner } from '@chakra-ui/react'
 import { Search2Icon } from '@chakra-ui/icons'
+import { Cog6ToothIcon } from '@heroicons/react/24/outline'
 
-function Header2({ user, setUser, isOpen, onOpen, onClose, current }) {
+function Header2({
+  user,
+  setUser,
+  isOpen,
+  onOpen,
+  onClose,
+  current,
+  setShowDrawer,
+  showDrawer,
+}) {
   const [isLoading, setLoading] = useState(true)
   const authToken = Cookies.get('token')
   const router = useNavigate()
@@ -87,11 +97,18 @@ function Header2({ user, setUser, isOpen, onOpen, onClose, current }) {
       </Modal>
       {/* Header */}
       <Box
-        display={{ base: 'none', md: 'block' }}
         className={`z-50 w-full ${bg} h-18 shrink-0 flex items-center sticky top-0 border-[#CEC7C7] border-b-2`}
       >
         {/* Menu */}
         <div className="flex-1 flex relative">
+          <div>
+            <button
+              className="z-50 md:hidden ml-auto px-3 py-4 rounded-md  focus:outline-none"
+              onClick={() => setShowDrawer(!showDrawer)}
+            >
+              <Cog6ToothIcon className="h-6 w-6" />
+            </button>
+          </div>
           {/* User */}
 
           {/* Actions */}
@@ -127,14 +144,6 @@ function Header2({ user, setUser, isOpen, onOpen, onClose, current }) {
             </button>
           </div>
         </div>
-
-        {/* Mobile Drawer */}
-        <button
-          className="md:hidden ml-auto px-3 py-2 rounded-md bg-gray-200 text-gray-800 focus:outline-none"
-          onClick={onOpen}
-        >
-          Menu
-        </button>
       </Box>
 
       {/* Drawer */}
