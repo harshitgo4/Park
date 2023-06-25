@@ -6,7 +6,7 @@ import { Box, Button, useColorModeValue, useColorMode } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
 import SideBar from '../components/sidebar/Main'
 import Table from '../partials/DataGrid'
-export default function CompletedTask() {
+export default function AcceptedTask() {
   const router = useNavigate()
   const [showDrawer, setShowDrawer] = useState(false)
 
@@ -146,7 +146,7 @@ export default function CompletedTask() {
           <div className={`${bg} m-2 flex flex-row rounded-lg p-8`}>
             <div className="w-full">
               {' '}
-              <h1 className="font-semibold mb-8">Completed Tasks Detail</h1>
+              <h1 className="font-semibold mb-8">Accepted Tasks Detail</h1>
               <Table columns={columns} data={data} />
             </div>
           </div>

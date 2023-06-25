@@ -17,6 +17,15 @@ import PageNotFound from './pages/PageNotFound'
 import Settings from './components/Settings'
 import DirectoryPage from './pages/IndexPage'
 import CompletedTask from './pages/CompletedTask'
+import AssignedTask from './pages/AssignedTask'
+import PendingTask from './pages/PendingTask'
+import TaskRecap from './pages/TaskRecap'
+import Rewards from './pages/Rewards'
+import BuyReward from './pages/BuyReward'
+import SearchDOM from './pages/SearchDOM'
+import GetTask from './pages/GetTask'
+import FailedTask from './pages/FailedTask'
+import AcceptedTask from './pages/AcceptedTask'
 
 function App() {
   const location = useLocation()
@@ -41,10 +50,18 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/pricing" element={<Pricing />} />
-
+        <Route path="/BuyReward" element={<BuyReward />} />
+        <Route path="/Rewards" element={<Rewards />} />
         <Route path="settings" element={<Settings />} />
         <Route path="/dashboard" element={<DirectoryPage />} />
+        <Route path="/GetTask" element={<GetTask />} />
         <Route path="/CompletedTask" element={<CompletedTask />} />
+        <Route path="/FailedTask" element={<FailedTask />} />
+        <Route path="/AcceptedTask" element={<AcceptedTask />} />
+        <Route path="/AssignedTask" element={<AssignedTask />} />
+        <Route path="/PendingTask" element={<PendingTask />} />
+        <Route path="/SearchDOM" element={<SearchDOM />} />
+        <Route path="/TaskRecap" element={<TaskRecap />} />
         <Route path="/features" element={<Features />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/signin" element={<SignIn />} />

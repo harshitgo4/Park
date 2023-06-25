@@ -103,7 +103,14 @@ export default function Home({ folder, initialNamespace }) {
                   {user?.type === 'sub' ? 'Failed Task' : 'Add Task'}
                 </h1>
                 <p className="text-3xl">473</p>
-                <Button rightIcon={<ArrowRightIcon className="w-5" />}>
+                <Button
+                  onClick={() =>
+                    user?.type === 'sub'
+                      ? router('/FailedTask')
+                      : 'All Submitted Tasks'
+                  }
+                  rightIcon={<ArrowRightIcon className="w-5" />}
+                >
                   View Details
                 </Button>
               </div>
@@ -118,7 +125,14 @@ export default function Home({ folder, initialNamespace }) {
                   {user?.type === 'sub' ? 'Rewards' : 'Create Reward'}
                 </h1>
                 <p className="text-3xl">473</p>
-                <Button rightIcon={<ArrowRightIcon className="w-5" />}>
+                <Button
+                  onClick={() =>
+                    user?.type === 'sub'
+                      ? router('/Rewards')
+                      : 'All Submitted Tasks'
+                  }
+                  rightIcon={<ArrowRightIcon className="w-5" />}
+                >
                   View Details
                 </Button>
               </div>
@@ -133,7 +147,14 @@ export default function Home({ folder, initialNamespace }) {
                   {user?.type === 'sub' ? 'Accepted Task' : 'Manage Task'}
                 </h1>
                 <p className="text-3xl">473</p>
-                <Button rightIcon={<ArrowRightIcon className="w-5" />}>
+                <Button
+                  onClick={() =>
+                    user?.type === 'sub'
+                      ? router('/AcceptedTask')
+                      : 'All Submitted Tasks'
+                  }
+                  rightIcon={<ArrowRightIcon className="w-5" />}
+                >
                   View Details
                 </Button>
               </div>
@@ -148,7 +169,14 @@ export default function Home({ folder, initialNamespace }) {
                   {user?.type === 'sub' ? 'Pending Task' : 'Submission'}
                 </h1>
                 <p className="text-3xl">473</p>
-                <Button rightIcon={<ArrowRightIcon className="w-5" />}>
+                <Button
+                  onClick={() =>
+                    user?.type === 'sub'
+                      ? router('/PendingTask')
+                      : 'All Submitted Tasks'
+                  }
+                  rightIcon={<ArrowRightIcon className="w-5" />}
+                >
                   View Details
                 </Button>
               </div>
@@ -165,7 +193,14 @@ export default function Home({ folder, initialNamespace }) {
                     : 'Pending Submissions'}
                 </h1>
                 <p className="text-3xl">473</p>
-                <Button rightIcon={<ArrowRightIcon className="w-5" />}>
+                <Button
+                  onClick={() =>
+                    user?.type === 'sub'
+                      ? router('/TaskRecap')
+                      : 'All Submitted Tasks'
+                  }
+                  rightIcon={<ArrowRightIcon className="w-5" />}
+                >
                   View Details
                 </Button>
               </div>

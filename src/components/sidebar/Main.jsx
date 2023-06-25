@@ -16,6 +16,7 @@ import { BanknotesIcon } from '@heroicons/react/20/solid'
 import { ArrowRightOnRectangleIcon } from '@heroicons/react/20/solid'
 import Cookies from 'js-cookie'
 import ControlBar from '../ControlBar'
+import { useColorModeValue, useColorMode } from '@chakra-ui/react'
 
 function SideBar({
   showDrawer,
@@ -25,6 +26,8 @@ function SideBar({
   setShowDrawer,
   toggleColorMode,
 }) {
+  const bg = useColorModeValue('bg-[#1E293B]', 'bg-[#fff]')
+  const txt = useColorModeValue('text-white', 'text-blue-500')
   return (
     <div>
       {' '}
@@ -35,7 +38,10 @@ function SideBar({
       >
         <div className="my-8">
           <h1 className="font-semibold">Main</h1>
-          <div className="text-right p-4 my-2 rounded-lg bg-white text-blue-500">
+          <div
+            onClick={() => router('/dashboard')}
+            className={`text-right p-4 my-2 rounded-lg ${bg} ${txt}`}
+          >
             <button className="flex flex-row text-right">
               <AdjustmentsVerticalIcon className="w-5 mx-2" />
               Dashboard
@@ -44,31 +50,62 @@ function SideBar({
         </div>
         <div className="pb-12 my-8 space-y-4">
           <h1 className="font-semibold">Get Details</h1>
-          <button className="flex flex-row text-right">
+          <button
+            onClick={() => {
+              user?.type === 'sub' ? router('/SearchDOM') : null
+            }}
+            className="flex flex-row text-right"
+          >
             <CalendarDaysIcon className="w-5 mx-2" />
             {user?.type === 'sub' ? 'Search DOM' : 'Submit requests'}
           </button>
-          <button className="flex flex-row text-right">
+          <button
+            onClick={() => {
+              user?.type === 'sub' ? router('/GetTask') : null
+            }}
+            className="flex flex-row text-right"
+          >
             <CalendarDaysIcon className="w-5 mx-2" />
             {user?.type === 'sub' ? 'Get Task' : 'Connected Sub'}
           </button>
-          <button className="flex flex-row text-right">
+          <button
+            onClick={() => {
+              user?.type === 'sub' ? router('/AssignedTask') : null
+            }}
+            className="flex flex-row text-right"
+          >
             <CalendarDaysIcon className="w-5 mx-2" />
             {user?.type === 'sub' ? 'Assigned Tasks' : 'Add a Task'}
           </button>
-          <button className="flex flex-row text-right">
+          <button
+            onClick={() => {
+              user?.type === 'sub' ? router('/Rewards') : null
+            }}
+            className="flex flex-row text-right"
+          >
             <CalendarDaysIcon className="w-5 mx-2" />
             {user?.type === 'sub' ? 'Reward Points' : 'Create Reward'}
           </button>
-          <button className="flex flex-row text-right">
+          <button
+            onClick={() => {
+              user?.type === 'sub' ? router('/BuyReward') : null
+            }}
+            className="flex flex-row text-right"
+          >
             <CalendarDaysIcon className="w-5 mx-2" />
             {user?.type === 'sub' ? 'Buy Reward' : 'Manage Tasks'}
           </button>
-          <button hidden={user?.type==='sub'} className="flex flex-row text-right">
+          <button
+            hidden={user?.type === 'sub'}
+            className="flex flex-row text-right"
+          >
             <CalendarDaysIcon className="w-5 mx-2" />
             {user?.type === 'sub' ? '' : 'Submitted Tasks'}
           </button>
-          <button hidden={user?.type==='sub'} className="flex flex-row text-right">
+          <button
+            hidden={user?.type === 'sub'}
+            className="flex flex-row text-right"
+          >
             <CalendarDaysIcon className="w-5 mx-2" />
             {user?.type === 'sub' ? '' : 'Submission List'}
           </button>

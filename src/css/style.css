@@ -55,3 +55,42 @@
 #chatWindow::-webkit-scrollbar-thumb {
   background-color: transparent;
 }
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.pagination .break-me {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.pagination .border {
+  border-width: 1px;
+}
+
+.pagination .rounded {
+  border-radius: 0.25rem;
+}
+
+.pagination .p-2 {
+  padding: 0.5rem;
+}
+
+.pagination .bg-gray-200 {
+  background-color: #000;
+}
+
+.pagination .hover\:bg-gray-200:hover {
+  background-color: #edf2f7;
+}
+
+.pagination .active {
+  font-weight: bold;
+  background-color: #4299e1;
+  color: #fff;
+}
+
+
