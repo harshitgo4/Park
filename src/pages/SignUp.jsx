@@ -21,7 +21,7 @@ import {
   FormLabel,
   ModalFooter,
 } from '@chakra-ui/react'
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import FacebookLogin from 'react-facebook-login'
 
 function SignUp() {
   const router = useNavigate()
