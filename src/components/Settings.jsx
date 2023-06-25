@@ -104,6 +104,7 @@ function Settings() {
         setIsLoading2(false)
         console.log(res2)
         Cookies.remove('token')
+        localStorage.removeItem('subscriptionData')
         router('/signin')
       })
       .catch((error) => {

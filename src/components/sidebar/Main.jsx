@@ -126,6 +126,7 @@ function SideBar({
                 <MenuItem
                   onClick={async () => {
                     await Cookies.remove('token')
+                    await localStorage.removeItem('subscriptionData')
                     router('/signin')
                   }}
                 >

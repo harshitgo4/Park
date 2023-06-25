@@ -47,9 +47,19 @@ function Header2({
 
   useEffect(() => {
     const fetchSubscriptionDetails = async () => {
+      // Check if data exists in localStorage
+      const cachedData = localStorage.getItem('subscriptionData')
+
+      if (cachedData) {
+        // If data exists, parse and set it in state
+        const parsedData = JSON.parse(cachedData)
+        setUser(parsedData.user)
+        setLoading(false)
+        return
+      }
+
       const response = await fetch(
         'https://bdsm-backend.onrender.com/api/user',
-
         {
           method: 'GET',
           headers: {
@@ -57,15 +67,23 @@ function Header2({
           },
         },
       )
+
       const data = await response.json()
-      console.log(data)
-      if (data.error == 'User not found!') {
+
+      if (data.error === 'User not found!') {
         await Cookies.remove('token')
-        router('/signin')
+        await localStorage.removeItem('subscriptionData')
+        router.push('/signin')
+        return
       }
+
+      // Save data in localStorage for future use
+      localStorage.setItem('subscriptionData', JSON.stringify(data))
+
       setUser(data.user)
       setLoading(false)
     }
+
     fetchSubscriptionDetails()
   }, [])
   if (!authToken) {
