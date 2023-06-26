@@ -89,7 +89,7 @@ function SignUp() {
           isClosable: true,
         })
         Swal.fire({
-          title: 'Submit your OTP',
+          title: `We’ve sent a verification code to your email: ${data.email}. Please enter it here.`,
           input: 'number',
           showCancelButton: true,
           confirmButtonText: 'Submit',

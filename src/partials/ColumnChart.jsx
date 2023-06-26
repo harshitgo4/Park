@@ -19,7 +19,7 @@ export const data = [
 ]
 
 export function ColumnChart() {
-  const bg = useColorModeValue('#FFF2F2', '#1E293B')
+  const bg = useColorModeValue('bg-gray-100', '#1E293B')
   const textColor = useColorModeValue('#000', '#fff')
 
   const options = {

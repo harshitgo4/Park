@@ -26,6 +26,7 @@ import SearchDOM from './pages/SearchDOM'
 import GetTask from './pages/GetTask'
 import FailedTask from './pages/FailedTask'
 import AcceptedTask from './pages/AcceptedTask'
+import AllTask from './pages/AllTasks'
 
 function App() {
   const location = useLocation()
@@ -55,6 +56,7 @@ function App() {
         <Route path="settings" element={<Settings />} />
         <Route path="/dashboard" element={<DirectoryPage />} />
         <Route path="/GetTask" element={<GetTask />} />
+        <Route path="/AllTask" element={<AllTask />} />
         <Route path="/CompletedTask" element={<CompletedTask />} />
         <Route path="/FailedTask" element={<FailedTask />} />
         <Route path="/AcceptedTask" element={<AcceptedTask />} />

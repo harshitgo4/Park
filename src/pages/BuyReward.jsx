@@ -18,7 +18,7 @@ export default function BuyReward() {
 
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const bg = useColorModeValue('bg-[#FFF2F2]', 'bg-[#1E293B]')
+  const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
 
   const data = [
     {

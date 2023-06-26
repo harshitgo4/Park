@@ -19,7 +19,7 @@ import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
 import { Progress } from '@chakra-ui/react'
 import { CircularProgress, CircularProgressLabel } from '@chakra-ui/react'
 import Countdown from '../partials/Countdown'
-import BarChart from '../partials/BarChart'
+import { BarChart } from '../partials/BarChart'
 
 export default function Home({ folder, initialNamespace }) {
   const router = useNavigate()
@@ -32,7 +32,7 @@ export default function Home({ folder, initialNamespace }) {
 
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const bg = useColorModeValue('bg-[#FFF2F2]', 'bg-[#1E293B]')
+  const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
 
   const options = {
     weekday: 'short',
@@ -188,9 +188,7 @@ export default function Home({ folder, initialNamespace }) {
               <div>
                 {' '}
                 <h1 className="font-semibold">
-                  {user?.type === 'sub'
-                    ? 'Daily /Monthly /Weekly Recap'
-                    : 'Pending Submissions'}
+                  {user?.type === 'sub' ? 'Reporting' : 'Pending Submissions'}
                 </h1>
                 <p className="text-3xl">473</p>
                 <Button
@@ -208,10 +206,10 @@ export default function Home({ folder, initialNamespace }) {
                 <BriefcaseIcon className="w-16" />
               </div>
             </div>
-            <div className={`rounded-lg ${bg} p-4 m-2`}>
+            <div className={`rounded-lg  ${bg} p-4 m-2`}>
               <h1 className="font-semibold ">Statistics</h1>
-              <div className="bg-black p-2 rounded-lg my-4">
-                <div className="flex flex-row">
+              <div className="bg-black p-2  text-white rounded-lg my-4">
+                <div className="flex flex-row text-white">
                   <div>Today</div>
                   <div className="ml-auto">
                     <span className="font-bold">2</span>/4
@@ -220,7 +218,7 @@ export default function Home({ folder, initialNamespace }) {
 
                 <Progress colorScheme="green" size="sm" value={20} />
               </div>
-              <div className="bg-black p-2 rounded-lg my-4">
+              <div className="bg-black p-2  text-white rounded-lg my-4">
                 <div className="flex flex-row">
                   <div>This week</div>
                   <div className="ml-auto">
@@ -230,7 +228,7 @@ export default function Home({ folder, initialNamespace }) {
 
                 <Progress colorScheme="orange" size="sm" value={20} />
               </div>
-              <div className="bg-black p-2 rounded-lg my-4">
+              <div className="bg-black p-2  text-white rounded-lg my-4">
                 <div className="flex flex-row">
                   <div>This month</div>
                   <div className="ml-auto">
@@ -240,7 +238,7 @@ export default function Home({ folder, initialNamespace }) {
 
                 <Progress colorScheme="yellow" size="sm" value={20} />
               </div>
-              <div className="bg-black p-2 rounded-lg my-4">
+              <div className="bg-black p-2  text-white rounded-lg my-4">
                 <div className="flex flex-row">
                   <div>Remaining</div>
                   <div className="ml-auto">
@@ -250,7 +248,7 @@ export default function Home({ folder, initialNamespace }) {
 
                 <Progress colorScheme="purple" size="sm" value={20} />
               </div>
-              <div className="bg-black p-2 rounded-lg my-4">
+              <div className="bg-black p-2  text-white rounded-lg my-4">
                 <div className="flex flex-row">
                   <div>Overtime</div>
                   <div className="ml-auto">
@@ -263,10 +261,10 @@ export default function Home({ folder, initialNamespace }) {
             </div>
             <div className={`rounded-lg ${bg} p-4 m-2`}>
               <h1 className="font-semibold ">Task Overview</h1>
-              <div className="bg-black p-2 rounded-lg my-4 text-center">
+              <div className="bg-black  text-white p-2 rounded-lg my-4 text-center">
                 {formattedTime}
               </div>
-              <div className="bg-black p-2 rounded-lg my-4 ">
+              <div className="bg-black  text-white p-2 rounded-lg my-4 ">
                 <div className="flex flex-col space-y-4 m-auto p-4">
                   <CircularProgress className="m-auto" size="150px" value={50}>
                     <CircularProgressLabel style={{ fontSize: '1.2rem' }}>

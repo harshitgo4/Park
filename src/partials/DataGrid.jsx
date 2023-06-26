@@ -58,7 +58,7 @@ export default function Table({ columns, data }) {
           })}
         </tbody>
       </table>
-      <div className="pagination flex justify-center items-center mt-4">
+      <div className={`pagination text-blue-500 flex justify-center items-center mt-4`}>
         <ReactPaginate
           previousLabel="Previous"
           nextLabel="Next"

@@ -120,27 +120,21 @@ function Header2({
         {/* Menu */}
         <div className="flex-1 flex relative">
           <div>
-            <button
-              className="z-50 md:hidden ml-auto px-3 py-4 rounded-md  focus:outline-none"
-              onClick={() => setShowDrawer(!showDrawer)}
-            >
-              <Cog6ToothIcon className="h-6 w-6" />
-            </button>
+            <div className="m-2 text-3xl font-semibold text-blue-300">
+              TiedUp.App
+            </div>
           </div>
           {/* User */}
 
           {/* Actions */}
           <div className="ml-auto inline-flex items-center justify-center mr-10 lg:gap-x-2">
-            <div className="mx-4">
-              <InputGroup>
-                <Input placeholder="Search" />
-                <InputRightElement>
-                  <Search2Icon color="white" />
-                </InputRightElement>
-              </InputGroup>
-            </div>
             <div className="mx-4 flex flex-row gap-4">
-              {' '}
+              <button
+                className="md:hidden"
+                onClick={() => setShowDrawer(!showDrawer)}
+              >
+                <Cog6ToothIcon className="h-6 w-6" />
+              </button>
               <BellAlertIcon className="my-2  h-[1.5rem] w-[1.5rem]" />
               <ChatBubbleLeftEllipsisIcon className="my-2  h-[1.5rem] w-[1.5rem]" />
             </div>
@@ -172,12 +166,6 @@ function Header2({
             <Box py={2}>
               {/* User Name */}
               {/* Plan ID */}
-              <InputGroup>
-                <Input placeholder="Search" />
-                <InputRightElement>
-                  <Search2Icon color="white" />
-                </InputRightElement>
-              </InputGroup>
               <BellAlertIcon className="my-4 mx-2 h-[1.5rem] w-[1.5rem]" />
               <ChatBubbleLeftEllipsisIcon className="my-4 mx-2 h-[1.5rem] w-[1.5rem]" />
               <button className="px-4 py-2 font-medium rounded-lg flex gap-2 hover:text-[#767676]">

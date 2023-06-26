@@ -2,20 +2,11 @@ import React from 'react'
 import { useRef, useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header2 from '../components/Header2'
-import {
-  Box,
-  Button,
-  useColorModeValue,
-  useColorMode,
-  Select,
-  VStack,
-  Switch,
-} from '@chakra-ui/react'
+import { Box, Button, useColorModeValue, useColorMode } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
 import SideBar from '../components/sidebar/Main'
 import Table from '../partials/DataGrid'
-import PieChart from '../partials/PieChart'
-export default function TaskRecap() {
+export default function AllTask() {
   const router = useNavigate()
   const [showDrawer, setShowDrawer] = useState(false)
 
@@ -23,12 +14,6 @@ export default function TaskRecap() {
 
   const [email, setEmail] = useState(null)
   const [user, setUser] = useState(null)
-
-  const [selectedOption, setSelectedOption] = useState('Daily')
-
-  const handleButtonClick = (option) => {
-    setSelectedOption(option)
-  }
 
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -158,51 +143,10 @@ export default function TaskRecap() {
           toggleColorMode={toggleColorMode}
         />
         <main className="z-1 mx-auto w-full md:pl-80 p-4 overflow-y-auto">
-          <div className={`${bg} m-4 flex flex-row rounded-lg p-8`}>
+          <div className={`${bg} m-2 flex flex-row rounded-lg p-8`}>
             <div className="w-full">
               {' '}
-              <h1 className="font-semibold mb-8">Task Recap</h1>
-              <Box mt={2} mb={2} className="flex flex-row space-x-4">
-                <Button
-                  colorScheme={selectedOption === 'Daily' ? 'blue' : 'gray'}
-                  onClick={() => handleButtonClick('Daily')}
-                >
-                  Daily
-                </Button>
-                <Button
-                  colorScheme={selectedOption === 'Weekly' ? 'blue' : 'gray'}
-                  onClick={() => handleButtonClick('Weekly')}
-                >
-                  Weekly
-                </Button>
-                <Button
-                  colorScheme={selectedOption === 'Monthly' ? 'blue' : 'gray'}
-                  onClick={() => handleButtonClick('Monthly')}
-                >
-                  Monthly
-                </Button>
-              </Box>
-              <PieChart />
-            </div>
-          </div>
-          <div className={`${bg} m-4 flex flex-row rounded-lg p-8`}>
-            <div className="w-full">
-              {' '}
-              <h1 className="font-semibold mb-8">Completed Tasks Detail</h1>
-              <Table columns={columns} data={data} />
-            </div>
-          </div>
-          <div className={`${bg} m-4 flex flex-row rounded-lg p-8`}>
-            <div className="w-full">
-              {' '}
-              <h1 className="font-semibold mb-8">Failed Tasks Detail</h1>
-              <Table columns={columns} data={data} />
-            </div>
-          </div>
-          <div className={`${bg} m-4 flex flex-row rounded-lg p-8`}>
-            <div className="w-full">
-              {' '}
-              <h1 className="font-semibold mb-8">Pending Tasks Detail</h1>
+              <h1 className="font-semibold mb-8">All Tasks Detail</h1>
               <Table columns={columns} data={data} />
             </div>
           </div>

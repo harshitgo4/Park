@@ -18,20 +18,20 @@ export default function GetTask() {
 
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const bg = useColorModeValue('bg-[#FFF2F2]', 'bg-[#1E293B]')
+  const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
 
   const data = [
     {
       id: 1,
       title: 'Task 1',
       submissionDate: '2023-06-01',
-      imageUrl: 'https://source.unsplash.com/random/'
+      imageUrl: 'https://source.unsplash.com/random/',
     },
     {
       id: 2,
       title: 'Task 2',
       submissionDate: '2023-06-02',
-      imageUrl: 'https://source.unsplash.com/random/'
+      imageUrl: 'https://source.unsplash.com/random/',
     },
     // Add more data
   ]

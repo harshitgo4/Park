@@ -19,8 +19,7 @@ export default function Rewards() {
 
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const bg = useColorModeValue('bg-[#FFF2F2]', 'bg-[#1E293B]')
-
+  const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
 
   return (
     <div className="h-[100vh] overflow-y-auto">
@@ -47,7 +46,9 @@ export default function Rewards() {
           <div className={`${bg} m-4 flex flex-row rounded-lg p-8`}>
             <div className="w-full">
               {' '}
-              <h1 className="font-semibold mb-8">Your current Reward Point is : 200</h1>
+              <h1 className="font-semibold mb-8">
+                Your current Reward Point is : 200
+              </h1>
               <ColumnChart />
             </div>
           </div>

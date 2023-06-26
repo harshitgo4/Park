@@ -17,7 +17,7 @@ export default function AssignedTask() {
 
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const bg = useColorModeValue('bg-[#FFF2F2]', 'bg-[#1E293B]')
+  const bg = useColorModeValue('bg-gray-200', 'bg-[#1E293B]')
 
   const data = [
     {
@@ -25,14 +25,14 @@ export default function AssignedTask() {
       title: 'Card 1',
       description: 'Description 1',
       date: '2023-06-01',
-      imageUrl: 'https://source.unsplash.com/random/'
+      imageUrl: 'https://source.unsplash.com/random/',
     },
     {
       id: 2,
       title: 'Card 2',
       description: 'Description 2',
       date: '2023-06-02',
-      imageUrl: 'https://source.unsplash.com/random/'
+      imageUrl: 'https://source.unsplash.com/random/',
     },
     // Add more data
   ]
