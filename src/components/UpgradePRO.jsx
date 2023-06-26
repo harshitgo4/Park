@@ -27,7 +27,7 @@ const Dashboard = () => {
   const createSubscription = async (priceId) => {
     try {
       const response = await axios.post(
-        'https://bdsm-backend.onrender.com/api/createCheckoutSession',
+        'http://localhost:5000/api/createCheckoutSession',
         {
           priceId,
         },

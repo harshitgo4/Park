@@ -44,7 +44,7 @@ export default function Home({ folder, initialNamespace }) {
     hour12: true,
   }
 
-  const formattedTime = new Date('2021-11-17T10:00:00').toLocaleString(
+  const formattedTime = new Date().toLocaleString(
     undefined,
     options,
   )
@@ -271,9 +271,9 @@ export default function Home({ folder, initialNamespace }) {
                       <span className="font-bold">2</span>/4
                     </CircularProgressLabel>
                   </CircularProgress>
-                  <Button colorScheme="green">
+                  <div className="bg-green-500 p-2 rounded-lg text-center text-white">
                     <Countdown />
-                  </Button>
+                  </div>
                 </div>
               </div>
             </div>

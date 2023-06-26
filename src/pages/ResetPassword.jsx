@@ -55,20 +55,17 @@ function ResetPassword() {
           preConfirm: () => {
             const otp = document.getElementById('otp').value
             const password = document.getElementById('password').value
-            return fetch(
-              'https://bdsm-backend.onrender.com/api/resetPassword2',
-              {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  password,
-                  email,
-                  otp,
-                }),
+            return fetch('http://localhost:5000/api/resetPassword2', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
               },
-            )
+              body: JSON.stringify({
+                password,
+                email,
+                otp,
+              }),
+            })
               .then((response) => response.json())
               .then((res) => {
                 console.log(res)

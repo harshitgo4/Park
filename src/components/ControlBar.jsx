@@ -25,9 +25,10 @@ const ControlBar = ({
   router,
   setShowDrawer,
   toggleColorMode,
+  colorMode,
   user,
 }) => {
-    const bg = useColorModeValue('bg-[#1E293B]', 'bg-[#fff]')
+  const bg = useColorModeValue('bg-[#1E293B]', 'bg-[#fff]')
   const txt = useColorModeValue('text-white', 'text-blue-500')
   return (
     <Drawer
@@ -42,25 +43,27 @@ const ControlBar = ({
             className={`pt-2 pl-2 pr-0 z-99 overflow-y-scroll w-[19.1rem] fixed left-0 h-screen flex flex-col border-[#CEC7C7] border-r-2`}
             id="responsive"
           >
-            <div className="my-8">
-              <h1 className="font-semibold">Main</h1>
-              <div
+            <div className="my-8 pb-12 w-full my-8 space-y-4">
+              <button
                 onClick={() => router('/dashboard')}
-                className={`text-right p-4 my-2 rounded-lg ${bg} ${txt}`}
+                className={`flex flex-row text-right ${
+                  window.location.pathname === '/dashboard'
+                    ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                    : null
+                }`}
               >
-                <button className="flex flex-row text-right">
-                  <AdjustmentsVerticalIcon className="w-5 mx-2" />
-                  Dashboard
-                </button>
-              </div>
-            </div>
-            <div className="pb-12 my-8 space-y-4">
-              <h1 className="font-semibold">Get Details</h1>
+                <AdjustmentsVerticalIcon className="w-5 mx-2" />
+                Dashboard
+              </button>
               <button
                 onClick={() => {
                   user?.type === 'sub' ? router('/SearchDOM') : null
                 }}
-                className="flex flex-row text-right"
+                className={`flex flex-row text-right ${
+                  window.location.pathname === '/SearchDOM'
+                    ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                    : null
+                }`}
               >
                 <CalendarDaysIcon className="w-5 mx-2" />
                 {user?.type === 'sub' ? 'Search DOM' : 'Submit requests'}
@@ -69,7 +72,11 @@ const ControlBar = ({
                 onClick={() => {
                   user?.type === 'sub' ? router('/GetTask') : null
                 }}
-                className="flex flex-row text-right"
+                className={`flex flex-row text-right ${
+                  window.location.pathname === '/GetTask'
+                    ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                    : null
+                }`}
               >
                 <CalendarDaysIcon className="w-5 mx-2" />
                 {user?.type === 'sub' ? 'Get Task' : 'Connected Sub'}
@@ -78,7 +85,11 @@ const ControlBar = ({
                 onClick={() => {
                   user?.type === 'sub' ? router('/AssignedTask') : null
                 }}
-                className="flex flex-row text-right"
+                className={`flex flex-row text-right ${
+                  window.location.pathname === '/AssignedTask'
+                    ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                    : null
+                }`}
               >
                 <CalendarDaysIcon className="w-5 mx-2" />
                 {user?.type === 'sub' ? 'Assigned Tasks' : 'Add a Task'}
@@ -87,7 +98,11 @@ const ControlBar = ({
                 onClick={() => {
                   user?.type === 'sub' ? router('/Rewards') : null
                 }}
-                className="flex flex-row text-right"
+                className={`flex flex-row text-right ${
+                  window.location.pathname === '/Rewards'
+                    ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                    : null
+                }`}
               >
                 <CalendarDaysIcon className="w-5 mx-2" />
                 {user?.type === 'sub' ? 'Reward Points' : 'Create Reward'}
@@ -96,17 +111,30 @@ const ControlBar = ({
                 onClick={() => {
                   user?.type === 'sub' ? router('/BuyReward') : null
                 }}
-                className="flex flex-row text-right"
+                className={`flex flex-row text-right ${
+                  window.location.pathname === '/BuyReward'
+                    ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                    : null
+                }`}
               >
                 <CalendarDaysIcon className="w-5 mx-2" />
                 {user?.type === 'sub' ? 'Buy Reward' : 'Manage Tasks'}
               </button>
               <button
-                hidden={user?.type === 'sub'}
-                className="flex flex-row text-right"
+                onClick={() => {
+                  user?.type === 'sub'
+                    ? router('/AllTask')
+                    : router('/SubmittedTask')
+                }}
+                className={`flex flex-row text-right ${
+                  window.location.pathname === '/AllTask' ||
+                  window.location.pathname === '/SubmittedTask'
+                    ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                    : null
+                }`}
               >
                 <CalendarDaysIcon className="w-5 mx-2" />
-                {user?.type === 'sub' ? '' : 'Submitted Tasks'}
+                {user?.type === 'sub' ? 'All Task' : 'Submitted Tasks'}
               </button>
               <button
                 hidden={user?.type === 'sub'}
@@ -116,11 +144,12 @@ const ControlBar = ({
                 {user?.type === 'sub' ? '' : 'Submission List'}
               </button>
             </div>
-            <div className="mt-8 mb-8 flex flex-row">
-              <span className="text-left font-semibold text-[#00A739] text-sm">
-                {email}
+            <div className="bottom-0 flex flex-row">
+              <span className="text-left font-semibold text-[#00A739] text-sm ">
+                {user?.email}
               </span>
-              <span className="-mt-4 justify-end  font-bolder text-3xl flex flex-1 text-right">
+              <span className="-mt-4 justify-end font-bolder text-3xl flex flex-1 text-right">
+                {' '}
                 <Menu>
                   <MenuButton rightIcon={<ChevronDownIcon />}>...</MenuButton>
                   <MenuList className="text-sm">
@@ -142,13 +171,24 @@ const ControlBar = ({
                 </Menu>
               </span>
             </div>
-            {/* Theme Selection */}
             <div
               onClick={toggleColorMode}
-              className="text-center text-[#767676] justify-center mb-20 flex flex-row text-lg rounded-lg border border-2 p-1 w-[50%] m-auto"
+              className="text-center text-[#767676] justify-center mb-20 flex flex-row text-lg rounded-lg border border-2 p-1 w-[50%] m-auto "
             >
-              <button className="p-2">Light</button>
-              <button className="p-2 bg-black text-white rounded-lg">
+              <button
+                className={`p-2 ${
+                  colorMode === 'light'
+                    ? 'bg-black text-white rounded-lg'
+                    : null
+                } `}
+              >
+                Light
+              </button>
+              <button
+                className={`p-2 ${
+                  colorMode === 'dark' ? 'bg-black text-white rounded-lg' : null
+                } `}
+              >
                 Dark
               </button>
             </div>

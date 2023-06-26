@@ -129,7 +129,7 @@ function SideBar({
             }`}
           >
             <CalendarDaysIcon className="w-5 mx-2" />
-            {user?.type === 'sub' ? 'AllTask' : 'Submitted Tasks'}
+            {user?.type === 'sub' ? 'All Task' : 'Submitted Tasks'}
           </button>
           <button
             hidden={user?.type === 'sub'}
@@ -193,6 +193,7 @@ function SideBar({
         router={router}
         setShowDrawer={setShowDrawer}
         toggleColorMode={toggleColorMode}
+        colorMode={colorMode}
       />
     </div>
   )
