@@ -54,12 +54,15 @@ function Header2({
         return
       }
 
-      const response = await fetch('http://localhost:5000/api/user', {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${authToken}`,
+      const response = await fetch(
+        'https://bdsm-backend.onrender.com/api/user',
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
         },
-      })
+      )
 
       const data = await response.json()
 
