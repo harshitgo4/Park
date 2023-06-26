@@ -37,6 +37,7 @@ export default function TaskRecap() {
   const data = useMemo(
     () => [
       {
+        taskId: 1,
         date: '2023-06-01',
         taskName: 'Task 1',
         taskAssignedTo: 'User 1',
@@ -44,6 +45,7 @@ export default function TaskRecap() {
         status: 'Completed and Approved',
       },
       {
+        taskId: 2,
         date: '2023-06-02',
         taskName: 'Task 2',
         taskAssignedTo: 'User 2',
@@ -51,6 +53,7 @@ export default function TaskRecap() {
         status: 'Completed and Failed',
       },
       {
+        taskId: 3,
         date: '2023-06-03',
         taskName: 'Task 3',
         taskAssignedTo: 'User 3',
@@ -58,6 +61,7 @@ export default function TaskRecap() {
         status: 'Did not complete at all',
       },
       {
+        taskId: 4,
         date: '2023-06-04',
         taskName: 'Task 4',
         taskAssignedTo: 'User 1',
@@ -65,6 +69,7 @@ export default function TaskRecap() {
         status: 'Completed and Approved',
       },
       {
+        taskId: 5,
         date: '2023-06-05',
         taskName: 'Task 5',
         taskAssignedTo: 'User 2',
@@ -72,6 +77,7 @@ export default function TaskRecap() {
         status: 'Completed and Failed',
       },
       {
+        taskId: 6,
         date: '2023-06-06',
         taskName: 'Task 6',
         taskAssignedTo: 'User 3',
@@ -79,6 +85,7 @@ export default function TaskRecap() {
         status: 'Did not complete at all',
       },
       {
+        taskId: 7,
         date: '2023-06-07',
         taskName: 'Task 7',
         taskAssignedTo: 'User 1',
@@ -86,6 +93,7 @@ export default function TaskRecap() {
         status: 'Completed and Approved',
       },
       {
+        taskId: 8,
         date: '2023-06-08',
         taskName: 'Task 8',
         taskAssignedTo: 'User 2',
@@ -93,6 +101,7 @@ export default function TaskRecap() {
         status: 'Completed and Failed',
       },
       {
+        taskId: 9,
         date: '2023-06-09',
         taskName: 'Task 9',
         taskAssignedTo: 'User 3',
@@ -100,6 +109,7 @@ export default function TaskRecap() {
         status: 'Did not complete at all',
       },
       {
+        taskId: 10,
         date: '2023-06-10',
         taskName: 'Task 10',
         taskAssignedTo: 'User 1',
@@ -107,6 +117,7 @@ export default function TaskRecap() {
         status: 'Completed and Approved',
       },
       {
+        taskId: 11,
         date: '2023-06-11',
         taskName: 'Task 11',
         taskAssignedTo: 'User 2',
@@ -114,6 +125,7 @@ export default function TaskRecap() {
         status: 'Completed and Failed',
       },
       {
+        taskId: 12,
         date: '2023-06-12',
         taskName: 'Task 12',
         taskAssignedTo: 'User 3',

@@ -17,18 +17,15 @@ function ResetPassword() {
 
     if (email && email.includes('.') && email.includes('@')) {
       setDisabled(true)
-      const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/resetPassword1`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: email,
-          }),
+      const res = await fetch(`http://localhost:5000/api/resetPassword1`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      )
+        body: JSON.stringify({
+          email: email,
+        }),
+      })
 
       const res2 = await res.json()
       console.log(res2)

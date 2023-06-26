@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {
-  Input,
-  InputGroup,
-  InputRightElement,
-  ModalContent,
-  useColorMode,
-} from '@chakra-ui/react'
+import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import { useColorModeValue } from '@chakra-ui/react'
@@ -30,6 +24,8 @@ import { UserCircleIcon } from '@heroicons/react/24/solid'
 import { Spinner } from '@chakra-ui/react'
 import { Search2Icon } from '@chakra-ui/icons'
 import { Cog6ToothIcon } from '@heroicons/react/24/outline'
+import { ChevronDownIcon } from '@heroicons/react/24/outline'
+import { ArrowRightOnRectangleIcon } from '@heroicons/react/20/solid'
 
 function Header2({
   user,
@@ -146,7 +142,27 @@ function Header2({
                   src={user?.avatar}
                 />
               ) : (
-                <UserCircleIcon className="my-2  h-[3rem] w-[3rem]" />
+                <Menu>
+                  <MenuButton rightIcon={<ChevronDownIcon />}>
+                    <UserCircleIcon className="my-2  h-[3rem] w-[3rem]" />
+                  </MenuButton>
+                  <MenuList className="text-sm">
+                    <MenuItem onClick={() => router('/settings')}>
+                      Settings{' '}
+                      <Cog6ToothIcon className="-mr-[8rem] h-5 w-5 flex flex-1" />
+                    </MenuItem>
+                    <MenuItem
+                      onClick={async () => {
+                        await Cookies.remove('token')
+                        await localStorage.removeItem('subscriptionData')
+                        router('/signin')
+                      }}
+                    >
+                      Signout{' '}
+                      <ArrowRightOnRectangleIcon className="-mr-[8rem] h-5 w-5 flex flex-1" />
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
               )}
             </div>
 

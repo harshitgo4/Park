@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import { useTable, usePagination } from 'react-table'
 import ReactPaginate from 'react-paginate'
+import { useNavigate } from 'react-router-dom'
 
 export default function Table({ columns, data }) {
   const {
@@ -26,6 +27,8 @@ export default function Table({ columns, data }) {
     usePagination,
   )
 
+  const router = useNavigate()
+
   return (
     <div className="w-full m-auto overflow-scroll">
       <table {...getTableProps()} className="table w-full m-auto">
@@ -47,7 +50,10 @@ export default function Table({ columns, data }) {
           {page.map((row) => {
             prepareRow(row)
             return (
-              <tr {...row.getRowProps()}>
+              <tr
+                {...row.getRowProps()}
+                onClick={() => router(`/task/${row.original.taskId}`)}
+              >
                 {row.cells.map((cell) => (
                   <td {...cell.getCellProps()} className="border-b py-2 px-4">
                     {cell.render('Cell')}
@@ -58,7 +64,9 @@ export default function Table({ columns, data }) {
           })}
         </tbody>
       </table>
-      <div className={`pagination text-blue-500 flex justify-center items-center mt-4`}>
+      <div
+        className={`pagination text-blue-500 flex justify-center items-center mt-4`}
+      >
         <ReactPaginate
           previousLabel="Previous"
           nextLabel="Next"

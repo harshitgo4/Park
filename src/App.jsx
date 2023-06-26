@@ -27,6 +27,8 @@ import GetTask from './pages/GetTask'
 import FailedTask from './pages/FailedTask'
 import AcceptedTask from './pages/AcceptedTask'
 import AllTask from './pages/AllTasks'
+import Verify from './pages/Verify'
+import TaskPage from './pages/TaskPage'
 
 function App() {
   const location = useLocation()
@@ -68,6 +70,8 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/verify/:email/:otp" element={<Verify />} />
+        <Route path="/task/:id" element={<TaskPage />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
