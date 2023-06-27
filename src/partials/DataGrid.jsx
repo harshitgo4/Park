@@ -30,40 +30,42 @@ export default function Table({ columns, data }) {
   const router = useNavigate()
 
   return (
-    <div className="w-full m-auto overflow-scroll">
-      <table {...getTableProps()} className="table w-full m-auto">
-        <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th
-                  {...column.getHeaderProps()}
-                  className="text-left border-b py-2 px-4"
-                >
-                  {column.render('Header')}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {page.map((row) => {
-            prepareRow(row)
-            return (
-              <tr
-                {...row.getRowProps()}
-                onClick={() => router(`/task/${row.original.taskId}`)}
-              >
-                {row.cells.map((cell) => (
-                  <td {...cell.getCellProps()} className="border-b py-2 px-4">
-                    {cell.render('Cell')}
-                  </td>
+    <div className="w-full m-auto ">
+      <div className="overflow-scroll">
+        <table {...getTableProps()} className="table w-full  m-auto">
+          <thead>
+            {headerGroups.map((headerGroup) => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <th
+                    {...column.getHeaderProps()}
+                    className="text-left border-b py-2 px-4"
+                  >
+                    {column.render('Header')}
+                  </th>
                 ))}
               </tr>
-            )
-          })}
-        </tbody>
-      </table>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {page.map((row) => {
+              prepareRow(row)
+              return (
+                <tr
+                  {...row.getRowProps()}
+                  onClick={() => router(`/task/${row.original.taskId}`)}
+                >
+                  {row.cells.map((cell) => (
+                    <td {...cell.getCellProps()} className="border-b py-2 px-4">
+                      {cell.render('Cell')}
+                    </td>
+                  ))}
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
       <div
         className={`pagination text-blue-500 flex justify-center items-center mt-4`}
       >

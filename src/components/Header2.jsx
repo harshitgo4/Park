@@ -114,16 +114,16 @@ function Header2({
         className={`z-50 w-full ${bg} h-18 shrink-0 flex items-center sticky top-0 border-[#CEC7C7] border-b-2`}
       >
         {/* Menu */}
-        <div className="flex-1 flex relative">
-          <div>
-            <div className="m-2 text-3xl font-semibold text-blue-300">
+        <div className="flex-1 flex relative justify-center items-center ">
+          <div className="">
+            <div className="m-2 text-lg md:text-3xl font-semibold text-blue-300">
               TiedUp.App
             </div>
           </div>
           {/* User */}
 
           {/* Actions */}
-          <div className="ml-auto inline-flex items-center justify-center mr-10 lg:gap-x-2">
+          <div className="ml-auto inline-flex items-center justify-center md:mr-10 lg:gap-x-2">
             <div className="mx-4 flex flex-row gap-4">
               <button
                 className="md:hidden"
@@ -136,11 +136,31 @@ function Header2({
             </div>
             <div className="flex flex-row">
               {user && user.avatar ? (
-                <img
-                  alt="Avatar"
-                  className="rounded-full my-2  h-[3rem] w-[3rem]"
-                  src={user?.avatar}
-                />
+                <Menu>
+                  <MenuButton rightIcon={<ChevronDownIcon />}>
+                    <img
+                      alt="Avatar"
+                      className="rounded-full my-2  h-[3rem] w-[3rem]"
+                      src={user?.avatar}
+                    />
+                  </MenuButton>
+                  <MenuList className="text-sm">
+                    <MenuItem onClick={() => router('/settings')}>
+                      Settings{' '}
+                      <Cog6ToothIcon className="-mr-[8rem] h-5 w-5 flex flex-1" />
+                    </MenuItem>
+                    <MenuItem
+                      onClick={async () => {
+                        await Cookies.remove('token')
+                        await localStorage.removeItem('subscriptionData')
+                        router('/signin')
+                      }}
+                    >
+                      Signout{' '}
+                      <ArrowRightOnRectangleIcon className="-mr-[8rem] h-5 w-5 flex flex-1" />
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
               ) : (
                 <Menu>
                   <MenuButton rightIcon={<ChevronDownIcon />}>
@@ -168,7 +188,30 @@ function Header2({
 
             {/* User Name */}
             <button className="inline-flex items-center text-[#767676] justify-center text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background bg-secondary text-secondary-foreground hover:bg-secondary/80 h-9 rounded-md px-4">
-              {user?.fName}
+              <Menu>
+                <MenuButton
+                  display={{ base: 'none', md: 'block' }}
+                  rightIcon={<ChevronDownIcon />}
+                >
+                  {user?.fName}
+                </MenuButton>
+                <MenuList className="text-sm">
+                  <MenuItem onClick={() => router('/settings')}>
+                    Settings{' '}
+                    <Cog6ToothIcon className="-mr-[8rem] h-5 w-5 flex flex-1" />
+                  </MenuItem>
+                  <MenuItem
+                    onClick={async () => {
+                      await Cookies.remove('token')
+                      await localStorage.removeItem('subscriptionData')
+                      router('/signin')
+                    }}
+                  >
+                    Signout{' '}
+                    <ArrowRightOnRectangleIcon className="-mr-[8rem] h-5 w-5 flex flex-1" />
+                  </MenuItem>
+                </MenuList>
+              </Menu>
             </button>
           </div>
         </div>

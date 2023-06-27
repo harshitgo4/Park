@@ -17,22 +17,24 @@ export default function PieChart() {
 
   const options = {
     is3D: true,
-    backgroundColor: bg,
+    backgroundColor: 'transparent',
     legend: {
       textStyle: { color: textColor },
     },
   }
 
   return (
-    <Chart
-      chartType="PieChart"
-      data={data}
-      options={options}
-      width={'100%'}
-      height={'400px'}
-      style={{
-        color: '#fff',
-      }}
-    />
+    <div className="m-auto">
+      <Chart
+        chartType="PieChart"
+        data={data}
+        options={options}
+        width={'90vw'}
+        height={'40vh'}
+        style={{
+          color: '#fff',
+        }}
+      />
+    </div>
   )
 }

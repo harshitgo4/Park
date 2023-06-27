@@ -29,7 +29,7 @@ import AcceptedTask from './pages/AcceptedTask'
 import AllTask from './pages/AllTasks'
 import Verify from './pages/Verify'
 import TaskPage from './pages/TaskPage'
-
+import DomPage from './pages/DomPage'
 function App() {
   const location = useLocation()
 
@@ -72,6 +72,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/verify/:email/:otp" element={<Verify />} />
         <Route path="/task/:id" element={<TaskPage />} />
+        <Route path="/dom/:id" element={<DomPage />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>

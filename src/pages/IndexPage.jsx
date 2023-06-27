@@ -44,10 +44,7 @@ export default function Home({ folder, initialNamespace }) {
     hour12: true,
   }
 
-  const formattedTime = new Date().toLocaleString(
-    undefined,
-    options,
-  )
+  const formattedTime = new Date().toLocaleString(undefined, options)
 
   return (
     <div className="h-[100vh] overflow-y-auto">
@@ -71,24 +68,24 @@ export default function Home({ folder, initialNamespace }) {
           toggleColorMode={toggleColorMode}
         />
         <main className="z-1 mx-auto w-full md:pl-72 overflow-y-auto">
-          <div className="grid grid-cols-1 gap-y-4 md:grid-cols-3 p-8">
-            <div className="m-2 bg-green-400 flex flex-row p-4">
+          <div className="grid grid-cols-1 gap-y-4 md:grid-cols-2 lg:grid-cols-3 p-8">
+            <div
+              onClick={() =>
+                user?.type === 'sub'
+                  ? router('/CompletedTask')
+                  : 'All Submitted Tasks'
+              }
+              className="m-2 bg-green-400 flex flex-row p-4"
+            >
               <div>
                 {' '}
                 <h1 className="font-semibold">
                   {user?.type === 'sub'
-                    ? 'Completed Task'
+                    ? 'Completed Tasks'
                     : 'All Submitted Tasks'}
                 </h1>
                 <p className="text-3xl">473</p>
-                <Button
-                  onClick={() =>
-                    user?.type === 'sub'
-                      ? router('/CompletedTask')
-                      : 'All Submitted Tasks'
-                  }
-                  rightIcon={<ArrowRightIcon className="w-5" />}
-                >
+                <Button rightIcon={<ArrowRightIcon className="w-5" />}>
                   View Details
                 </Button>
               </div>
@@ -96,21 +93,21 @@ export default function Home({ folder, initialNamespace }) {
                 <ClipboardDocumentCheckIcon className="w-16" />
               </div>
             </div>
-            <div className="m-2 bg-red-400 flex flex-row p-4">
+            <div
+              onClick={() =>
+                user?.type === 'sub'
+                  ? router('/FailedTask')
+                  : 'All Submitted Tasks'
+              }
+              className="m-2 bg-red-400 flex flex-row p-4"
+            >
               <div>
                 {' '}
                 <h1 className="font-semibold">
-                  {user?.type === 'sub' ? 'Failed Task' : 'Add Task'}
+                  {user?.type === 'sub' ? 'Failed Tasks' : 'Add Tasks'}
                 </h1>
                 <p className="text-3xl">473</p>
-                <Button
-                  onClick={() =>
-                    user?.type === 'sub'
-                      ? router('/FailedTask')
-                      : 'All Submitted Tasks'
-                  }
-                  rightIcon={<ArrowRightIcon className="w-5" />}
-                >
+                <Button rightIcon={<ArrowRightIcon className="w-5" />}>
                   View Details
                 </Button>
               </div>
@@ -118,21 +115,21 @@ export default function Home({ folder, initialNamespace }) {
                 <ClipboardDocumentCheckIcon className="w-16" />
               </div>
             </div>
-            <div className="m-2 bg-pink-400 flex flex-row p-4">
+            <div
+              onClick={() =>
+                user?.type === 'sub'
+                  ? router('/Rewards')
+                  : 'All Submitted Tasks'
+              }
+              className="m-2 bg-pink-400 flex flex-row p-4"
+            >
               <div>
                 {' '}
                 <h1 className="font-semibold">
-                  {user?.type === 'sub' ? 'Rewards' : 'Create Reward'}
+                  {user?.type === 'sub' ? 'Rewards' : 'Create Rewards'}
                 </h1>
                 <p className="text-3xl">473</p>
-                <Button
-                  onClick={() =>
-                    user?.type === 'sub'
-                      ? router('/Rewards')
-                      : 'All Submitted Tasks'
-                  }
-                  rightIcon={<ArrowRightIcon className="w-5" />}
-                >
+                <Button rightIcon={<ArrowRightIcon className="w-5" />}>
                   View Details
                 </Button>
               </div>
@@ -140,21 +137,21 @@ export default function Home({ folder, initialNamespace }) {
                 <GiftIcon className="w-16" />
               </div>
             </div>
-            <div className="m-2 bg-teal-400 flex flex-row p-4">
+            <div
+              onClick={() =>
+                user?.type === 'sub'
+                  ? router('/AcceptedTask')
+                  : 'All Submitted Tasks'
+              }
+              className="m-2 bg-teal-400 flex flex-row p-4"
+            >
               <div>
                 {' '}
                 <h1 className="font-semibold">
-                  {user?.type === 'sub' ? 'Accepted Task' : 'Manage Task'}
+                  {user?.type === 'sub' ? 'Accepted Tasks' : 'Manage Tasks'}
                 </h1>
                 <p className="text-3xl">473</p>
-                <Button
-                  onClick={() =>
-                    user?.type === 'sub'
-                      ? router('/AcceptedTask')
-                      : 'All Submitted Tasks'
-                  }
-                  rightIcon={<ArrowRightIcon className="w-5" />}
-                >
+                <Button rightIcon={<ArrowRightIcon className="w-5" />}>
                   View Details
                 </Button>
               </div>
@@ -162,21 +159,21 @@ export default function Home({ folder, initialNamespace }) {
                 <DocumentCheckIcon className="w-16" />
               </div>
             </div>
-            <div className="m-2 bg-blue-400 flex flex-row p-4">
+            <div
+              onClick={() =>
+                user?.type === 'sub'
+                  ? router('/PendingTask')
+                  : 'All Submitted Tasks'
+              }
+              className="m-2 bg-blue-400 flex flex-row p-4"
+            >
               <div>
                 {' '}
                 <h1 className="font-semibold">
-                  {user?.type === 'sub' ? 'Pending Task' : 'Submission'}
+                  {user?.type === 'sub' ? 'Pending Tasks' : 'Submissions'}
                 </h1>
                 <p className="text-3xl">473</p>
-                <Button
-                  onClick={() =>
-                    user?.type === 'sub'
-                      ? router('/PendingTask')
-                      : 'All Submitted Tasks'
-                  }
-                  rightIcon={<ArrowRightIcon className="w-5" />}
-                >
+                <Button rightIcon={<ArrowRightIcon className="w-5" />}>
                   View Details
                 </Button>
               </div>
@@ -184,21 +181,21 @@ export default function Home({ folder, initialNamespace }) {
                 <ClockIcon className="w-16" />
               </div>
             </div>
-            <div className="m-2 bg-teal-600 flex flex-row p-4">
+            <div
+              onClick={() =>
+                user?.type === 'sub'
+                  ? router('/TaskRecap')
+                  : 'All Submitted Tasks'
+              }
+              className="m-2 bg-teal-600 flex flex-row p-4"
+            >
               <div>
                 {' '}
                 <h1 className="font-semibold">
-                  {user?.type === 'sub' ? 'Reporting' : 'Pending Submissions'}
+                  {user?.type === 'sub' ? 'Reportings' : 'Pending Submissions'}
                 </h1>
                 <p className="text-3xl">473</p>
-                <Button
-                  onClick={() =>
-                    user?.type === 'sub'
-                      ? router('/TaskRecap')
-                      : 'All Submitted Tasks'
-                  }
-                  rightIcon={<ArrowRightIcon className="w-5" />}
-                >
+                <Button rightIcon={<ArrowRightIcon className="w-5" />}>
                   View Details
                 </Button>
               </div>
@@ -260,7 +257,7 @@ export default function Home({ folder, initialNamespace }) {
               </div>
             </div>
             <div className={`rounded-lg ${bg} p-4 m-2`}>
-              <h1 className="font-semibold ">Task Overview</h1>
+              <h1 className="font-semibold ">Tasks Overview</h1>
               <div className="bg-black  text-white p-2 rounded-lg my-4 text-center">
                 {formattedTime}
               </div>
