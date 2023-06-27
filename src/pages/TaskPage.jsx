@@ -7,6 +7,7 @@ import Header2 from '../components/Header2'
 import SideBar from '../components/sidebar/Main'
 import { Box, Button, useColorModeValue, useColorMode } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
+import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
 
 function TaskPage() {
   const { id } = useParams()
@@ -46,6 +47,9 @@ function TaskPage() {
         />
         <main className="z-1 mx-auto w-full md:pl-80 p-4 overflow-y-auto">
           <div className={`${bg} m-2 flex flex-row rounded-lg p-8`}>
+            <Button className="m-2">
+              <ArrowUturnLeftIcon className="w-5" />{' '}
+            </Button>
             <div className="w-full">
               {' '}
               <h1 className="font-semibold mb-8">Tasks Details</h1>
@@ -54,13 +58,17 @@ function TaskPage() {
                   <span className="w-28 p-2 inline-block text-white">
                     Task Id:
                   </span>
-                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">{id}</span>
+                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                    {id}
+                  </span>
                 </div>
                 <div className="flex items-center">
                   <span className="w-28 p-2 inline-block text-white">
                     Task Status:
                   </span>
-                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">Completed</span>
+                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                    Completed
+                  </span>
                 </div>
               </Box>
             </div>

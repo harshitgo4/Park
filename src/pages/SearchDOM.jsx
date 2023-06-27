@@ -9,8 +9,11 @@ import Table from '../partials/DataGrid'
 import PieChart from '../partials/PieChart'
 import { ColumnChart } from '../partials/ColumnChart'
 import SearchDOM from '../partials/SearchDOM'
+import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
+
 export default function Rewards() {
   const router = useNavigate()
+
   const [showDrawer, setShowDrawer] = useState(false)
 
   const { colorMode, toggleColorMode } = useColorMode()
@@ -57,6 +60,9 @@ export default function Rewards() {
           toggleColorMode={toggleColorMode}
         />
         <main className="z-1 mx-auto w-full md:pl-80 p-4 overflow-y-auto">
+          <Button onClick={() => router(-1)} className="m-2">
+            <ArrowUturnLeftIcon className="w-5" />{' '}
+          </Button>
           <div className={`${bg} m-4 flex flex-row rounded-lg p-8`}>
             <div className="w-full">
               {' '}

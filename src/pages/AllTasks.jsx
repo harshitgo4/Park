@@ -6,6 +6,8 @@ import { Box, Button, useColorModeValue, useColorMode } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
 import SideBar from '../components/sidebar/Main'
 import Table from '../partials/DataGrid'
+import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
+
 export default function AllTask() {
   const router = useNavigate()
   const [showDrawer, setShowDrawer] = useState(false)
@@ -155,6 +157,9 @@ export default function AllTask() {
           toggleColorMode={toggleColorMode}
         />
         <main className="z-1 mx-auto w-full md:pl-80 p-4 overflow-y-auto">
+          <Button onClick={() => router(-1)} className="m-2">
+            <ArrowUturnLeftIcon className="w-5" />{' '}
+          </Button>
           <div className={`${bg} m-2 flex flex-row rounded-lg p-8`}>
             <div className="w-full">
               {' '}

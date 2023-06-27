@@ -7,12 +7,14 @@ import Header2 from '../components/Header2'
 import SideBar from '../components/sidebar/Main'
 import { Box, Button, useColorModeValue, useColorMode } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
+import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
 
 function DomPage() {
   const { id } = useParams()
   const toast = useToast()
 
   const router = useNavigate()
+
   const [showDrawer, setShowDrawer] = useState(false)
 
   const { colorMode, toggleColorMode } = useColorMode()
@@ -45,6 +47,9 @@ function DomPage() {
           toggleColorMode={toggleColorMode}
         />
         <main className="z-1 mx-auto w-full md:pl-80 p-4 overflow-y-auto">
+          <Button onClick={() => router(-1)} className="m-2">
+            <ArrowUturnLeftIcon className="w-5" />{' '}
+          </Button>
           <div className={`${bg} m-2 flex flex-row rounded-lg p-8`}>
             <div className="w-full">
               {' '}
@@ -54,13 +59,17 @@ function DomPage() {
                   <span className="w-28 p-2 inline-block text-white">
                     DOM Id:
                   </span>
-                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">{id}</span>
+                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                    {id}
+                  </span>
                 </div>
                 <div className="flex items-center">
                   <span className="w-28 p-2 inline-block text-white">
                     DOM Status:
                   </span>
-                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">Connected</span>
+                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                    Connected
+                  </span>
                 </div>
               </Box>
             </div>
