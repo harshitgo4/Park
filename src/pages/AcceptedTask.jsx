@@ -10,11 +10,20 @@ import { ArrowUturnLeftIcon } from '@heroicons/react/20/solid'
 export default function AcceptedTask() {
   const router = useNavigate()
   const [showDrawer, setShowDrawer] = useState(false)
-
+  const [subscriptionDetails, setSubscriptionDetails] = useState(false)
   const { colorMode, toggleColorMode } = useColorMode()
 
   const [email, setEmail] = useState(null)
   const [user, setUser] = useState(null)
+
+    useEffect(() => {
+    if (subscriptionDetails) {
+      localStorage.setItem(
+        'subscriptionDetails',
+        JSON.stringify(subscriptionDetails),
+      )
+    }
+  }, [subscriptionDetails])
 
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -145,6 +154,8 @@ export default function AcceptedTask() {
         user={user}
         showDrawer={showDrawer}
         setShowDrawer={setShowDrawer}
+                subscriptionDetails={subscriptionDetails}
+        setSubscriptionDetails={setSubscriptionDetails}
       />
       <div className={`flex pb-40 h-screen}`}>
         <SideBar

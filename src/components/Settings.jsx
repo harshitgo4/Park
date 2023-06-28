@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header2 from './Header2'
 import Cookies from 'js-cookie'
 import { Link } from 'react-router-dom'
-import { Button, Input } from '@chakra-ui/react'
+import { Button, Checkbox, Input } from '@chakra-ui/react'
 import { ArrowUpTrayIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { CheckCircleIcon } from '@heroicons/react/20/solid'
 import { useDisclosure } from '@chakra-ui/react'
@@ -24,12 +24,15 @@ function Settings() {
   const [data, setData] = useState({
     fName: '',
     lName: '',
+    phone: '',
+    subscribed: null,
+    email: '',
   })
   const [imageFile, setImageFile] = useState(null)
 
   const [isLoading, setIsLoading] = useState(false)
   const [isLoading2, setIsLoading2] = useState(false)
-
+  const [subscriptionDetails, setSubscriptionDetails] = useState(null)
   const { colorMode, toggleColorMode } = useColorMode()
 
   const [isModalOpen, setModalOpen] = useState(false)
@@ -46,12 +49,26 @@ function Settings() {
     setImageFile(file)
     console.log(file)
   }
+
+  useEffect(() => {
+    if (subscriptionDetails) {
+      localStorage.setItem(
+        'subscriptionDetails',
+        JSON.stringify(subscriptionDetails),
+      )
+    }
+  }, [subscriptionDetails])
+
   useEffect(() => {
     if (user) {
       setData({
         fName: user.fName,
         lName: user.lName,
+        phone: user.phone,
+        subscribed: user.subscribed,
+        email: user.email,
       })
+      console.log(user)
     }
   }, [user])
 
@@ -63,6 +80,8 @@ function Settings() {
     const formData = new FormData()
     formData.append('fName', data.fName)
     formData.append('lName', data.lName)
+    formData.append('phone', data.phone)
+    formData.append('subscribed', data.subscribed)
     formData.append('image', imageFile)
 
     fetch('https://bdsm-backend.onrender.com/api/updateUser', {
@@ -75,8 +94,9 @@ function Settings() {
       .then((response) => response.json())
       .then((res2) => {
         setIsLoading(false)
-        console.log(res2)
+        console.log('res2', res2.user)
         setUser(res2.user)
+        setSubscriptionDetails({ ...subscriptionDetails, user: res2.user })
       })
       .catch((error) => {
         setIsLoading(false)
@@ -123,6 +143,8 @@ function Settings() {
         onClose={onClose}
         user={user}
         setUser={setUser}
+        subscriptionDetails={subscriptionDetails}
+        setSubscriptionDetails={setSubscriptionDetails}
       />
       <button
         className="z-50 md:hidden px-3 py-2 rounded-md  focus:outline-none flex-none ml-auto"
@@ -178,6 +200,31 @@ function Settings() {
             value={data.lName}
             placeholder="Surname"
           />
+        </div>
+        <div className="mt-6 gap-4 grid grid-cols-2">
+          <Input readOnly value={data.email} placeholder="email" />
+          <Input
+            onChange={(e) => setData({ ...data, phone: e.target.value })}
+            value={data.phone}
+            placeholder="Phone"
+          />
+        </div>
+        <div className="mt-6 gap-4 grid grid-cols-2">
+          <Input
+            value={subscriptionDetails?.planId}
+            placeholder="Plan"
+            readOnly
+          />
+          <Button onClick={() => router('/pricing')}>Upgrade</Button>
+        </div>
+
+        <div className="mt-6 gap-4 grid grid-cols-2">
+          <Checkbox
+            onChange={() => setData({ ...data, subscribed: !data.subscribed })}
+            isChecked={data.subscribed}
+          >
+            Subscribe to newsletter
+          </Checkbox>
         </div>
         <div className="border p-2 mt-4">
           <h1 className=" text-md font-semibold">🟢 Making Changes</h1>

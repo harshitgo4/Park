@@ -13,7 +13,15 @@ export default function GetTask() {
   const router = useNavigate()
 
   const [showDrawer, setShowDrawer] = useState(false)
-
+  const [subscriptionDetails, setSubscriptionDetails] = useState(false)
+    useEffect(() => {
+    if (subscriptionDetails) {
+      localStorage.setItem(
+        'subscriptionDetails',
+        JSON.stringify(subscriptionDetails),
+      )
+    }
+  }, [subscriptionDetails])
   const { colorMode, toggleColorMode } = useColorMode()
 
   const [email, setEmail] = useState(null)
@@ -50,6 +58,8 @@ export default function GetTask() {
         user={user}
         showDrawer={showDrawer}
         setShowDrawer={setShowDrawer}
+                subscriptionDetails={subscriptionDetails}
+        setSubscriptionDetails={setSubscriptionDetails}
       />
       <div className={`flex pb-40 h-screen}`}>
         <SideBar

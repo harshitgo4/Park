@@ -36,6 +36,8 @@ function Header2({
   current,
   setShowDrawer,
   showDrawer,
+  subscriptionDetails,
+  setSubscriptionDetails,
 }) {
   const [isLoading, setLoading] = useState(true)
   const authToken = Cookies.get('token')
@@ -43,45 +45,47 @@ function Header2({
 
   useEffect(() => {
     const fetchSubscriptionDetails = async () => {
-      // Check if data exists in localStorage
-      const cachedData = localStorage.getItem('subscriptionData')
-
-      if (cachedData) {
-        // If data exists, parse and set it in state
-        const parsedData = JSON.parse(cachedData)
-        setUser(parsedData.user)
-        setLoading(false)
-        return
-      }
-
-      const response = await fetch(
-        'https://bdsm-backend.onrender.com/api/user',
-        {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        },
+      // Check if subscription details exist in localStorage
+      const cachedSubscriptionDetails = localStorage.getItem(
+        'subscriptionDetails',
       )
+      if (cachedSubscriptionDetails) {
+        const data = JSON.parse(cachedSubscriptionDetails)
+        setSubscriptionDetails(data)
+        setUser(data.user)
+        setLoading(false)
+      } else {
+        // Fetch subscription details from the API
+        const response = await fetch(
+          'https://bdsm-backend.onrender.com/api/getSubscription',
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          },
+        )
+        const data = await response.json()
+        console.log(data)
+        if (data.error === 'User not found!') {
+          await Cookies.remove('token')
+          await localStorage.removeItem('subscriptionDetails')
+          await Cookies.remove('email')
+          await Cookies.remove('selectedNamespace')
+          await Cookies.remove('selectedChatId')
+          await Cookies.remove('selectedFolder')
+          router('/signin')
+        }
+        setUser(data.user)
+        setSubscriptionDetails(data)
+        setLoading(false)
 
-      const data = await response.json()
-
-      if (data.error === 'User not found!') {
-        await Cookies.remove('token')
-        await localStorage.removeItem('subscriptionData')
-        router.push('/signin')
-        return
+        // Cache the subscription details in localStorage
+        localStorage.setItem('subscriptionDetails', JSON.stringify(data))
       }
-
-      // Save data in localStorage for future use
-      localStorage.setItem('subscriptionData', JSON.stringify(data))
-
-      setUser(data.user)
-      setLoading(false)
     }
 
     fetchSubscriptionDetails()
-  }, [])
+  }, [authToken])
   if (!authToken) {
     router('/signin')
   }
