@@ -18,6 +18,8 @@ import {
 } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import { Box, useColorModeValue, useColorMode } from '@chakra-ui/react'
+import { useToast } from '@chakra-ui/react'
+
 function Settings() {
   const [user, setUser] = useState(null)
   const router = useNavigate()
@@ -34,7 +36,7 @@ function Settings() {
   const [isLoading2, setIsLoading2] = useState(false)
   const [subscriptionDetails, setSubscriptionDetails] = useState(null)
   const { colorMode, toggleColorMode } = useColorMode()
-
+  const toast = useToast()
   const [isModalOpen, setModalOpen] = useState(false)
   const openModal = () => {
     setModalOpen(true)
@@ -154,10 +156,22 @@ function Settings() {
           status: 'Unpaid',
           planId: 'Free Plan',
         })
+        toast({
+          title: 'Subscriptions removed!',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+        })
       })
       .catch((error) => {
         setIsLoading2(false)
         console.error(error)
+        toast({
+          title: error,
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        })
       })
   }
 
