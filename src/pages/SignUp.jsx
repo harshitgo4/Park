@@ -327,7 +327,7 @@ function SignUp() {
                   <div className="w-full px-3 my-2">
                     {/* btn px-0 text-white bg-blue-600 hover:bg-blue-700 w-full relative flex items-center */}
                     <FacebookLogin
-                      appId="707856684325818"
+                      appId={import.meta.env.VITE_FB_CLIENT_ID}
                       autoLoad={false}
                       fields="email,first_name,last_name,picture"
                       callback={responseFacebook}
