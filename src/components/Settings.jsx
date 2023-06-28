@@ -132,6 +132,34 @@ function Settings() {
         console.error(error)
       })
   }
+  // cancel-subscriptions
+  const cancelSubscriptions = async (e) => {
+    e.preventDefault()
+    closeModal()
+    setIsLoading2(true)
+    const token = Cookies.get('token') // Assuming you have a library like 'js-cookie' to retrieve the token from the cookie
+
+    fetch('https://bdsm-backend.onrender.com/api/cancel-subscriptions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((res2) => {
+        setIsLoading2(false)
+        setSubscriptionDetails({
+          ...subscriptionDetails,
+          status: 'Unpaid',
+          planId: 'Free Plan',
+        })
+      })
+      .catch((error) => {
+        setIsLoading2(false)
+        console.error(error)
+      })
+  }
 
   const { isOpen, onOpen, onClose } = useDisclosure()
   const bg = useColorModeValue('bg-[#F2F2F2]', 'bg-slate-700')
@@ -245,6 +273,16 @@ function Settings() {
             onClick={(e) => handleSubmit(e)}
           >
             Save Changes
+          </Button>
+          <Button
+            className="mt-6"
+            colorScheme="red"
+            isLoading={isLoading2}
+            onClick={(e) => cancelSubscriptions(e)}
+            hidden={subscriptionDetails?.planId === 'Free Plan'}
+            rightIcon={<TrashIcon className="w-5" />}
+          >
+            Cancel Subscription
           </Button>
           <Button
             className="mt-6"
