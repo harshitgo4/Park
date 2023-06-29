@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../partials/Header'
 import PageIllustration from '../partials/PageIllustration'
 import CtaContact from '../partials/CtaContact'
 import Footer from '../partials/Footer'
 import { useToast } from '@chakra-ui/react'
+import axios from 'axios'
 
 function Contact() {
   const [data, setData] = useState({
@@ -16,6 +17,24 @@ function Contact() {
     checkbox: false,
   })
   const [disabled, setDisabled] = useState(false)
+  const [countries, setCountries] = useState([])
+  useEffect(() => {
+    axios
+      .get('https://restcountries.com/v3.1/all')
+      .then((response) => {
+        const countries2 = response.data
+        const sortedCountries = countries2.sort((a, b) => {
+          if (a.name.common < b.name.common) return -1
+          if (a.name.common > b.name.common) return 1
+          return 0
+        })
+        setCountries(sortedCountries)
+      })
+      .catch((error) => {
+        console.error('Error retrieving countries:', error)
+      })
+  }, [])
+
   const toast = useToast()
 
   const handleChange = (e) => {
@@ -219,9 +238,9 @@ function Contact() {
                       onChange={handleChange}
                       className="form-select w-full text-gray-300"
                     >
-                      <option>Germany</option>
-                      <option>United States</option>
-                      <option>United Kingdom</option>
+                      {countries.map((d, i) => (
+                        <option>{d.name.common}</option>
+                      ))}
                     </select>
                   </div>
                 </div>

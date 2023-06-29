@@ -5,7 +5,7 @@ import 'aos/dist/aos.css'
 import './css/style.css'
 
 import AOS from 'aos'
-
+import { FailurePage, SuccessPage } from './components/StripePaymentResponse'
 import Home from './pages/Home'
 import Features from './pages/Features'
 import Pricing from './pages/Pricing'
@@ -74,6 +74,8 @@ function App() {
         <Route path="/task/:id" element={<TaskPage />} />
         <Route path="/dom/:id" element={<DomPage />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/success" element={<SuccessPage />} />
+        <Route path="/cancel" element={<FailurePage />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>

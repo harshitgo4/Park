@@ -5,7 +5,7 @@ import Cookies from 'js-cookie'
 import Swal from 'sweetalert2'
 import Header from '../partials/Header'
 import PageIllustration from '../partials/PageIllustration'
-import { Button, Input, useToast } from '@chakra-ui/react'
+import { Button, Checkbox, Input, useToast } from '@chakra-ui/react'
 import { useGoogleLogin } from '@react-oauth/google'
 import {
   useColorMode,
@@ -28,6 +28,7 @@ function SignUp() {
   const toast = useToast()
 
   const [disabled, setDisabled] = React.useState(false)
+  const [subscribed, setSubscribed] = React.useState(true)
   const [token, setToken] = React.useState({
     googleAccessToken: '',
     fb: '',
@@ -69,6 +70,7 @@ function SignUp() {
           password: data.password,
           phone: data.phone,
           type: data.type,
+          subscribed,
         }),
       })
 
@@ -178,6 +180,7 @@ function SignUp() {
         password: data.password,
         phone: data.phone,
         type: data.type,
+        subscribed,
       }),
     })
 
@@ -223,6 +226,7 @@ function SignUp() {
         fb: fb,
         phone: data.phone,
         type: data.type,
+        subscribed,
       }),
     })
 
@@ -469,6 +473,14 @@ function SignUp() {
                     />
                   </div>
                 </div>
+                <div className="text-sm text-gray-500 text-left my-6">
+                  <Checkbox
+                    onChange={() => setSubscribed(!subscribed)}
+                    isChecked={subscribed}
+                  >
+                    Subscribe to newsletter
+                  </Checkbox>
+                </div>
                 <div className="text-sm text-gray-500 text-center">
                   I agree to be contacted by Open PRO about this offer as per
                   the{' '}
@@ -550,6 +562,14 @@ function SignUp() {
                     onChange={handleChange}
                   />
                 </div>
+              </div>
+              <div className="text-sm text-gray-500 text-left my-6">
+                <Checkbox
+                  onChange={() => setSubscribed(!subscribed)}
+                  isChecked={subscribed}
+                >
+                  Subscribe to newsletter
+                </Checkbox>
               </div>
             </div>
           </ModalBody>
