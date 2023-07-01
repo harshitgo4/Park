@@ -5,19 +5,20 @@ import Header2 from '../components/Header2'
 import { Box, Button, useColorModeValue, useColorMode } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
 import SideBar from '../components/sidebar/Main'
-import CardsWithPagination from '../partials/CardsWithPagination'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
+import ConnectedSubCard from '../partials/ConnectedSubCard'
 
-export default function AssignedTask() {
+
+export default function ConnectedSub() {
   const router = useNavigate()
 
   const [showDrawer, setShowDrawer] = useState(false)
+  const [subscriptionDetails, setSubscriptionDetails] = useState(false)
   useEffect(() => {
-    if (user && user.type === 'dom') {
+    if (user && user.type === 'sub') {
       router('/404')
     }
   }, [])
-  const [subscriptionDetails, setSubscriptionDetails] = useState(false)
   useEffect(() => {
     if (subscriptionDetails) {
       localStorage.setItem(
@@ -33,22 +34,44 @@ export default function AssignedTask() {
 
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const bg = useColorModeValue('bg-gray-200', 'bg-[#1E293B]')
+  const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
 
   const data = [
     {
       id: 1,
-      title: 'Card 1',
-      description: 'Description 1',
-      date: '2023-06-01',
-      imageUrl: 'https://source.unsplash.com/random/',
+      subName: 'Sub 1',
     },
     {
       id: 2,
-      title: 'Card 2',
-      description: 'Description 2',
-      date: '2023-06-02',
-      imageUrl: 'https://source.unsplash.com/random/',
+      subName: 'Sub 2',
+    },
+    {
+      id: 3,
+      subName: 'Sub 3',
+    },
+    {
+      id: 4,
+      subName: 'Sub 4',
+    },
+    {
+      id: 5,
+      subName: 'Sub 5',
+    },
+    {
+      id: 6,
+      subName: 'Sub 6',
+    },
+    {
+      id: 7,
+      subName: 'Sub 7',
+      points: 'No',
+      submissionDate: '2023-06-01',
+    },
+    {
+      id: 8,
+      subName: 'Sub 8',
+      points: 'No',
+      submissionDate: '2023-06-01',
     },
     // Add more data
   ]
@@ -83,9 +106,9 @@ export default function AssignedTask() {
           <div className={`${bg} m-2 flex flex-row rounded-lg p-8`}>
             <div className="w-full">
               {' '}
-              <h1 className="font-semibold mb-8">Assigned Tasks Detail</h1>
+              <h1 className="font-semibold mb-8">Connected Sub</h1>
               <Box p={4}>
-                <CardsWithPagination data={data} />
+                <ConnectedSubCard data={data} />
               </Box>
             </div>
           </div>

@@ -15,8 +15,13 @@ export default function AcceptedTask() {
 
   const [email, setEmail] = useState(null)
   const [user, setUser] = useState(null)
+  useEffect(() => {
+    if (user && user.type === 'dom') {
+      router('/404')
+    }
+  }, [])
 
-    useEffect(() => {
+  useEffect(() => {
     if (subscriptionDetails) {
       localStorage.setItem(
         'subscriptionDetails',
@@ -154,7 +159,7 @@ export default function AcceptedTask() {
         user={user}
         showDrawer={showDrawer}
         setShowDrawer={setShowDrawer}
-                subscriptionDetails={subscriptionDetails}
+        subscriptionDetails={subscriptionDetails}
         setSubscriptionDetails={setSubscriptionDetails}
       />
       <div className={`flex pb-40 h-screen}`}>
@@ -167,7 +172,7 @@ export default function AcceptedTask() {
           toggleColorMode={toggleColorMode}
         />
         <main className="z-1 mx-auto w-full md:pl-80 p-4 overflow-y-auto">
-          <Button className='m-2'>
+          <Button className="m-2">
             <ArrowUturnLeftIcon className="w-5" />{' '}
           </Button>
           <div className={`${bg} m-2 flex flex-row rounded-lg p-8`}>

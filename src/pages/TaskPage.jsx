@@ -16,7 +16,7 @@ function TaskPage() {
   const router = useNavigate()
   const [showDrawer, setShowDrawer] = useState(false)
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
-    useEffect(() => {
+  useEffect(() => {
     if (subscriptionDetails) {
       localStorage.setItem(
         'subscriptionDetails',
@@ -43,7 +43,7 @@ function TaskPage() {
         user={user}
         showDrawer={showDrawer}
         setShowDrawer={setShowDrawer}
-                subscriptionDetails={subscriptionDetails}
+        subscriptionDetails={subscriptionDetails}
         setSubscriptionDetails={setSubscriptionDetails}
       />
       <div className={`flex pb-40 h-screen}`}>
@@ -56,10 +56,11 @@ function TaskPage() {
           toggleColorMode={toggleColorMode}
         />
         <main className="z-1 mx-auto w-full md:pl-80 p-4 overflow-y-auto">
+          {' '}
+          <Button onClick={() => router(-1)} className="m-2">
+            <ArrowUturnLeftIcon className="w-5" />{' '}
+          </Button>
           <div className={`${bg} m-2 flex flex-row rounded-lg p-8`}>
-            <Button className="m-2">
-              <ArrowUturnLeftIcon className="w-5" />{' '}
-            </Button>
             <div className="w-full">
               {' '}
               <h1 className="font-semibold mb-8">Tasks Details</h1>

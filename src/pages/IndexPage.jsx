@@ -83,7 +83,7 @@ export default function Home({ folder, initialNamespace }) {
               onClick={() =>
                 user?.type === 'sub'
                   ? router('/CompletedTask')
-                  : 'All Submitted Tasks'
+                  : router('/AllSubmittedTasks')
               }
               className="m-2 bg-green-400 flex flex-row p-4"
             >
@@ -107,7 +107,7 @@ export default function Home({ folder, initialNamespace }) {
               onClick={() =>
                 user?.type === 'sub'
                   ? router('/FailedTask')
-                  : 'All Submitted Tasks'
+                  : router('/addTask')
               }
               className="m-2 bg-red-400 flex flex-row p-4"
             >
@@ -129,7 +129,7 @@ export default function Home({ folder, initialNamespace }) {
               onClick={() =>
                 user?.type === 'sub'
                   ? router('/Rewards')
-                  : 'All Submitted Tasks'
+                  : router('/CreateReward')
               }
               className="m-2 bg-pink-400 flex flex-row p-4"
             >
@@ -151,7 +151,7 @@ export default function Home({ folder, initialNamespace }) {
               onClick={() =>
                 user?.type === 'sub'
                   ? router('/AcceptedTask')
-                  : 'All Submitted Tasks'
+                  : router('/ManageTask')
               }
               className="m-2 bg-teal-400 flex flex-row p-4"
             >
@@ -173,14 +173,14 @@ export default function Home({ folder, initialNamespace }) {
               onClick={() =>
                 user?.type === 'sub'
                   ? router('/PendingTask')
-                  : 'All Submitted Tasks'
+                  : router('/PendingSubmissions')
               }
               className="m-2 bg-blue-400 flex flex-row p-4"
             >
               <div>
                 {' '}
                 <h1 className="font-semibold">
-                  {user?.type === 'sub' ? 'Pending Tasks' : 'Submissions'}
+                  {user?.type === 'sub' ? 'Pending Tasks' : 'Pending Submissions'}
                 </h1>
                 <p className="text-3xl">473</p>
                 <Button rightIcon={<ArrowRightIcon className="w-5" />}>
@@ -195,14 +195,14 @@ export default function Home({ folder, initialNamespace }) {
               onClick={() =>
                 user?.type === 'sub'
                   ? router('/TaskRecap')
-                  : 'All Submitted Tasks'
+                  : router('/TaskRecap')
               }
               className="m-2 bg-teal-600 flex flex-row p-4"
             >
               <div>
                 {' '}
                 <h1 className="font-semibold">
-                  {user?.type === 'sub' ? 'Reportings' : 'Pending Submissions'}
+                  {user?.type === 'sub' ? 'Reportings' : 'Reportings'}
                 </h1>
                 <p className="text-3xl">473</p>
                 <Button rightIcon={<ArrowRightIcon className="w-5" />}>

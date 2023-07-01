@@ -8,16 +8,16 @@ import SideBar from '../components/sidebar/Main'
 import Table from '../partials/DataGrid'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
 
-export default function FailedTask() {
+export default function PendingSubmissions() {
   const router = useNavigate()
 
   const [showDrawer, setShowDrawer] = useState(false)
+  const [subscriptionDetails, setSubscriptionDetails] = useState(false)
   useEffect(() => {
-    if (user && user.type === 'dom') {
+    if (user && user.type === 'sub') {
       router('/404')
     }
   }, [])
-  const [subscriptionDetails, setSubscriptionDetails] = useState(false)
   useEffect(() => {
     if (subscriptionDetails) {
       localStorage.setItem(
@@ -39,99 +39,99 @@ export default function FailedTask() {
     () => [
       {
         taskId: 1,
-        date: '2023-06-01',
+        subName: 'Subject 1',
         taskName: 'Task 1',
-        taskAssignedTo: 'User 1',
-        taskSubmittedTo: 'User 2',
-        status: 'Completed and Approved',
+        submissionDate: '2023-06-01',
+        submissionTime: '10:00 AM',
+        pointValue: 5,
       },
       {
         taskId: 2,
-        date: '2023-06-02',
+        subName: 'Subject 2',
         taskName: 'Task 2',
-        taskAssignedTo: 'User 2',
-        taskSubmittedTo: 'User 3',
-        status: 'Completed and Failed',
+        submissionDate: '2023-06-02',
+        submissionTime: '11:30 AM',
+        pointValue: 7,
       },
       {
         taskId: 3,
-        date: '2023-06-03',
+        subName: 'Subject 3',
         taskName: 'Task 3',
-        taskAssignedTo: 'User 3',
-        taskSubmittedTo: 'User 1',
-        status: 'Did not complete at all',
+        submissionDate: '2023-06-03',
+        submissionTime: '1:45 PM',
+        pointValue: 4,
       },
       {
         taskId: 4,
-        date: '2023-06-04',
+        subName: 'Subject 4',
         taskName: 'Task 4',
-        taskAssignedTo: 'User 1',
-        taskSubmittedTo: 'User 2',
-        status: 'Completed and Approved',
+        submissionDate: '2023-06-04',
+        submissionTime: '9:15 AM',
+        pointValue: 6,
       },
       {
         taskId: 5,
-        date: '2023-06-05',
+        subName: 'Subject 5',
         taskName: 'Task 5',
-        taskAssignedTo: 'User 2',
-        taskSubmittedTo: 'User 3',
-        status: 'Completed and Failed',
+        submissionDate: '2023-06-05',
+        submissionTime: '2:30 PM',
+        pointValue: 8,
       },
       {
         taskId: 6,
-        date: '2023-06-06',
+        subName: 'Subject 6',
         taskName: 'Task 6',
-        taskAssignedTo: 'User 3',
-        taskSubmittedTo: 'User 1',
-        status: 'Did not complete at all',
+        submissionDate: '2023-06-06',
+        submissionTime: '10:45 AM',
+        pointValue: 3,
       },
       {
         taskId: 7,
-        date: '2023-06-07',
+        subName: 'Subject 7',
         taskName: 'Task 7',
-        taskAssignedTo: 'User 1',
-        taskSubmittedTo: 'User 2',
-        status: 'Completed and Approved',
+        submissionDate: '2023-06-07',
+        submissionTime: '12:00 PM',
+        pointValue: 5,
       },
       {
         taskId: 8,
-        date: '2023-06-08',
+        subName: 'Subject 8',
         taskName: 'Task 8',
-        taskAssignedTo: 'User 2',
-        taskSubmittedTo: 'User 3',
-        status: 'Completed and Failed',
+        submissionDate: '2023-06-08',
+        submissionTime: '3:20 PM',
+        pointValue: 6,
       },
       {
         taskId: 9,
-        date: '2023-06-09',
+        subName: 'Subject 9',
         taskName: 'Task 9',
-        taskAssignedTo: 'User 3',
-        taskSubmittedTo: 'User 1',
-        status: 'Did not complete at all',
+        submissionDate: '2023-06-09',
+        submissionTime: '9:30 AM',
+        pointValue: 4,
       },
       {
         taskId: 10,
-        date: '2023-06-10',
+        subName: 'Subject 10',
         taskName: 'Task 10',
-        taskAssignedTo: 'User 1',
-        taskSubmittedTo: 'User 2',
-        status: 'Completed and Approved',
+        submissionDate: '2023-06-10',
+        submissionTime: '2:00 PM',
+        pointValue: 7,
       },
       {
         taskId: 11,
-        date: '2023-06-11',
+        subName: 'Subject 11',
         taskName: 'Task 11',
-        taskAssignedTo: 'User 2',
-        taskSubmittedTo: 'User 3',
-        status: 'Completed and Failed',
+        submissionDate: '2023-06-11',
+        submissionTime: '11:45 AM',
+        pointValue: 5,
       },
       {
         taskId: 12,
-        date: '2023-06-12',
+        subName: 'Subject 12',
         taskName: 'Task 12',
-        taskAssignedTo: 'User 3',
-        taskSubmittedTo: 'User 1',
-        status: 'Did not complete at all',
+        submissionDate: '2023-06-12',
+        submissionTime: '1:15 PM',
+        pointValue: 6,
       },
     ],
 
@@ -140,11 +140,12 @@ export default function FailedTask() {
 
   const columns = useMemo(
     () => [
-      { Header: 'Date', accessor: 'date' },
+      { Header: 'Task ID', accessor: 'taskId' },
+      { Header: 'Sub Name', accessor: 'subName' },
       { Header: 'Task Name', accessor: 'taskName' },
-      { Header: 'Task Assigned To', accessor: 'taskAssignedTo' },
-      { Header: 'Task Submitted To', accessor: 'taskSubmittedTo' },
-      { Header: 'Status', accessor: 'status' },
+      { Header: 'Submission Date', accessor: 'submissionDate' },
+      { Header: 'Submission Time', accessor: 'submissionTime' },
+      { Header: 'Point Value', accessor: 'pointValue' },
     ],
     [],
   )
@@ -179,7 +180,7 @@ export default function FailedTask() {
           <div className={`${bg} m-2 flex flex-row rounded-lg p-8`}>
             <div className="w-full">
               {' '}
-              <h1 className="font-semibold mb-8">Failed Tasks Detail</h1>
+              <h1 className="font-semibold mb-8">Pending Submissions</h1>
               <Table columns={columns} data={data} />
             </div>
           </div>

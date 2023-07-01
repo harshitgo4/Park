@@ -15,8 +15,13 @@ export default function Rewards() {
   const router = useNavigate()
 
   const [showDrawer, setShowDrawer] = useState(false)
+  useEffect(() => {
+    if (user && user.type === 'dom') {
+      router('/404')
+    }
+  }, [])
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
-    useEffect(() => {
+  useEffect(() => {
     if (subscriptionDetails) {
       localStorage.setItem(
         'subscriptionDetails',
@@ -57,7 +62,7 @@ export default function Rewards() {
         user={user}
         showDrawer={showDrawer}
         setShowDrawer={setShowDrawer}
-                subscriptionDetails={subscriptionDetails}
+        subscriptionDetails={subscriptionDetails}
         setSubscriptionDetails={setSubscriptionDetails}
       />
       <div className={`flex pb-40 h-screen}`}>

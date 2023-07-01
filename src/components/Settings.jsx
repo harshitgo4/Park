@@ -19,6 +19,7 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { Box, useColorModeValue, useColorMode } from '@chakra-ui/react'
 import { useToast } from '@chakra-ui/react'
+import Swal from 'sweetalert2'
 
 function Settings() {
   const [user, setUser] = useState(null)
@@ -156,12 +157,7 @@ function Settings() {
           status: 'Unpaid',
           planId: 'Free Plan',
         })
-        toast({
-          title: 'Subscriptions removed!',
-          status: 'success',
-          duration: 9000,
-          isClosable: true,
-        })
+        Swal.fire('Canceled!', 'Subscriptions removed!', 'success')
       })
       .catch((error) => {
         setIsLoading2(false)
@@ -231,6 +227,9 @@ function Settings() {
             )}
           </div>
         </div>
+        <div className="mt-6 gap-4 grid grid-cols-1">
+          <Input readOnly value={user?.type} placeholder="User type" />
+        </div>
         <div className="mt-6 gap-4 grid grid-cols-2">
           <Input
             onChange={(e) => setData({ ...data, fName: e.target.value })}
@@ -292,7 +291,21 @@ function Settings() {
             className="mt-6"
             colorScheme="red"
             isLoading={isLoading2}
-            onClick={(e) => cancelSubscriptions(e)}
+            onClick={(e) =>
+              Swal.fire({
+                title: 'Are you sure you want to cancel subscription?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, cancel it!',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  cancelSubscriptions(e)
+                }
+              })
+            }
             hidden={subscriptionDetails?.planId === 'Free Plan'}
             rightIcon={<TrashIcon className="w-5" />}
           >

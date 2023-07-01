@@ -22,7 +22,7 @@ export default function TaskRecap() {
 
   const [showDrawer, setShowDrawer] = useState(false)
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
-    useEffect(() => {
+  useEffect(() => {
     if (subscriptionDetails) {
       localStorage.setItem(
         'subscriptionDetails',
@@ -190,7 +190,14 @@ export default function TaskRecap() {
             <div className="w-full">
               {' '}
               <h1 className="font-semibold mb-8">Task Recap</h1>
-              <Box mt={2} mb={2} className="flex flex-row space-x-4">
+              <Box hidden={user?.type == 'sub'} mt={2} mb={2} className="flex flex-row space-x-4">
+                <Select placeholder="Select SUB">
+                  <option value="option1">SUB 1</option>
+                  <option value="option2">SUB 2</option>
+                  <option value="option3">SUB 3</option>
+                </Select>
+              </Box>
+              <Box mt={4} mb={2} className="flex flex-row space-x-4">
                 <Button
                   colorScheme={selectedOption === 'Daily' ? 'blue' : 'gray'}
                   onClick={() => handleButtonClick('Daily')}

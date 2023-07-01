@@ -2,22 +2,35 @@ import React from 'react'
 import { useRef, useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header2 from '../components/Header2'
-import { Box, Button, useColorModeValue, useColorMode } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  useColorModeValue,
+  useColorMode,
+  Input,
+  Textarea,
+  Select,
+} from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
 import SideBar from '../components/sidebar/Main'
-import CardsWithPagination from '../partials/CardsWithPagination'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
+import { Checkbox, FormControl, FormLabel } from '@chakra-ui/react'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+import TimePicker from 'react-time-picker'
+import 'react-time-picker/dist/TimePicker.css'
+import 'react-clock/dist/Clock.css'
 
-export default function AssignedTask() {
+export default function CreateReward() {
   const router = useNavigate()
 
   const [showDrawer, setShowDrawer] = useState(false)
+  const [subscriptionDetails, setSubscriptionDetails] = useState(false)
   useEffect(() => {
-    if (user && user.type === 'dom') {
+    if (user && user.type === 'sub') {
       router('/404')
     }
   }, [])
-  const [subscriptionDetails, setSubscriptionDetails] = useState(false)
   useEffect(() => {
     if (subscriptionDetails) {
       localStorage.setItem(
@@ -30,28 +43,14 @@ export default function AssignedTask() {
 
   const [email, setEmail] = useState(null)
   const [user, setUser] = useState(null)
+  const [data, setData] = useState({
+    rewardName: '',
+    rewardPoints: '',
+  })
 
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const bg = useColorModeValue('bg-gray-200', 'bg-[#1E293B]')
-
-  const data = [
-    {
-      id: 1,
-      title: 'Card 1',
-      description: 'Description 1',
-      date: '2023-06-01',
-      imageUrl: 'https://source.unsplash.com/random/',
-    },
-    {
-      id: 2,
-      title: 'Card 2',
-      description: 'Description 2',
-      date: '2023-06-02',
-      imageUrl: 'https://source.unsplash.com/random/',
-    },
-    // Add more data
-  ]
+  const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
 
   return (
     <div className="h-[100vh] overflow-y-auto">
@@ -83,10 +82,27 @@ export default function AssignedTask() {
           <div className={`${bg} m-2 flex flex-row rounded-lg p-8`}>
             <div className="w-full">
               {' '}
-              <h1 className="font-semibold mb-8">Assigned Tasks Detail</h1>
-              <Box p={4}>
-                <CardsWithPagination data={data} />
-              </Box>
+              <h1 className="font-semibold mb-8">Create Reward</h1>
+              <div className="mt-6 gap-4 grid grid-cols-2">
+                <Input
+                  onChange={(e) =>
+                    setData({ ...data, rewardName: e.target.value })
+                  }
+                  value={data.rewardName}
+                  placeholder="Reward Name"
+                />
+                <Input
+                  onChange={(e) =>
+                    setData({ ...data, rewardPoints: e.target.value })
+                  }
+                  value={data.rewardPoints}
+                  type="number"
+                  placeholder="Reward Points"
+                />
+                <div className="mt-6 flex gap-4 grid  grid-cols-2">
+                  <Button>Create +</Button>
+                </div>
+              </div>
             </div>
           </div>
         </main>

@@ -12,6 +12,11 @@ export default function PendingTask() {
   const router = useNavigate()
 
   const [showDrawer, setShowDrawer] = useState(false)
+    useEffect(() => {
+    if (user && user.type === 'dom') {
+      router('/404')
+    }
+  }, [])
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
     useEffect(() => {
     if (subscriptionDetails) {

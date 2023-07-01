@@ -93,4 +93,7 @@
   color: #fff;
 }
 
-
+.time-picker .react-time-picker__wrapper,
+.time-picker .react-time-picker__inputGroup__input {
+  background-color: #000; /* Set your desired background color */
+}
