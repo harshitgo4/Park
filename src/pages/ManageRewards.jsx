@@ -9,8 +9,9 @@ import CardsWithPagination from '../partials/CardsWithPagination'
 import BuyRewardCard from '../partials/BuyRewardCard'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
 import SubmittedTaskCards from '../partials/SubmittedTaskCards'
+import ManageRewardsCards from '../partials/ManageRewardsCards'
 
-export default function AllSubmittedTasks() {
+export default function ManageRewards() {
   const router = useNavigate()
 
   const [showDrawer, setShowDrawer] = useState(false)
@@ -40,59 +41,44 @@ export default function AllSubmittedTasks() {
   const data = [
     {
       id: 1,
-      subName: 'Sub 1',
-      proofText: 'Yes',
-      assignedDate: '2023-06-01',
-      submissionDate: '2023-06-01',
+      rewardName: 'Sub 1',
+      rewardPoints: '100'
+      
     },
     {
       id: 2,
-      subName: 'Sub 2',
-      proofText: 'Yes',
-      assignedDate: '2023-06-01',
-      submissionDate: '2023-06-01',
+      rewardName: 'Sub 2',
+      rewardPoints: '100'
     },
     {
       id: 3,
-      subName: 'Sub 3',
-      proofText: 'Yes',
-      assignedDate: '2023-06-01',
-      submissionDate: '2023-06-01',
+      rewardName: 'Sub 3',
+      rewardPoints: '100'
     },
     {
       id: 4,
-      subName: 'Sub 4',
-      proofText: 'Yes',
-      assignedDate: '2023-06-01',
-      submissionDate: '2023-06-01',
+      rewardName: 'Sub 4',
+      rewardPoints: '100'
     },
     {
       id: 5,
-      subName: 'Sub 5',
-      proofText: 'Yes',
-      assignedDate: '2023-06-01',
-      submissionDate: '2023-06-01',
+      rewardName: 'Sub 5',
+      rewardPoints: '100'
     },
     {
       id: 6,
-      subName: 'Sub 6',
-      proofText: 'Yes',
-      assignedDate: '2023-06-01',
-      submissionDate: '2023-06-01',
+      rewardName: 'Sub 6',
+      rewardPoints: '100'
     },
     {
       id: 7,
-      subName: 'Sub 7',
-      proofText: 'No',
-      assignedDate: '2023-06-01',
-      submissionDate: '2023-06-01',
+      rewardName: 'Sub 7',
+      rewardPoints: '100'
     },
     {
       id: 8,
-      subName: 'Sub 8',
-      proofText: 'No',
-      assignedDate: '2023-06-01',
-      submissionDate: '2023-06-01',
+      rewardName: 'Sub 8',
+      rewardPoints: '100'
     },
     // Add more data
   ]
@@ -124,15 +110,12 @@ export default function AllSubmittedTasks() {
           <Button onClick={() => router(-1)} className="m-2">
             <ArrowUturnLeftIcon className="w-5" />{' '}
           </Button>
-          <Button onClick={() => router('/addTask')} className="m-2">
-            Create task
-          </Button>
           <div className={`${bg} m-2 flex flex-row rounded-lg p-8`}>
             <div className="w-full">
               {' '}
-              <h1 className="font-semibold mb-8">All Submitted Tasks</h1>
+              <h1 className="font-semibold mb-8">Manage Rewards</h1>
               <Box p={4}>
-                <SubmittedTaskCards data={data} />
+                <ManageRewardsCards data={data} />
               </Box>
             </div>
           </div>

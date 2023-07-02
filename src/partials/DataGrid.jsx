@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import { useTable, usePagination } from 'react-table'
 import ReactPaginate from 'react-paginate'
 import { useNavigate } from 'react-router-dom'
+import { useColorMode } from '@chakra-ui/react'
 
 export default function Table({ columns, data }) {
   const {
@@ -28,6 +29,7 @@ export default function Table({ columns, data }) {
   )
 
   const router = useNavigate()
+  const { colorMode } = useColorMode()
 
   return (
     <div className="w-full m-auto ">
@@ -80,8 +82,12 @@ export default function Table({ columns, data }) {
           subContainerClassName="pages pagination"
           activeClassName="active"
           forcePage={pageIndex}
-          previousClassName="border rounded p-2 bg-gray-200"
-          nextClassName="border rounded p-2 bg-gray-200"
+          previousClassName={`border rounded p-2 ${
+            colorMode === 'light' ? 'bg-gray-100' : 'bg-gray-200'
+          } `}
+          nextClassName={`border rounded p-2 ${
+            colorMode === 'light' ? 'bg-gray-100' : 'bg-gray-200'
+          } `}
           pageClassName="border rounded p-2"
           pageLinkClassName="hover:bg-gray-200"
         />

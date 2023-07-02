@@ -55,6 +55,13 @@ export default function AddTask() {
     console.log('Selected value:', selectedValue)
   }
 
+  const handleSelectChange2 = (event) => {
+    const selectedValue = event.target.value
+    setData({ ...data, userName: event.target.value })
+    // Handle the selected value here
+    console.log('Selected value:', selectedValue)
+  }
+
   const [dueTime, setDueTime] = useState('')
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
@@ -135,18 +142,16 @@ export default function AddTask() {
                 />
               </div>
               <div className="mt-6 gap-4 grid grid-cols-2">
+                <Select value={data.userName} onChange={handleSelectChange2}>
+                  <option value="null">Select Sub</option>
+                  <option value="Sub 1">Sub 1</option>
+                  <option value="Sub 2">Sub 2</option>
+                </Select>
                 <Input
-                  onChange={(e) =>
-                    setData({ ...data, userName: e.target.value })
-                  }
-                  value={data.userName}
-                  placeholder="Username"
-                />
-                <Input
-                  onChange={(e) => setData({ ...data, email: e.target.value })}
-                  value={data.email}
+                  value={user?.email}
                   placeholder="Email"
                   type="email"
+                  readOnly
                 />
               </div>
               <div className="mt-6 flex gap-4 grid  grid-cols-2">

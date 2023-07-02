@@ -64,7 +64,7 @@ function SideBar({
             }`}
           >
             <CalendarDaysIcon className="w-5 mx-2" />
-            {user?.type === 'sub' ? 'Search DOM' : 'Submit requests'}
+            {user?.type === 'sub' ? 'Search DOM' : 'Sub requests'}
           </button>
           <button
             onClick={() => {
@@ -96,7 +96,7 @@ function SideBar({
             }`}
           >
             <CalendarDaysIcon className="w-5 mx-2" />
-            {user?.type === 'sub' ? 'Assigned Tasks' : 'Add a Task'}
+            {user?.type === 'sub' ? 'Assigned Tasks' : 'Create task'}
           </button>
           <button
             onClick={() => {
@@ -158,6 +158,18 @@ function SideBar({
             <CalendarDaysIcon className="w-5 mx-2" />
             {user?.type === 'sub' ? '' : 'Pending Submissions'}
           </button>
+          <button
+            hidden={user?.type === 'sub'}
+            className={`flex flex-row text-right ${
+              window.location.pathname === '/ManageRewards'
+                ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                : null
+            }`}
+            onClick={() => router('/ManageRewards')}
+          >
+            <CalendarDaysIcon className="w-5 mx-2" />
+            {user?.type === 'sub' ? '' : 'Manage Rewards'}
+          </button>
         </div>
         <div className="bottom-0 flex flex-row">
           <span className="text-left font-semibold text-[#00A739] text-sm ">
@@ -175,7 +187,7 @@ function SideBar({
                 <MenuItem
                   onClick={async () => {
                     await Cookies.remove('token')
-                    await localStorage.removeItem('subscriptionData')
+                    await localStorage.removeItem('subscriptionDetails')
                     router('/signin')
                   }}
                 >

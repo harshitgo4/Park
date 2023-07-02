@@ -4,7 +4,7 @@ import { GifIcon } from '@heroicons/react/20/solid'
 import { GiftIcon } from '@heroicons/react/24/outline'
 import { useNavigate } from 'react-router-dom'
 
-const Card = ({ id, subName, duration }) => {
+const Card = ({ id, rewardName, rewardPoints }) => {
   const router = useNavigate()
   return (
     <>
@@ -15,26 +15,25 @@ const Card = ({ id, subName, duration }) => {
         p={4}
         shadow="md"
       >
-        <h3 className="text-xl font-semibold">SUB Name : {subName}</h3>
+        <h3 className="text-xl font-semibold">Reward Name : {rewardName}</h3>
+        <p>Reward Details</p>
         <hr />
-        <div>
-          <p>Since: {duration}</p>
-        </div>
-        <div className="my-4">
+        <br />
+        <p>Reward Points: {rewardPoints}</p>
+        <div className="space-x-1">
           {' '}
-          <Button
-            colorScheme="red"
-            onClick={() => router(`/task/${id}`)}
-            className="mx-2"
-          >
-            Remove
+          <Button colorScheme="green" className="mt-4" size="sm">
+            Approve
+          </Button>
+          <Button colorScheme="red" className="mt-4" size="sm">
+            Deny
           </Button>
         </div>
       </Box>
     </>
   )
 }
-export default function ConnectedSubCard({ data }) {
+export default function ManageRewardsCards({ data }) {
   // Pagination logic here
   const pageSize = 8
   const pageCount = Math.ceil(data.length / pageSize)
@@ -51,7 +50,12 @@ export default function ConnectedSubCard({ data }) {
       <Box>
         <SimpleGrid className="grid grid-cols-1 md:grid-cols-4" spacing={4}>
           {visibleData.map((item) => (
-            <Card key={item.id} id={item.id} subName={item.subName} duration={item.duration} />
+            <Card
+              key={item.id}
+              id={item.id}
+              rewardName={item.rewardName}
+              rewardPoints={item.rewardPoints}
+            />
           ))}
         </SimpleGrid>
       </Box>

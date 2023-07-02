@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react'
 import { Textarea } from '@chakra-ui/react'
 import { Checkbox, FormControl, FormLabel } from '@chakra-ui/react'
+import Swal from 'sweetalert2'
 
 const Card = ({ id, taskName, points, submissionDate }) => {
   const [taskId, setTaskId] = useState()
@@ -74,15 +75,44 @@ const Card = ({ id, taskName, points, submissionDate }) => {
         <br />
         <p>Points: {points}</p>
         <p>Submission Date: {submissionDate}</p>
-        <Button
-          onClick={() => {
-            setTaskId(id)
-            openModal()
-          }}
-          className="mt-4"
-        >
-          Edit Task
-        </Button>
+        <div className="space-x-1 ">
+          {' '}
+          <Button
+            size="sm"
+            onClick={() => {
+              setTaskId(id)
+              openModal()
+            }}
+            className="mt-4"
+          >
+            Edit
+          </Button>
+          <Button size="sm" className="mt-4">
+            Pause
+          </Button>
+          <Button
+            onClick={() =>
+              Swal.fire({
+                title: 'Are you sure you want to delete this task?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  console.log("DELETE")
+                }
+              })
+            }
+            size="sm"
+            colorScheme="red"
+            className="mt-4"
+          >
+            Delete
+          </Button>
+        </div>
       </Box>{' '}
       <Modal isOpen={isModalOpen} onClose={closeModal} size="xl">
         <ModalOverlay />

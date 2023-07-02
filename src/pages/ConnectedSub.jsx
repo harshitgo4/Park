@@ -40,38 +40,42 @@ export default function ConnectedSub() {
     {
       id: 1,
       subName: 'Sub 1',
+      duration: '1 year'
     },
     {
       id: 2,
       subName: 'Sub 2',
+      duration: '1 year'
     },
     {
       id: 3,
       subName: 'Sub 3',
+      duration: '1 year'
     },
     {
       id: 4,
       subName: 'Sub 4',
+      duration: '1 year'
     },
     {
       id: 5,
       subName: 'Sub 5',
+      duration: '1 year'
     },
     {
       id: 6,
       subName: 'Sub 6',
+      duration: '1 year'
     },
     {
       id: 7,
       subName: 'Sub 7',
-      points: 'No',
-      submissionDate: '2023-06-01',
+      duration: '1 year'
     },
     {
       id: 8,
       subName: 'Sub 8',
-      points: 'No',
-      submissionDate: '2023-06-01',
+      duration: '1 year'
     },
     // Add more data
   ]

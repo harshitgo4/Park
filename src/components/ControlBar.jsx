@@ -92,7 +92,7 @@ const ControlBar = ({
                 }`}
               >
                 <CalendarDaysIcon className="w-5 mx-2" />
-                {user?.type === 'sub' ? 'Assigned Tasks' : 'Add a Task'}
+                {user?.type === 'sub' ? 'Assigned Tasks' : 'Create task'}
               </button>
               <button
                 onClick={() => {
@@ -160,7 +160,7 @@ const ControlBar = ({
                     <MenuItem
                       onClick={async () => {
                         await Cookies.remove('token')
-                        await localStorage.removeItem('subscriptionData')
+                        await localStorage.removeItem('subscriptionDetails')
                         router('/signin')
                       }}
                     >

@@ -30,6 +30,7 @@ function Settings() {
     phone: '',
     subscribed: null,
     email: '',
+    isPrivate: null,
   })
   const [imageFile, setImageFile] = useState(null)
 
@@ -70,6 +71,7 @@ function Settings() {
         phone: user.phone,
         subscribed: user.subscribed,
         email: user.email,
+        isPrivate: user.isPrivate,
       })
       console.log(user)
     }
@@ -85,6 +87,7 @@ function Settings() {
     formData.append('lName', data.lName)
     formData.append('phone', data.phone)
     formData.append('subscribed', data.subscribed)
+    formData.append('isPrivate', data.isPrivate)
     formData.append('image', imageFile)
 
     fetch('https://bdsm-backend.onrender.com/api/updateUser', {
@@ -127,7 +130,7 @@ function Settings() {
         setIsLoading2(false)
         console.log(res2)
         Cookies.remove('token')
-        localStorage.removeItem('subscriptionData')
+        localStorage.removeItem('subscriptionDetails')
         router('/signin')
       })
       .catch((error) => {
@@ -265,6 +268,12 @@ function Settings() {
             isChecked={data.subscribed}
           >
             Subscribe to newsletter
+          </Checkbox>
+          <Checkbox
+            onChange={() => setData({ ...data, isPrivate: !data.isPrivate })}
+            isChecked={!data.isPrivate}
+          >
+            Profile Picture Public
           </Checkbox>
         </div>
         <div className="border p-2 mt-4">

@@ -156,7 +156,7 @@ function Header2({
                     <MenuItem
                       onClick={async () => {
                         await Cookies.remove('token')
-                        await localStorage.removeItem('subscriptionData')
+                        await localStorage.removeItem('subscriptionDetails')
                         router('/signin')
                       }}
                     >
@@ -178,7 +178,7 @@ function Header2({
                     <MenuItem
                       onClick={async () => {
                         await Cookies.remove('token')
-                        await localStorage.removeItem('subscriptionData')
+                        await localStorage.removeItem('subscriptionDetails')
                         router('/signin')
                       }}
                     >
@@ -207,7 +207,7 @@ function Header2({
                   <MenuItem
                     onClick={async () => {
                       await Cookies.remove('token')
-                      await localStorage.removeItem('subscriptionData')
+                      await localStorage.removeItem('subscriptionDetails')
                       router('/signin')
                     }}
                   >
