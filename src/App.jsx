@@ -67,7 +67,7 @@ function App() {
         <Route path="/dashboard" element={<DirectoryPage />} />
         <Route path="/GetTask" element={<GetTask />} />
         <Route path="/AllTask" element={<AllTask />} />
-        <Route path="/addTask" element={<AddTask />} />
+        <Route path="/createTask" element={<AddTask />} />
         <Route path="/CreateReward" element={<CreateReward />} />
         <Route path="/ManageTask" element={<ManageTask />} />
         <Route path="/ManageRewards" element={<ManageRewards />} />

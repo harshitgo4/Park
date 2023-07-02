@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import { useColorModeValue } from '@chakra-ui/react'
 import {
+  Bars3Icon,
   BellAlertIcon,
   ChatBubbleLeftEllipsisIcon,
   QuestionMarkCircleIcon,
@@ -133,7 +134,7 @@ function Header2({
                 className="md:hidden"
                 onClick={() => setShowDrawer(!showDrawer)}
               >
-                <Cog6ToothIcon className="h-6 w-6" />
+                <Bars3Icon className="h-6 w-6" />
               </button>
               <BellAlertIcon className="my-2  h-[1.5rem] w-[1.5rem]" />
               <ChatBubbleLeftEllipsisIcon className="my-2  h-[1.5rem] w-[1.5rem]" />

@@ -25,7 +25,7 @@ export default function Home({ folder, initialNamespace }) {
   const router = useNavigate()
   const [showDrawer, setShowDrawer] = useState(false)
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
-    useEffect(() => {
+  useEffect(() => {
     if (subscriptionDetails) {
       localStorage.setItem(
         'subscriptionDetails',
@@ -65,7 +65,7 @@ export default function Home({ folder, initialNamespace }) {
         user={user}
         showDrawer={showDrawer}
         setShowDrawer={setShowDrawer}
-                subscriptionDetails={subscriptionDetails}
+        subscriptionDetails={subscriptionDetails}
         setSubscriptionDetails={setSubscriptionDetails}
       />
       <div className={`flex pb-40 h-screen}`}>
@@ -114,7 +114,7 @@ export default function Home({ folder, initialNamespace }) {
               <div>
                 {' '}
                 <h1 className="font-semibold">
-                  {user?.type === 'sub' ? 'Failed Tasks' : 'Add Tasks'}
+                  {user?.type === 'sub' ? 'Failed Tasks' : 'Create tasks'}
                 </h1>
                 <p className="text-3xl">473</p>
                 <Button rightIcon={<ArrowRightIcon className="w-5" />}>
@@ -180,7 +180,9 @@ export default function Home({ folder, initialNamespace }) {
               <div>
                 {' '}
                 <h1 className="font-semibold">
-                  {user?.type === 'sub' ? 'Pending Tasks' : 'Pending Submissions'}
+                  {user?.type === 'sub'
+                    ? 'Pending Tasks'
+                    : 'Pending Submissions'}
                 </h1>
                 <p className="text-3xl">473</p>
                 <Button rightIcon={<ArrowRightIcon className="w-5" />}>

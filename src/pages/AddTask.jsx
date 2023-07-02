@@ -113,7 +113,7 @@ export default function AddTask() {
           <div className={`${bg} m-2 flex flex-row rounded-lg p-8`}>
             <div className="w-full">
               {' '}
-              <h1 className="font-semibold mb-8">Add Tasks</h1>
+              <h1 className="font-semibold mb-8">Create tasks</h1>
               <div className="mt-6 gap-4 grid grid-cols-2">
                 <Input
                   onChange={(e) =>

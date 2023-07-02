@@ -57,23 +57,29 @@ const ControlBar = ({
               </button>
               <button
                 onClick={() => {
-                  user?.type === 'sub' ? router('/SearchDOM') : null
+                  user?.type === 'sub'
+                    ? router('/SearchDOM')
+                    : router('/SubRequests')
                 }}
                 className={`flex flex-row text-right ${
-                  window.location.pathname === '/SearchDOM'
+                  window.location.pathname === '/SearchDOM' ||
+                  window.location.pathname === '/SubRequests'
                     ? `w-full p-4 rounded-lg ${bg} ${txt}`
                     : null
                 }`}
               >
                 <CalendarDaysIcon className="w-5 mx-2" />
-                {user?.type === 'sub' ? 'Search DOM' : 'Submit requests'}
+                {user?.type === 'sub' ? 'Search DOM' : 'Sub requests'}
               </button>
               <button
                 onClick={() => {
-                  user?.type === 'sub' ? router('/GetTask') : null
+                  user?.type === 'sub'
+                    ? router('/GetTask')
+                    : router('/ConnectedSub')
                 }}
                 className={`flex flex-row text-right ${
-                  window.location.pathname === '/GetTask'
+                  window.location.pathname === '/GetTask' ||
+                  window.location.pathname === '/ConnectedSub'
                     ? `w-full p-4 rounded-lg ${bg} ${txt}`
                     : null
                 }`}
@@ -83,10 +89,13 @@ const ControlBar = ({
               </button>
               <button
                 onClick={() => {
-                  user?.type === 'sub' ? router('/AssignedTask') : null
+                  user?.type === 'sub'
+                    ? router('/AssignedTask')
+                    : router('/addTask')
                 }}
                 className={`flex flex-row text-right ${
-                  window.location.pathname === '/AssignedTask'
+                  window.location.pathname === '/AssignedTask' ||
+                  window.location.pathname === '/addTask'
                     ? `w-full p-4 rounded-lg ${bg} ${txt}`
                     : null
                 }`}
@@ -96,10 +105,13 @@ const ControlBar = ({
               </button>
               <button
                 onClick={() => {
-                  user?.type === 'sub' ? router('/Rewards') : null
+                  user?.type === 'sub'
+                    ? router('/Rewards')
+                    : router('/CreateReward')
                 }}
                 className={`flex flex-row text-right ${
-                  window.location.pathname === '/Rewards'
+                  window.location.pathname === '/Rewards' ||
+                  window.location.pathname === '/CreateReward'
                     ? `w-full p-4 rounded-lg ${bg} ${txt}`
                     : null
                 }`}
@@ -109,10 +121,13 @@ const ControlBar = ({
               </button>
               <button
                 onClick={() => {
-                  user?.type === 'sub' ? router('/BuyReward') : null
+                  user?.type === 'sub'
+                    ? router('/BuyReward')
+                    : router('/ManageTask')
                 }}
                 className={`flex flex-row text-right ${
-                  window.location.pathname === '/BuyReward'
+                  window.location.pathname === '/BuyReward' ||
+                  window.location.pathname === '/ManageTask'
                     ? `w-full p-4 rounded-lg ${bg} ${txt}`
                     : null
                 }`}
@@ -124,11 +139,11 @@ const ControlBar = ({
                 onClick={() => {
                   user?.type === 'sub'
                     ? router('/AllTask')
-                    : router('/SubmittedTask')
+                    : router('/AllSubmittedTasks')
                 }}
                 className={`flex flex-row text-right ${
                   window.location.pathname === '/AllTask' ||
-                  window.location.pathname === '/SubmittedTask'
+                  window.location.pathname === '/AllSubmittedTasks'
                     ? `w-full p-4 rounded-lg ${bg} ${txt}`
                     : null
                 }`}
@@ -138,10 +153,27 @@ const ControlBar = ({
               </button>
               <button
                 hidden={user?.type === 'sub'}
-                className="flex flex-row text-right"
+                className={`flex flex-row text-right ${
+                  window.location.pathname === '/PendingSubmissions'
+                    ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                    : null
+                }`}
+                onClick={() => router('/PendingSubmissions')}
               >
                 <CalendarDaysIcon className="w-5 mx-2" />
-                {user?.type === 'sub' ? '' : 'Submission List'}
+                {user?.type === 'sub' ? '' : 'Pending Submissions'}
+              </button>
+              <button
+                hidden={user?.type === 'sub'}
+                className={`flex flex-row text-right ${
+                  window.location.pathname === '/ManageRewards'
+                    ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                    : null
+                }`}
+                onClick={() => router('/ManageRewards')}
+              >
+                <CalendarDaysIcon className="w-5 mx-2" />
+                {user?.type === 'sub' ? '' : 'Manage Rewards'}
               </button>
             </div>
             <div className="bottom-0 flex flex-row">
