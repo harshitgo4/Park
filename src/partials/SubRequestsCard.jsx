@@ -15,6 +15,10 @@ const Card = ({ id, subName }) => {
         p={4}
         shadow="md"
       >
+        <img
+          src="https://source.unsplash.com/random/"
+          className="rounded-lg p-4"
+        />
         <h3 className="text-xl font-semibold">SUB Name : {subName}</h3>
         <hr />
         <div className="my-4">

@@ -86,11 +86,11 @@ function SideBar({
             onClick={() => {
               user?.type === 'sub'
                 ? router('/AssignedTask')
-                : router('/addTask')
+                : router('/createTask')
             }}
             className={`flex flex-row text-right ${
               window.location.pathname === '/AssignedTask' ||
-              window.location.pathname === '/addTask'
+              window.location.pathname === '/createTask'
                 ? `w-full p-4 rounded-lg ${bg} ${txt}`
                 : null
             }`}

@@ -107,7 +107,7 @@ export default function Home({ folder, initialNamespace }) {
               onClick={() =>
                 user?.type === 'sub'
                   ? router('/FailedTask')
-                  : router('/addTask')
+                  : router('/createTask')
               }
               className="m-2 bg-red-400 flex flex-row p-4"
             >

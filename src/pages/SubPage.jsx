@@ -1,25 +1,21 @@
-import React from 'react'
-import { useRef, useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
+import { Input, useToast } from '@chakra-ui/react'
 import Header2 from '../components/Header2'
+import SideBar from '../components/sidebar/Main'
 import { Box, Button, useColorModeValue, useColorMode } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
-import SideBar from '../components/sidebar/Main'
-import CardsWithPagination from '../partials/CardsWithPagination'
-import BuyRewardCard from '../partials/BuyRewardCard'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
-import SubmittedTaskCards from '../partials/SubmittedTaskCards'
 
-export default function AllSubmittedTasks() {
+function SubPage() {
+  const { id } = useParams()
+  const toast = useToast()
+
   const router = useNavigate()
-
   const [showDrawer, setShowDrawer] = useState(false)
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
-  useEffect(() => {
-    if (user && user.type === 'sub') {
-      router('/404')
-    }
-  }, [])
   useEffect(() => {
     if (subscriptionDetails) {
       localStorage.setItem(
@@ -36,67 +32,6 @@ export default function AllSubmittedTasks() {
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
-
-  const data = [
-    {
-      id: 1,
-      subName: 'Sub 1',
-      proofText: 'Yes',
-      assignedDate: '2023-06-01',
-      submissionDate: '2023-06-01',
-    },
-    {
-      id: 2,
-      subName: 'Sub 2',
-      proofText: 'Yes',
-      assignedDate: '2023-06-01',
-      submissionDate: '2023-06-01',
-    },
-    {
-      id: 3,
-      subName: 'Sub 3',
-      proofText: 'Yes',
-      assignedDate: '2023-06-01',
-      submissionDate: '2023-06-01',
-    },
-    {
-      id: 4,
-      subName: 'Sub 4',
-      proofText: 'Yes',
-      assignedDate: '2023-06-01',
-      submissionDate: '2023-06-01',
-    },
-    {
-      id: 5,
-      subName: 'Sub 5',
-      proofText: 'Yes',
-      assignedDate: '2023-06-01',
-      submissionDate: '2023-06-01',
-    },
-    {
-      id: 6,
-      subName: 'Sub 6',
-      proofText: 'Yes',
-      assignedDate: '2023-06-01',
-      submissionDate: '2023-06-01',
-    },
-    {
-      id: 7,
-      subName: 'Sub 7',
-      proofText: 'No',
-      assignedDate: '2023-06-01',
-      submissionDate: '2023-06-01',
-    },
-    {
-      id: 8,
-      subName: 'Sub 8',
-      proofText: 'No',
-      assignedDate: '2023-06-01',
-      submissionDate: '2023-06-01',
-    },
-    // Add more data
-  ]
-
   return (
     <div className="h-[100vh] overflow-y-auto">
       <Header2
@@ -121,18 +56,37 @@ export default function AllSubmittedTasks() {
           toggleColorMode={toggleColorMode}
         />
         <main className="z-1 mx-auto w-full md:pl-80 p-4 overflow-y-auto">
+          {' '}
           <Button onClick={() => router(-1)} className="m-2">
             <ArrowUturnLeftIcon className="w-5" />{' '}
-          </Button>
-          <Button onClick={() => router('/createTask')} className="m-2">
-            Create task
           </Button>
           <div className={`${bg} m-2 flex flex-row rounded-lg p-8`}>
             <div className="w-full">
               {' '}
-              <h1 className="font-semibold mb-8">All Submitted Tasks</h1>
-              <Box p={4}>
-                <SubmittedTaskCards data={data} />
+              <h1 className="font-semibold mb-8">Subs Details</h1>
+              <Box className="space-y-4" p={4}>
+                <div className="flex items-center">
+                  <img
+                    src="https://source.unsplash.com/random/"
+                    className="rounded-lg p-4 w-[15rem]"
+                  />
+                </div>
+                <div className="flex items-center">
+                  <span className="w-28 p-2 inline-block text-white">
+                    Sub Id:
+                  </span>
+                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                    {id}
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <span className="w-28 p-2 inline-block text-white">
+                    Sub Name:
+                  </span>
+                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                    Blah Blah
+                  </span>
+                </div>
               </Box>
             </div>
           </div>
@@ -141,3 +95,5 @@ export default function AllSubmittedTasks() {
     </div>
   )
 }
+
+export default SubPage

@@ -31,13 +31,14 @@ import Verify from './pages/Verify'
 import TaskPage from './pages/TaskPage'
 import DomPage from './pages/DomPage'
 import AllSubmittedTasks from './pages/AllSubmittedTasks'
-import AddTask from './pages/AddTask'
+import CreateTask from './pages/CreateTask'
 import CreateReward from './pages/CreateReward'
 import ManageTask from './pages/ManageTask'
 import SubRequests from './pages/SubRequests'
 import PendingSubmissions from './pages/PendingSubmissions'
 import ConnectedSub from './pages/ConnectedSub'
 import ManageRewards from './pages/ManageRewards'
+import SubPage from './pages/SubPage'
 function App() {
   const location = useLocation()
 
@@ -67,7 +68,7 @@ function App() {
         <Route path="/dashboard" element={<DirectoryPage />} />
         <Route path="/GetTask" element={<GetTask />} />
         <Route path="/AllTask" element={<AllTask />} />
-        <Route path="/createTask" element={<AddTask />} />
+        <Route path="/CreateTask" element={<CreateTask />} />
         <Route path="/CreateReward" element={<CreateReward />} />
         <Route path="/ManageTask" element={<ManageTask />} />
         <Route path="/ManageRewards" element={<ManageRewards />} />
@@ -88,6 +89,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/verify/:email/:otp" element={<Verify />} />
         <Route path="/task/:id" element={<TaskPage />} />
+        <Route path="/sub/:id" element={<SubPage />} />
         <Route path="/dom/:id" element={<DomPage />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/success" element={<SuccessPage />} />

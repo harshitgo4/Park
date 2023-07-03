@@ -15,18 +15,17 @@ const Card = ({ id, subName, duration }) => {
         p={4}
         shadow="md"
       >
+      <img src="https://source.unsplash.com/random/" className='rounded-lg p-4' />
         <h3 className="text-xl font-semibold">SUB Name : {subName}</h3>
         <hr />
         <div>
           <p>Since: {duration}</p>
         </div>
         <div className="my-4">
-          {' '}
-          <Button
-            colorScheme="red"
-            onClick={() => router(`/task/${id}`)}
-            className="mx-2"
-          >
+          <Button size="sm" onClick={() => router(`/sub/${id}`)}>
+            View
+          </Button>{' '}
+          <Button size="sm" colorScheme="red">
             Remove
           </Button>
         </div>
@@ -51,7 +50,12 @@ export default function ConnectedSubCard({ data }) {
       <Box>
         <SimpleGrid className="grid grid-cols-1 md:grid-cols-4" spacing={4}>
           {visibleData.map((item) => (
-            <Card key={item.id} id={item.id} subName={item.subName} duration={item.duration} />
+            <Card
+              key={item.id}
+              id={item.id}
+              subName={item.subName}
+              duration={item.duration}
+            />
           ))}
         </SimpleGrid>
       </Box>

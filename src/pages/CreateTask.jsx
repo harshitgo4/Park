@@ -16,7 +16,7 @@ import SideBar from '../components/sidebar/Main'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
 import { Checkbox, FormControl, FormLabel } from '@chakra-ui/react'
 
-export default function AddTask() {
+export default function CreateTask() {
   const router = useNavigate()
 
   const [showDrawer, setShowDrawer] = useState(false)
