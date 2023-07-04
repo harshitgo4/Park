@@ -87,6 +87,14 @@ function SubPage() {
                     Blah Blah
                   </span>
                 </div>
+                <div className="flex items-center">
+                  <span className="w-28 p-2 inline-block text-white">
+                    Since:
+                  </span>
+                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                    2023
+                  </span>
+                </div>
               </Box>
             </div>
           </div>
