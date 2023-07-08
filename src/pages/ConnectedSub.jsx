@@ -7,13 +7,14 @@ import { useDisclosure } from '@chakra-ui/react'
 import SideBar from '../components/sidebar/Main'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
 import ConnectedSubCard from '../partials/ConnectedSubCard'
-
+import Cookies from 'js-cookie'
 
 export default function ConnectedSub() {
   const router = useNavigate()
 
   const [showDrawer, setShowDrawer] = useState(false)
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
+  const [connections, setConnections] = useState(null)
   useEffect(() => {
     if (user && user.type === 'sub') {
       router('/404')
@@ -27,6 +28,29 @@ export default function ConnectedSub() {
       )
     }
   }, [subscriptionDetails])
+  useEffect(() => {
+    const fetchSubConnected = async () => {
+      const res = await fetch(
+        `https://bdsm-backend.onrender.com/api/fetchSubConnected`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+
+      const resData = await res.json()
+
+      if (resData.error) {
+        console.log('Error fetching users')
+      } else if (resData.connections) {
+        setConnections(resData.connections)
+      }
+    }
+    fetchSubConnected()
+  }, [])
   const { colorMode, toggleColorMode } = useColorMode()
 
   const [email, setEmail] = useState(null)
@@ -35,50 +59,6 @@ export default function ConnectedSub() {
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
-
-  const data = [
-    {
-      id: 1,
-      subName: 'Sub 1',
-      duration: '1 year'
-    },
-    {
-      id: 2,
-      subName: 'Sub 2',
-      duration: '1 year'
-    },
-    {
-      id: 3,
-      subName: 'Sub 3',
-      duration: '1 year'
-    },
-    {
-      id: 4,
-      subName: 'Sub 4',
-      duration: '1 year'
-    },
-    {
-      id: 5,
-      subName: 'Sub 5',
-      duration: '1 year'
-    },
-    {
-      id: 6,
-      subName: 'Sub 6',
-      duration: '1 year'
-    },
-    {
-      id: 7,
-      subName: 'Sub 7',
-      duration: '1 year'
-    },
-    {
-      id: 8,
-      subName: 'Sub 8',
-      duration: '1 year'
-    },
-    // Add more data
-  ]
 
   return (
     <div className="h-[100vh] overflow-y-auto">
@@ -112,7 +92,10 @@ export default function ConnectedSub() {
               {' '}
               <h1 className="font-semibold mb-8">Connected Sub</h1>
               <Box p={4}>
-                <ConnectedSubCard data={data} />
+                <ConnectedSubCard
+                  data={connections}
+                  setConnections={setConnections}
+                />
               </Box>
             </div>
           </div>

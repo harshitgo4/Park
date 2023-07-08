@@ -1,11 +1,57 @@
 import { useState, useMemo } from 'react'
 import { Box, Input, Select, Button, SimpleGrid } from '@chakra-ui/react'
-import { GifIcon } from '@heroicons/react/20/solid'
-import { GiftIcon } from '@heroicons/react/24/outline'
+import { useToast } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
+import Cookies from 'js-cookie'
 
-const Card = ({ id, subName, duration }) => {
+const Card = ({
+  id,
+  subName,
+  imageURL,
+  duration,
+  email,
+  data,
+  setConnections,
+}) => {
   const router = useNavigate()
+  const toast = useToast()
+
+  const removeConn = async (e, email) => {
+    e.preventDefault()
+    const res = await fetch(`https://bdsm-backend.onrender.com/api/removeReq`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${Cookies.get('token')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+      }),
+    })
+
+    const resData = await res.json()
+
+    if (resData.error) {
+      console.log('Error deleting connection')
+      toast({
+        title: 'Something went wrong!',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    } else if (resData.message) {
+      console.log('Connection removed!')
+      const temp = data.filter((el) => el.subEmail != email)
+      setConnections(temp)
+      toast({
+        title: 'Connection Deleted!',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
+  }
+
   return (
     <>
       <Box
@@ -15,7 +61,7 @@ const Card = ({ id, subName, duration }) => {
         p={4}
         shadow="md"
       >
-      <img src="https://source.unsplash.com/random/" className='rounded-lg p-4' />
+        <img src={imageURL} className="rounded-lg mb-4 m-auto" />
         <h3 className="text-xl font-semibold">SUB Name : {subName}</h3>
         <hr />
         <div>
@@ -25,7 +71,11 @@ const Card = ({ id, subName, duration }) => {
           <Button size="sm" onClick={() => router(`/sub/${id}`)}>
             View
           </Button>{' '}
-          <Button size="sm" colorScheme="red">
+          <Button
+            size="sm"
+            onClick={(e) => removeConn(e, email)}
+            colorScheme="red"
+          >
             Remove
           </Button>
         </div>
@@ -33,30 +83,46 @@ const Card = ({ id, subName, duration }) => {
     </>
   )
 }
-export default function ConnectedSubCard({ data }) {
+export default function ConnectedSubCard({ data, setConnections }) {
   // Pagination logic here
   const pageSize = 8
-  const pageCount = Math.ceil(data.length / pageSize)
+  const pageCount = Math.ceil(data?.length / pageSize)
   const [currentPage, setCurrentPage] = useState(0)
   const startIndex = currentPage * pageSize
   const endIndex = startIndex + pageSize
-  const visibleData = data.slice(startIndex, endIndex)
+  const visibleData = data?.slice(startIndex, endIndex)
 
   const handlePageChange = (pageIndex) => {
     setCurrentPage(pageIndex)
   }
+
+  console.log(data)
   return (
     <>
       <Box>
         <SimpleGrid className="grid grid-cols-1 md:grid-cols-4" spacing={4}>
-          {visibleData.map((item) => (
-            <Card
-              key={item.id}
-              id={item.id}
-              subName={item.subName}
-              duration={item.duration}
-            />
-          ))}
+          {visibleData?.map((item) => {
+            const updatedAt = new Date(item.updatedAt)
+            const currentDate = new Date()
+
+            const yearDiff = currentDate.getFullYear() - updatedAt.getFullYear()
+            const monthDiff = currentDate.getMonth() - updatedAt.getMonth()
+            const dayDiff = currentDate.getDate() - updatedAt.getDate()
+
+            const formattedDuration = `${yearDiff}y ${monthDiff}m ${dayDiff}d`
+            return (
+              <Card
+                key={item._id}
+                id={item._id}
+                subName={item.subName}
+                imageURL={item.subAvatar}
+                duration={formattedDuration}
+                email={item.subEmail}
+                data={data}
+                setConnections={setConnections}
+              />
+            )
+          })}
         </SimpleGrid>
       </Box>
 

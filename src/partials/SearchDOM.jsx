@@ -1,38 +1,119 @@
 import { useState, useMemo } from 'react'
 import { Box, Input, Select, Button, SimpleGrid } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
-const Card = ({ id, title, imageUrl }) => {
+import Cookies from 'js-cookie'
+import { useToast } from '@chakra-ui/react'
+
+const Card = ({
+  id,
+  title,
+  imageUrl,
+  email,
+  isConfirmed,
+  isRequested,
+  connections,
+  setConnections,
+}) => {
   const router = useNavigate()
+  const toast = useToast()
+  const connectDOM = async (e, email) => {
+    e.preventDefault()
+    const res = await fetch(
+      `https://bdsm-backend.onrender.com/api/connectDOM`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+        }),
+      },
+    )
+
+    const resData = await res.json()
+
+    if (resData.error) {
+      console.log('Error fetching users')
+      toast({
+        title: 'Something went wrong!',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    } else if (resData.message) {
+      console.log('Request Sent!')
+
+      setConnections([...connections, { domEmail: email, isConfirmed: false }])
+      toast({
+        title: 'Request Sent!',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
+  }
+
   return (
     <>
       <Box
-        onClick={() => router(`/dom/${id}`)}
         borderWidth="1px"
         className="m-auto text-center"
         borderRadius="md"
         p={4}
         shadow="md"
       >
-        <img className="mb-4" src={imageUrl} />
+        <img className="mb-4 w-[12rem]" src={imageUrl} />
         <h3 className="text-xl font-semibold">{title}</h3>
-        <Button className="mt-4" colorScheme="blue">
-          Connected
-        </Button>
+        <div className="space-x-2">
+          <Button onClick={() => router(`/dom/${id}`)} className="mt-4">
+            View
+          </Button>
+          <Button
+            onClick={(e) => {
+              isConfirmed ? '' : isRequested ? '' : connectDOM(e, email)
+            }}
+            className="mt-4"
+            colorScheme="blue"
+          >
+            {isConfirmed ? 'Connected' : isRequested ? 'Pending' : 'Connect'}
+          </Button>
+        </div>
       </Box>
     </>
   )
 }
 
-export default function SearchDOM({ data }) {
-  const filteredData = data
+export default function SearchDOM({ data, connections, setConnections }) {
+  const [searchTerm, setSearchTerm] = useState('')
+  const filteredData = useMemo(() => {
+    let filtered = data
+
+    if (searchTerm) {
+      filtered = filtered.filter(
+        (item) =>
+          item.fName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item.lName.toLowerCase().includes(searchTerm.toLowerCase()),
+      )
+    }
+
+    return filtered
+  }, [data, searchTerm])
+
+  console.log(connections)
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value)
+  }
 
   // Pagination logic here
   const pageSize = 8
-  const pageCount = Math.ceil(filteredData.length / pageSize)
+  const pageCount = Math.ceil(filteredData?.length / pageSize)
   const [currentPage, setCurrentPage] = useState(0)
   const startIndex = currentPage * pageSize
   const endIndex = startIndex + pageSize
-  const visibleData = filteredData.slice(startIndex, endIndex)
+  const visibleData = filteredData?.slice(startIndex, endIndex)
 
   const handlePageChange = (pageIndex) => {
     setCurrentPage(pageIndex)
@@ -40,14 +121,29 @@ export default function SearchDOM({ data }) {
 
   return (
     <Box>
+      <Box mb={4} spacing={4} className="flex flex-row space-x-4">
+        <Input
+          placeholder="Search"
+          value={searchTerm}
+          onChange={handleSearch}
+        />
+      </Box>
       <SimpleGrid className="grid grid-cols-1 md:grid-cols-4" spacing={4}>
-        {visibleData.map((item) => (
+        {visibleData?.map((item) => (
           <Card
-            id={item.id}
-            title={item.title}
-            description={item.description}
-            imageUrl={item.imageUrl}
-            date={item.date}
+            key={item._id}
+            id={item._id}
+            title={item.fName + ' ' + item.lName}
+            imageUrl={item.avatar}
+            email={item.email}
+            isConfirmed={connections.some(
+              (el) => el.domEmail === item.email && el.isConfirmed,
+            )}
+            isRequested={connections.some(
+              (el) => el.domEmail === item.email && !el.isConfirmed,
+            )}
+            connections={connections}
+            setConnections={setConnections}
           />
         ))}
       </SimpleGrid>

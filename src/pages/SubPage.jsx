@@ -8,6 +8,7 @@ import SideBar from '../components/sidebar/Main'
 import { Box, Button, useColorModeValue, useColorMode } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
+import Cookies from 'js-cookie'
 
 function SubPage() {
   const { id } = useParams()
@@ -16,6 +17,9 @@ function SubPage() {
   const router = useNavigate()
   const [showDrawer, setShowDrawer] = useState(false)
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
+  const [since, setSince] = useState(null)
+  const [subDetails, setSubDetails] = useState(null)
+
   useEffect(() => {
     if (subscriptionDetails) {
       localStorage.setItem(
@@ -24,6 +28,43 @@ function SubPage() {
       )
     }
   }, [subscriptionDetails])
+
+  useEffect(() => {
+    const fetchSub = async () => {
+      const res = await fetch(
+        `https://bdsm-backend.onrender.com/api/subDetails`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id }),
+        },
+      )
+
+      const resData = await res.json()
+
+      if (resData.error) {
+        console.log('Error fetching user')
+      } else if (resData.subDetails) {
+        console.log(resData.subDetails)
+        setSubDetails(resData.subDetails)
+
+        const updatedAt = new Date(resData.since)
+        const currentDate = new Date()
+
+        const yearDiff = currentDate.getFullYear() - updatedAt.getFullYear()
+        const monthDiff = currentDate.getMonth() - updatedAt.getMonth()
+        const dayDiff = currentDate.getDate() - updatedAt.getDate()
+
+        const formattedDuration = `${yearDiff}y ${monthDiff}m ${dayDiff}d`
+        setSince(formattedDuration)
+      }
+    }
+    fetchSub()
+  }, [])
+
   const { colorMode, toggleColorMode } = useColorMode()
 
   const [email, setEmail] = useState(null)
@@ -32,6 +73,7 @@ function SubPage() {
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
+
   return (
     <div className="h-[100vh] overflow-y-auto">
       <Header2
@@ -67,8 +109,8 @@ function SubPage() {
               <Box className="space-y-4" p={4}>
                 <div className="flex items-center">
                   <img
-                    src="https://source.unsplash.com/random/"
-                    className="rounded-lg p-4 w-[15rem]"
+                    src={subDetails?.avatar}
+                    className="rounded-lg mb-4 w-[12rem]"
                   />
                 </div>
                 <div className="flex items-center">
@@ -76,7 +118,7 @@ function SubPage() {
                     Sub Id:
                   </span>
                   <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
-                    {id}
+                    {subDetails?._id}
                   </span>
                 </div>
                 <div className="flex items-center">
@@ -84,7 +126,7 @@ function SubPage() {
                     Sub Name:
                   </span>
                   <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
-                    Blah Blah
+                    {subDetails?.fName + ' ' + subDetails?.lName}
                   </span>
                 </div>
                 <div className="flex items-center">
@@ -92,7 +134,7 @@ function SubPage() {
                     Since:
                   </span>
                   <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
-                    2023
+                    {since}
                   </span>
                 </div>
               </Box>
