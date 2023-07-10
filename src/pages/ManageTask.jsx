@@ -5,10 +5,8 @@ import Header2 from '../components/Header2'
 import { Box, Button, useColorModeValue, useColorMode } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
 import SideBar from '../components/sidebar/Main'
-import CardsWithPagination from '../partials/CardsWithPagination'
-import BuyRewardCard from '../partials/BuyRewardCard'
+import Cookies from 'js-cookie'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
-import SubmittedTaskCards from '../partials/SubmittedTaskCards'
 import ManageTaskCard from '../partials/ManageTaskCard'
 
 export default function ManageTask() {
@@ -16,6 +14,8 @@ export default function ManageTask() {
 
   const [showDrawer, setShowDrawer] = useState(false)
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
+  const [tasks, setTasks] = useState(null)
+  const [connections, setConnections] = useState(null)
   useEffect(() => {
     if (user && user.type === 'sub') {
       router('/404')
@@ -29,6 +29,52 @@ export default function ManageTask() {
       )
     }
   }, [subscriptionDetails])
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const res = await fetch(`https://bdsm-backend.onrender.com/api/getTask`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+          'Content-Type': 'application/json',
+        },
+      })
+
+      const resData = await res.json()
+
+      if (resData.error) {
+        console.log('Error fetching user')
+      } else if (resData.tasks) {
+        console.log(resData.tasks)
+        setTasks(resData.tasks)
+      }
+    }
+    fetchTasks()
+  }, [])
+  useEffect(() => {
+    const fetchSubConnected = async () => {
+      const res = await fetch(
+        `https://bdsm-backend.onrender.com/api/fetchSubConnected`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+
+      const resData = await res.json()
+
+      if (resData.error) {
+        console.log('Error fetching users')
+      } else if (resData.connections) {
+        setConnections(resData.connections)
+      }
+    }
+    fetchSubConnected()
+  }, [])
+
   const { colorMode, toggleColorMode } = useColorMode()
 
   const [email, setEmail] = useState(null)
@@ -37,58 +83,6 @@ export default function ManageTask() {
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
-
-  const data = [
-    {
-      id: 1,
-      taskName: 'Task 1',
-      points: 100,
-      submissionDate: '2023-06-01',
-    },
-    {
-      id: 2,
-      taskName: 'Task 2',
-      points: 100,
-      submissionDate: '2023-06-01',
-    },
-    {
-      id: 3,
-      taskName: 'Task 3',
-      points: 100,
-      submissionDate: '2023-06-01',
-    },
-    {
-      id: 4,
-      taskName: 'Task 4',
-      points: 100,
-      submissionDate: '2023-06-01',
-    },
-    {
-      id: 5,
-      taskName: 'Task 5',
-      points: 100,
-      submissionDate: '2023-06-01',
-    },
-    {
-      id: 6,
-      taskName: 'Task 6',
-      points: 100,
-      submissionDate: '2023-06-01',
-    },
-    {
-      id: 7,
-      taskName: 'Task 7',
-      points: 'No',
-      submissionDate: '2023-06-01',
-    },
-    {
-      id: 8,
-      taskName: 'Task 8',
-      points: 'No',
-      submissionDate: '2023-06-01',
-    },
-    // Add more data
-  ]
 
   return (
     <div className="h-[100vh] overflow-y-auto">
@@ -122,7 +116,12 @@ export default function ManageTask() {
               {' '}
               <h1 className="font-semibold mb-8">Manage Tasks</h1>
               <Box p={4}>
-                <ManageTaskCard data={data} />
+                <ManageTaskCard
+                  data={tasks}
+                  setTasks={setTasks}
+                  email={user?.email}
+                  connections={connections}
+                />
               </Box>
             </div>
           </div>

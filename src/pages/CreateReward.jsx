@@ -10,19 +10,16 @@ import {
   Input,
   Textarea,
   Select,
+  useToast,
 } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
 import SideBar from '../components/sidebar/Main'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
-import { Checkbox, FormControl, FormLabel } from '@chakra-ui/react'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
-import TimePicker from 'react-time-picker'
-import 'react-time-picker/dist/TimePicker.css'
-import 'react-clock/dist/Clock.css'
+import Cookies from 'js-cookie'
 
 export default function CreateReward() {
   const router = useNavigate()
+  const toast = useToast()
 
   const [showDrawer, setShowDrawer] = useState(false)
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
@@ -51,6 +48,56 @@ export default function CreateReward() {
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    if (data.rewardName && data.rewardPoints) {
+      const res = await fetch(
+        `https://bdsm-backend.onrender.com/api/createReward`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            data,
+          }),
+        },
+      )
+
+      const resData = await res.json()
+
+      if (resData.error) {
+        console.log('Error creating reward')
+        toast({
+          title: 'Something went wrong!',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        })
+      } else if (resData.message) {
+        setData({
+          rewardName: '',
+          rewardPoints: '',
+        })
+        toast({
+          title: 'Reward Created!',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+        })
+      }
+    } else {
+      toast({
+        title: 'Please input all fields!',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
+  }
 
   return (
     <div className="h-[100vh] overflow-y-auto">
@@ -100,7 +147,7 @@ export default function CreateReward() {
                   placeholder="Reward Points"
                 />
                 <div className="mt-6 flex gap-4 grid  grid-cols-2">
-                  <Button>Create +</Button>
+                  <Button onClick={handleSubmit}>Create +</Button>
                 </div>
               </div>
             </div>

@@ -11,16 +11,18 @@ import {
   Textarea,
   Select,
 } from '@chakra-ui/react'
-import { useDisclosure } from '@chakra-ui/react'
+import { useDisclosure, useToast } from '@chakra-ui/react'
 import SideBar from '../components/sidebar/Main'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
 import { Checkbox, FormControl, FormLabel } from '@chakra-ui/react'
-
+import { SingleDatepicker } from 'chakra-dayzed-datepicker'
+import Cookies from 'js-cookie'
 export default function CreateTask() {
   const router = useNavigate()
-
+  const toast = useToast()
   const [showDrawer, setShowDrawer] = useState(false)
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
+  const [connections, setConnections] = useState(null)
 
   useEffect(() => {
     if (user && user.type === 'sub') {
@@ -35,6 +37,31 @@ export default function CreateTask() {
       )
     }
   }, [subscriptionDetails])
+
+  useEffect(() => {
+    const fetchSubConnected = async () => {
+      const res = await fetch(
+        `https://bdsm-backend.onrender.com/api/fetchSubConnected`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+
+      const resData = await res.json()
+
+      if (resData.error) {
+        console.log('Error fetching users')
+      } else if (resData.connections) {
+        setConnections(resData.connections)
+      }
+    }
+    fetchSubConnected()
+  }, [])
+
   const { colorMode, toggleColorMode } = useColorMode()
 
   const [email, setEmail] = useState(null)
@@ -46,6 +73,8 @@ export default function CreateTask() {
     rewardPoints: '',
     description: '',
     selectedFreq: 'Daily',
+    isMediaReq: true,
+    isSubmissionReq: true,
   })
 
   const handleSelectChange = (event) => {
@@ -63,20 +92,82 @@ export default function CreateTask() {
   }
 
   const [dueTime, setDueTime] = useState('')
-  const [startDate, setStartDate] = useState(null)
-  const [endDate, setEndDate] = useState(null)
+  const [startDate, setStartDate] = useState(new Date())
+  const [endDate, setEndDate] = useState(new Date())
   const [isNoEndDate, setIsNoEndDate] = useState(false)
-
-  const handleStartDateChange = (date) => {
-    setStartDate(date)
-  }
-
-  const handleEndDateChange = (date) => {
-    setEndDate(date)
-  }
 
   const handleNoEndDateChange = (event) => {
     setIsNoEndDate(event.target.checked)
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    if (
+      data.taskName &&
+      data.description &&
+      data.rewardPoints &&
+      data.userName &&
+      dueTime
+    ) {
+      const res = await fetch(
+        `https://bdsm-backend.onrender.com/api/createTask`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            data,
+            dueTime,
+            startDate,
+            endDate,
+            isNoEndDate,
+          }),
+        },
+      )
+
+      const resData = await res.json()
+
+      if (resData.error) {
+        console.log('Error creating task')
+        toast({
+          title: 'Something went wrong!',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        })
+      } else if (resData.message) {
+        setData({
+          email: '',
+          userName: '',
+          taskName: '',
+          rewardPoints: '',
+          description: '',
+          selectedFreq: 'Daily',
+          isMediaReq: true,
+          isSubmissionReq: true,
+        })
+        setDueTime('')
+        setStartDate(new Date())
+        setEndDate(new Date())
+        setIsNoEndDate(false)
+        toast({
+          title: 'Task Created!',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+        })
+      }
+    } else {
+      toast({
+        title: 'Please input all fields!',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
   }
 
   const textColor = useColorModeValue('gray.200', 'white')
@@ -143,9 +234,14 @@ export default function CreateTask() {
               </div>
               <div className="mt-6 gap-4 grid grid-cols-2">
                 <Select value={data.userName} onChange={handleSelectChange2}>
-                  <option value="null">Select Sub</option>
-                  <option value="Sub 1">Sub 1</option>
-                  <option value="Sub 2">Sub 2</option>
+                  <option value={null}>Select Sub</option>
+                  {connections?.map((d, i) => {
+                    return (
+                      <option key={i} value={d.subEmail}>
+                        {d.subName}
+                      </option>
+                    )
+                  })}
                 </Select>
                 <Input
                   value={user?.email}
@@ -185,9 +281,14 @@ export default function CreateTask() {
                   <FormLabel className="text-[#6D7D86]">
                     Media Required?
                   </FormLabel>
-                  <Select>
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
+                  <Select
+                    value={data.isMediaReq}
+                    onChange={(e) => {
+                      setData({ ...data, isMediaReq: e.target.value })
+                    }}
+                  >
+                    <option value={true}>Yes</option>
+                    <option value={false}>No</option>
                   </Select>
                 </FormControl>
 
@@ -195,36 +296,37 @@ export default function CreateTask() {
                   <FormLabel className="text-[#6D7D86]">
                     Submission Text Required?
                   </FormLabel>
-                  <Select>
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
+                  <Select
+                    value={data.isSubmissionReq}
+                    onChange={(e) => {
+                      setData({ ...data, isSubmissionReq: e.target.value })
+                    }}
+                  >
+                    <option value={true}>Yes</option>
+                    <option value={false}>No</option>
                   </Select>
                 </FormControl>
               </div>
               <div className="mt-6 flex gap-4 grid  grid-cols-2">
                 <FormControl>
                   <FormLabel className="text-[#6D7D86]">Start Date:</FormLabel>
-                  <Input
-                    placeholder="Start Date"
-                    size="md"
-                    type="date"
-                    selected={startDate}
-                    onChange={handleStartDateChange}
+                  <SingleDatepicker
+                    name="date-input"
+                    date={startDate}
+                    onDateChange={setStartDate}
                   />
                 </FormControl>
 
                 <FormControl className="flex flex-col">
                   <FormLabel className="text-[#6D7D86]">End Date:</FormLabel>
-                  <Input
-                    placeholder="End Date"
-                    size="md"
-                    type="date"
-                    selected={isNoEndDate ? null : endDate}
-                    onChange={handleEndDateChange}
+                  <SingleDatepicker
+                    name="date-input"
+                    date={isNoEndDate ? null : endDate}
+                    onDateChange={setEndDate}
                     disabled={isNoEndDate}
                   />
                   <Checkbox
-                    checked={isNoEndDate}
+                    isChecked={isNoEndDate}
                     onChange={handleNoEndDateChange}
                     className="mt-2"
                   >
@@ -232,7 +334,7 @@ export default function CreateTask() {
                   </Checkbox>
                 </FormControl>
                 <div className="mt-6 flex gap-4 grid  grid-cols-2">
-                  <Button>Add +</Button>
+                  <Button onClick={handleSubmit}>Add +</Button>
                 </div>
               </div>
             </div>

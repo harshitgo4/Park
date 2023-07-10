@@ -8,7 +8,7 @@ import SideBar from '../components/sidebar/Main'
 import { Box, Button, useColorModeValue, useColorMode } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
-
+import Cookies from 'js-cookie'
 function TaskPage() {
   const { id } = useParams()
   const toast = useToast()
@@ -16,6 +16,7 @@ function TaskPage() {
   const router = useNavigate()
   const [showDrawer, setShowDrawer] = useState(false)
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
+  const [taskDetails, setTaskDetails] = useState(null)
   useEffect(() => {
     if (subscriptionDetails) {
       localStorage.setItem(
@@ -24,6 +25,31 @@ function TaskPage() {
       )
     }
   }, [subscriptionDetails])
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const res = await fetch(
+        `https://bdsm-backend.onrender.com/api/getTaskDetails`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id }),
+        },
+      )
+
+      const resData = await res.json()
+
+      if (resData.error) {
+        console.log('Error fetching user')
+      } else if (resData.taskDetails) {
+        console.log(resData.taskDetails)
+        setTaskDetails(resData.taskDetails)
+      }
+    }
+    fetchTasks()
+  }, [])
   const { colorMode, toggleColorMode } = useColorMode()
 
   const [email, setEmail] = useState(null)
@@ -78,7 +104,7 @@ function TaskPage() {
                     Task Status:
                   </span>
                   <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
-                    Completed
+                    {taskDetails?.status}
                   </span>
                 </div>
               </Box>

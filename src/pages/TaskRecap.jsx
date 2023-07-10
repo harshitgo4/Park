@@ -16,12 +16,52 @@ import SideBar from '../components/sidebar/Main'
 import Table from '../partials/DataGrid'
 import PieChart from '../partials/PieChart'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
+import Cookies from 'js-cookie'
 
 export default function TaskRecap() {
   const router = useNavigate()
 
   const [showDrawer, setShowDrawer] = useState(false)
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
+  const [subEmail, setSubEmail] = useState(null)
+  const [connections, setConnections] = useState(null)
+  const [pieData, setPieData] = useState(null)
+  const [email, setEmail] = useState(null)
+  const [user, setUser] = useState(null)
+
+  const [selectedOption, setSelectedOption] = useState('Daily')
+
+  const [data2, setData2] = useState([
+    {
+      taskId: null,
+      date: '',
+      taskName: '',
+      taskAssignedTo: '',
+      taskSubmittedTo: '',
+      status: '',
+    },
+  ])
+  const [data3, setData3] = useState([
+    {
+      taskId: null,
+      date: '',
+      taskName: '',
+      taskAssignedTo: '',
+      taskSubmittedTo: '',
+      status: '',
+    },
+  ])
+  const [data4, setData4] = useState([
+    {
+      taskId: null,
+      date: '',
+      taskName: '',
+      taskAssignedTo: '',
+      taskSubmittedTo: '',
+      status: '',
+    },
+  ])
+
   useEffect(() => {
     if (subscriptionDetails) {
       localStorage.setItem(
@@ -30,12 +70,102 @@ export default function TaskRecap() {
       )
     }
   }, [subscriptionDetails])
+  useEffect(() => {
+    const fetchSubConnected = async () => {
+      const res = await fetch(
+        `https://bdsm-backend.onrender.com/api/fetchSubConnected`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+
+      const resData = await res.json()
+
+      if (resData.error) {
+        console.log('Error fetching users')
+      } else if (resData.connections) {
+        setConnections(resData.connections)
+      }
+    }
+    fetchSubConnected()
+  }, [])
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const res = await fetch(
+        `https://bdsm-backend.onrender.com/api/getTaskRecap`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            subEmail,
+            selectedOption,
+          }),
+        },
+      )
+
+      const resData = await res.json()
+
+      if (resData.error) {
+        console.log('Error fetching user')
+      } else if (resData.tasks) {
+        console.log(resData.tasks)
+        const temp2 = []
+        const temp3 = []
+        const temp4 = []
+
+        resData.tasks.forEach((d, i) => {
+          if (d.status == 'Completed') {
+            temp2.push({
+              taskId: d._id,
+              date: d.updatedAt.split('T')[0],
+              taskName: d.taskName,
+              taskAssignedTo: d.subName,
+              taskSubmittedTo: d.domName,
+              status: d.status,
+            })
+          } else if (d.status == 'Failed') {
+            temp3.push({
+              taskId: d._id,
+              date: d.updatedAt.split('T')[0],
+              taskName: d.taskName,
+              taskAssignedTo: d.subName,
+              taskSubmittedTo: d.domName,
+              status: d.status,
+            })
+          } else if (d.status == 'Pending') {
+            temp4.push({
+              taskId: d._id,
+              date: d.updatedAt.split('T')[0],
+              taskName: d.taskName,
+              taskAssignedTo: d.subName,
+              taskSubmittedTo: d.domName,
+              status: d.status,
+            })
+          }
+        })
+        setData2(temp2)
+        setData3(temp3)
+        setData4(temp4)
+
+        setPieData([
+          ['Status', 'Count'],
+          ['Completed', temp2.length],
+          ['Failed', temp3.length],
+          ['Pending', temp4.length],
+        ])
+      }
+    }
+    fetchTasks()
+  }, [subEmail, selectedOption])
+
   const { colorMode, toggleColorMode } = useColorMode()
-
-  const [email, setEmail] = useState(null)
-  const [user, setUser] = useState(null)
-
-  const [selectedOption, setSelectedOption] = useState('Daily')
 
   const handleButtonClick = (option) => {
     setSelectedOption(option)
@@ -44,109 +174,6 @@ export default function TaskRecap() {
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
-
-  const data = useMemo(
-    () => [
-      {
-        taskId: 1,
-        date: '2023-06-01',
-        taskName: 'Task 1',
-        taskAssignedTo: 'User 1',
-        taskSubmittedTo: 'User 2',
-        status: 'Completed and Approved',
-      },
-      {
-        taskId: 2,
-        date: '2023-06-02',
-        taskName: 'Task 2',
-        taskAssignedTo: 'User 2',
-        taskSubmittedTo: 'User 3',
-        status: 'Completed and Failed',
-      },
-      {
-        taskId: 3,
-        date: '2023-06-03',
-        taskName: 'Task 3',
-        taskAssignedTo: 'User 3',
-        taskSubmittedTo: 'User 1',
-        status: 'Did not complete at all',
-      },
-      {
-        taskId: 4,
-        date: '2023-06-04',
-        taskName: 'Task 4',
-        taskAssignedTo: 'User 1',
-        taskSubmittedTo: 'User 2',
-        status: 'Completed and Approved',
-      },
-      {
-        taskId: 5,
-        date: '2023-06-05',
-        taskName: 'Task 5',
-        taskAssignedTo: 'User 2',
-        taskSubmittedTo: 'User 3',
-        status: 'Completed and Failed',
-      },
-      {
-        taskId: 6,
-        date: '2023-06-06',
-        taskName: 'Task 6',
-        taskAssignedTo: 'User 3',
-        taskSubmittedTo: 'User 1',
-        status: 'Did not complete at all',
-      },
-      {
-        taskId: 7,
-        date: '2023-06-07',
-        taskName: 'Task 7',
-        taskAssignedTo: 'User 1',
-        taskSubmittedTo: 'User 2',
-        status: 'Completed and Approved',
-      },
-      {
-        taskId: 8,
-        date: '2023-06-08',
-        taskName: 'Task 8',
-        taskAssignedTo: 'User 2',
-        taskSubmittedTo: 'User 3',
-        status: 'Completed and Failed',
-      },
-      {
-        taskId: 9,
-        date: '2023-06-09',
-        taskName: 'Task 9',
-        taskAssignedTo: 'User 3',
-        taskSubmittedTo: 'User 1',
-        status: 'Did not complete at all',
-      },
-      {
-        taskId: 10,
-        date: '2023-06-10',
-        taskName: 'Task 10',
-        taskAssignedTo: 'User 1',
-        taskSubmittedTo: 'User 2',
-        status: 'Completed and Approved',
-      },
-      {
-        taskId: 11,
-        date: '2023-06-11',
-        taskName: 'Task 11',
-        taskAssignedTo: 'User 2',
-        taskSubmittedTo: 'User 3',
-        status: 'Completed and Failed',
-      },
-      {
-        taskId: 12,
-        date: '2023-06-12',
-        taskName: 'Task 12',
-        taskAssignedTo: 'User 3',
-        taskSubmittedTo: 'User 1',
-        status: 'Did not complete at all',
-      },
-    ],
-
-    [],
-  )
 
   const columns = useMemo(
     () => [
@@ -158,6 +185,10 @@ export default function TaskRecap() {
     ],
     [],
   )
+
+  const handleSelectChange2 = (event) => {
+    setSubEmail(event.target.value)
+  }
 
   return (
     <div className="h-[100vh] overflow-y-auto">
@@ -182,7 +213,7 @@ export default function TaskRecap() {
           setShowDrawer={setShowDrawer}
           toggleColorMode={toggleColorMode}
         />
-        <main className="z-1 mx-auto w-full md:pl-80 p-4 overflow-y-auto">
+        <main className="z-1 mx-auto w-full overflow-x-hidden md:pl-80 p-4 overflow-y-auto">
           <Button onClick={() => router(-1)} className="m-2">
             <ArrowUturnLeftIcon className="w-5" />{' '}
           </Button>
@@ -190,55 +221,67 @@ export default function TaskRecap() {
             <div className="w-full">
               {' '}
               <h1 className="font-semibold mb-8">Task Recap</h1>
-              <Box hidden={user?.type == 'sub'} mt={2} mb={2} className="flex flex-row space-x-4">
-                <Select placeholder="Select SUB">
-                  <option value="option1">SUB 1</option>
-                  <option value="option2">SUB 2</option>
-                  <option value="option3">SUB 3</option>
+              <Box
+                hidden={user?.type == 'sub'}
+                mt={2}
+                mb={2}
+                className="flex flex-row space-x-4"
+              >
+                <Select value={subEmail} onChange={handleSelectChange2}>
+                  <option value="">Select Sub</option>
+                  {connections?.map((d, i) => {
+                    return (
+                      <option key={i} value={d.subEmail}>
+                        {d.subName}
+                      </option>
+                    )
+                  })}
                 </Select>
               </Box>
-              <Box mt={4} mb={2} className="flex flex-row space-x-4">
-                <Button
-                  colorScheme={selectedOption === 'Daily' ? 'blue' : 'gray'}
-                  onClick={() => handleButtonClick('Daily')}
-                >
-                  Daily
-                </Button>
-                <Button
-                  colorScheme={selectedOption === 'Weekly' ? 'blue' : 'gray'}
-                  onClick={() => handleButtonClick('Weekly')}
-                >
-                  Weekly
-                </Button>
-                <Button
-                  colorScheme={selectedOption === 'Monthly' ? 'blue' : 'gray'}
-                  onClick={() => handleButtonClick('Monthly')}
-                >
-                  Monthly
-                </Button>
-              </Box>
-              <PieChart />
+              <div hidden={!subEmail}>
+                <Box mt={4} mb={2} className="flex flex-row space-x-4">
+                  <Button
+                    colorScheme={selectedOption === 'Daily' ? 'blue' : 'gray'}
+                    onClick={() => handleButtonClick('Daily')}
+                  >
+                    Daily
+                  </Button>
+                  <Button
+                    colorScheme={selectedOption === 'Weekly' ? 'blue' : 'gray'}
+                    onClick={() => handleButtonClick('Weekly')}
+                  >
+                    Weekly
+                  </Button>
+                  <Button
+                    colorScheme={selectedOption === 'Monthly' ? 'blue' : 'gray'}
+                    onClick={() => handleButtonClick('Monthly')}
+                  >
+                    Monthly
+                  </Button>
+                </Box>
+                <PieChart data={pieData} />
+              </div>
             </div>
           </div>
           <div className={`${bg} m-4 flex flex-row rounded-lg p-8`}>
             <div className="w-full">
               {' '}
               <h1 className="font-semibold mb-8">Completed Tasks Detail</h1>
-              <Table columns={columns} data={data} />
+              <Table columns={columns} data={data2} />
             </div>
           </div>
           <div className={`${bg} m-4 flex flex-row rounded-lg p-8`}>
             <div className="w-full">
               {' '}
               <h1 className="font-semibold mb-8">Failed Tasks Detail</h1>
-              <Table columns={columns} data={data} />
+              <Table columns={columns} data={data3} />
             </div>
           </div>
           <div className={`${bg} m-4 flex flex-row rounded-lg p-8`}>
             <div className="w-full">
               {' '}
               <h1 className="font-semibold mb-8">Pending Tasks Detail</h1>
-              <Table columns={columns} data={data} />
+              <Table columns={columns} data={data4} />
             </div>
           </div>
         </main>
