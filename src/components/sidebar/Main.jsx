@@ -137,7 +137,8 @@ function SideBar({
                 : router('/AllSubmittedTasks')
             }}
             className={`flex flex-row text-right ${
-              window.location.pathname === '/AllTask' ||
+              (window.location.pathname === '/AllTask' &&
+                user?.type === 'sub') ||
               window.location.pathname === '/AllSubmittedTasks'
                 ? `w-full p-4 rounded-lg ${bg} ${txt}`
                 : null

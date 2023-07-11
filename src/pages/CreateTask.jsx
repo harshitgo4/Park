@@ -159,6 +159,9 @@ export default function CreateTask() {
           duration: 9000,
           isClosable: true,
         })
+        setTimeout(() => {
+          router('/ManageTask')
+        }, 1000)
       }
     } else {
       toast({

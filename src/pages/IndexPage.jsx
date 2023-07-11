@@ -154,7 +154,10 @@ export default function Home({ folder, initialNamespace }) {
           }
 
           // Remaining
-          if (task.status === 'Pending') {
+          if (
+            task.status === 'Pending' &&
+            new Date(taskEndDate) >= new Date()
+          ) {
             remaining++
           }
 
@@ -258,18 +261,20 @@ export default function Home({ folder, initialNamespace }) {
               onClick={() =>
                 user?.type === 'sub'
                   ? router('/CompletedTask')
-                  : router('/AllSubmittedTasks')
+                  : router('/AcceptedTask')
               }
               className="m-2 bg-green-400 flex flex-row p-4"
             >
               <div>
                 {' '}
                 <h1 className="font-semibold">
-                  {user?.type === 'sub'
-                    ? 'Completed Tasks'
-                    : 'All Submitted Tasks'}
+                  {user?.type === 'sub' ? 'Completed Tasks' : 'Accepted Tasks'}
                 </h1>
-                <p className="text-3xl">{statistics.total}</p>
+                <p className="text-3xl">
+                  {statistics.total -
+                    statistics.remaining -
+                    statistics.overtime}
+                </p>
                 <Button rightIcon={<ArrowRightIcon className="w-5" />}>
                   View Details
                 </Button>
@@ -282,16 +287,16 @@ export default function Home({ folder, initialNamespace }) {
               onClick={() =>
                 user?.type === 'sub'
                   ? router('/FailedTask')
-                  : router('/createTask')
+                  : router('/FailedTask')
               }
               className="m-2 bg-red-400 flex flex-row p-4"
             >
               <div>
                 {' '}
                 <h1 className="font-semibold">
-                  {user?.type === 'sub' ? 'Failed Tasks' : 'Create tasks'}
+                  {user?.type === 'sub' ? 'Failed Tasks' : 'Failed Tasks'}
                 </h1>
-                <p className="text-3xl">{statistics.total}</p>
+                <p className="text-3xl">{statistics.overtime}</p>
                 <Button rightIcon={<ArrowRightIcon className="w-5" />}>
                   View Details
                 </Button>
@@ -304,14 +309,14 @@ export default function Home({ folder, initialNamespace }) {
               onClick={() =>
                 user?.type === 'sub'
                   ? router('/Rewards')
-                  : router('/CreateReward')
+                  : router('/PendingRewards')
               }
               className="m-2 bg-pink-400 flex flex-row p-4"
             >
               <div>
                 {' '}
                 <h1 className="font-semibold">
-                  {user?.type === 'sub' ? 'Rewards' : 'Create Rewards'}
+                  {user?.type === 'sub' ? 'Rewards' : 'Pending Rewards'}
                 </h1>
                 <p className="text-3xl">{counts.rewardsCount}</p>
                 <Button rightIcon={<ArrowRightIcon className="w-5" />}>
@@ -326,14 +331,14 @@ export default function Home({ folder, initialNamespace }) {
               onClick={() =>
                 user?.type === 'sub'
                   ? router('/AcceptedTask')
-                  : router('/ManageTask')
+                  : router('/AllTask')
               }
               className="m-2 bg-teal-400 flex flex-row p-4"
             >
               <div>
                 {' '}
                 <h1 className="font-semibold">
-                  {user?.type === 'sub' ? 'Accepted Tasks' : 'Manage Tasks'}
+                  {user?.type === 'sub' ? 'Accepted Tasks' : 'All Tasks'}
                 </h1>
                 <p className="text-3xl">{statistics.total}</p>
                 <Button rightIcon={<ArrowRightIcon className="w-5" />}>
@@ -348,16 +353,14 @@ export default function Home({ folder, initialNamespace }) {
               onClick={() =>
                 user?.type === 'sub'
                   ? router('/PendingTask')
-                  : router('/PendingSubmissions')
+                  : router('/PendingTask')
               }
               className="m-2 bg-blue-400 flex flex-row p-4"
             >
               <div>
                 {' '}
                 <h1 className="font-semibold">
-                  {user?.type === 'sub'
-                    ? 'Pending Tasks'
-                    : 'Pending Submissions'}
+                  {user?.type === 'sub' ? 'Pending Tasks' : 'Pending Tasks'}
                 </h1>
                 <p className="text-3xl">{statistics.remaining}</p>
                 <Button rightIcon={<ArrowRightIcon className="w-5" />}>

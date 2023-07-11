@@ -1,21 +1,28 @@
-import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import React from 'react'
+import { useRef, useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Swal from 'sweetalert2'
-import { Input, useToast } from '@chakra-ui/react'
 import Header2 from '../components/Header2'
-import SideBar from '../components/sidebar/Main'
 import { Box, Button, useColorModeValue, useColorMode } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
+import SideBar from '../components/sidebar/Main'
+import Table from '../partials/DataGrid'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
-
-function DomPage() {
-  const { id } = useParams()
-  const toast = useToast()
-
+import Cookies from 'js-cookie'
+export default function PendingRewards() {
   const router = useNavigate()
 
   const [showDrawer, setShowDrawer] = useState(false)
+  const [data, setData] = useState([
+    {
+      taskId: null,
+      date: null,
+      taskName: null,
+      taskAssignedTo: null,
+      taskSubmittedTo: null,
+      status: null,
+    },
+  ])
+
   useEffect(() => {
     if (user && user.type === 'dom') {
       router('/404')
@@ -30,6 +37,38 @@ function DomPage() {
       )
     }
   }, [subscriptionDetails])
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const res = await fetch(
+        `https://bdsm-backend.onrender.com/api/getRewards`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+
+      const resData = await res.json()
+
+      if (resData.error) {
+        console.log('Error fetching user')
+      } else if (resData.rewards) {
+        console.log(resData.rewards)
+        const temp = resData.rewards.filter((d) => {
+          d.updatedAt = d.updatedAt.split('T')[0]
+          return d.status == 'Pending'
+        })
+
+        console.log(temp)
+        setData(temp)
+      }
+    }
+    fetchTasks()
+  }, [])
+
   const { colorMode, toggleColorMode } = useColorMode()
 
   const [email, setEmail] = useState(null)
@@ -38,6 +77,18 @@ function DomPage() {
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
+
+  const columns = useMemo(
+    () => [
+      { Header: 'Date', accessor: 'updatedAt' },
+      { Header: 'Reward Name', accessor: 'rewardName' },
+      { Header: 'Reward Points', accessor: 'rewardPoints' },
+      { Header: 'Reward Description', accessor: 'description' },
+      { Header: 'Status', accessor: 'status' },
+    ],
+    [],
+  )
+
   return (
     <div className="h-[100vh] overflow-y-auto">
       <Header2
@@ -68,25 +119,8 @@ function DomPage() {
           <div className={`${bg} m-2 flex flex-row rounded-lg p-8`}>
             <div className="w-full">
               {' '}
-              <h1 className="font-semibold mb-8">DOM Details</h1>
-              <Box className="space-y-4" p={4}>
-                <div className="flex items-center">
-                  <span className="w-28 p-2 inline-block">
-                    DOM Id:
-                  </span>
-                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
-                    {id}
-                  </span>
-                </div>
-                <div className="flex items-center">
-                  <span className="w-28 p-2 inline-block">
-                    DOM Status:
-                  </span>
-                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
-                    Connected
-                  </span>
-                </div>
-              </Box>
+              <h1 className="font-semibold mb-8">Pending Rewards Detail</h1>
+              <Table columns={columns} data={data} />
             </div>
           </div>
         </main>
@@ -94,5 +128,3 @@ function DomPage() {
     </div>
   )
 }
-
-export default DomPage

@@ -75,6 +75,9 @@ const Card = ({ id, email, subName, imageURL, data, setRequests }) => {
         duration: 9000,
         isClosable: true,
       })
+      setTimeout(() => {
+        router('/ConnectedSub')
+      }, 1000)
     }
   }
 

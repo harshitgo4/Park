@@ -43,6 +43,7 @@ export default function CreateReward() {
   const [data, setData] = useState({
     rewardName: '',
     rewardPoints: '',
+    description: '',
   })
 
   const textColor = useColorModeValue('gray.200', 'white')
@@ -81,6 +82,7 @@ export default function CreateReward() {
         setData({
           rewardName: '',
           rewardPoints: '',
+          description: '',
         })
         toast({
           title: 'Reward Created!',
@@ -146,9 +148,19 @@ export default function CreateReward() {
                   type="number"
                   placeholder="Reward Points"
                 />
-                <div className="mt-6 flex gap-4 grid  grid-cols-2">
-                  <Button onClick={handleSubmit}>Create +</Button>
-                </div>
+              </div>
+              <div className="mt-6 gap-4 grid grid-cols-1">
+                <Textarea
+                  onChange={(e) =>
+                    setData({ ...data, description: e.target.value })
+                  }
+                  value={data.description}
+                  placeholder="Description (in max 200 chars)"
+                  maxLength={200}
+                />
+              </div>
+              <div className="mt-6 flex gap-4 grid  grid-cols-3">
+                <Button onClick={handleSubmit}>Create +</Button>
               </div>
             </div>
           </div>
