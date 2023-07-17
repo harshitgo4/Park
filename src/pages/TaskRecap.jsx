@@ -91,24 +91,27 @@ export default function TaskRecap() {
         setConnections(resData.connections)
       }
     }
-    fetchSubConnected()
+    if (user?.type == 'dom') {
+      fetchSubConnected()
+    }
   }, [])
   useEffect(() => {
+    const url =
+      user?.type == 'sub'
+        ? 'https://bdsm-backend.onrender.com/api/getSubTaskRecap'
+        : 'https://bdsm-backend.onrender.com/api/getTaskRecap'
     const fetchTasks = async () => {
-      const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/getTaskRecap`,
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${Cookies.get('token')}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            subEmail,
-            selectedOption,
-          }),
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+          'Content-Type': 'application/json',
         },
-      )
+        body: JSON.stringify({
+          subEmail,
+          selectedOption,
+        }),
+      })
 
       const resData = await res.json()
 
@@ -227,18 +230,20 @@ export default function TaskRecap() {
                 mb={2}
                 className="flex flex-row space-x-4"
               >
-                <Select value={subEmail} onChange={handleSelectChange2}>
-                  <option value="">Select Sub</option>
-                  {connections?.map((d, i) => {
-                    return (
-                      <option key={i} value={d.subEmail}>
-                        {d.subName}
-                      </option>
-                    )
-                  })}
-                </Select>
+                {user?.type == 'dom' ? (
+                  <Select value={subEmail} onChange={handleSelectChange2}>
+                    <option value="">Select Sub</option>
+                    {connections?.map((d, i) => {
+                      return (
+                        <option key={i} value={d.subEmail}>
+                          {d.subName}
+                        </option>
+                      )
+                    })}
+                  </Select>
+                ) : null}
               </Box>
-              <div hidden={!subEmail}>
+              <div>
                 <Box mt={4} mb={2} className="flex flex-row space-x-4">
                   <Button
                     colorScheme={selectedOption === 'Daily' ? 'blue' : 'gray'}

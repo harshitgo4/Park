@@ -11,6 +11,7 @@ import Cookies from 'js-cookie'
 export default function AllTask() {
   const router = useNavigate()
   const [showDrawer, setShowDrawer] = useState(false)
+  const [user, setUser] = useState(null)
   const [data, setData] = useState([
     {
       taskId: null,
@@ -33,8 +34,12 @@ export default function AllTask() {
   }, [subscriptionDetails])
 
   useEffect(() => {
+    const url =
+      user?.type == 'sub'
+        ? 'https://bdsm-backend.onrender.com/api/getSubTask'
+        : 'https://bdsm-backend.onrender.com/api/getTask'
     const fetchTasks = async () => {
-      const res = await fetch(`https://bdsm-backend.onrender.com/api/getTask`, {
+      const res = await fetch(url, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${Cookies.get('token')}`,
@@ -56,13 +61,11 @@ export default function AllTask() {
       }
     }
     fetchTasks()
-  }, [])
+  }, [user])
 
   const { colorMode, toggleColorMode } = useColorMode()
 
   const [email, setEmail] = useState(null)
-  const [user, setUser] = useState(null)
-
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')

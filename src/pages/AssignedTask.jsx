@@ -7,11 +7,14 @@ import { useDisclosure } from '@chakra-ui/react'
 import SideBar from '../components/sidebar/Main'
 import CardsWithPagination from '../partials/CardsWithPagination'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
+import Cookies from 'js-cookie'
 
 export default function AssignedTask() {
   const router = useNavigate()
 
   const [showDrawer, setShowDrawer] = useState(false)
+  const [data, setData] = useState()
+
   useEffect(() => {
     if (user && user.type === 'dom') {
       router('/404')
@@ -26,6 +29,31 @@ export default function AssignedTask() {
       )
     }
   }, [subscriptionDetails])
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const res = await fetch(
+        `https://bdsm-backend.onrender.com/api/getSubTask`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+
+      const resData = await res.json()
+
+      if (resData.error) {
+        console.log('Error fetching user')
+      } else if (resData.tasks) {
+        console.log(resData.tasks)
+        const temp = resData.tasks
+        setData(temp)
+      }
+    }
+    fetchTasks()
+  }, [])
   const { colorMode, toggleColorMode } = useColorMode()
 
   const [email, setEmail] = useState(null)
@@ -34,24 +62,6 @@ export default function AssignedTask() {
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const bg = useColorModeValue('bg-gray-200', 'bg-[#1E293B]')
-
-  const data = [
-    {
-      id: 1,
-      title: 'Card 1',
-      description: 'Description 1',
-      date: '2023-06-01',
-      imageUrl: 'https://source.unsplash.com/random/',
-    },
-    {
-      id: 2,
-      title: 'Card 2',
-      description: 'Description 2',
-      date: '2023-06-02',
-      imageUrl: 'https://source.unsplash.com/random/',
-    },
-    // Add more data
-  ]
 
   return (
     <div className="h-[100vh] overflow-y-auto">

@@ -1,17 +1,34 @@
 import { useState, useMemo } from 'react'
 import { Box, Input, Select, Button, SimpleGrid } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom'
 
-const Card = ({ title, description, imageUrl, date }) => (
-  <>
-    <Box borderWidth="1px" borderRadius="md" p={4} shadow="md">
-      <img className="mb-4" src={imageUrl} />
-      <h3>Assigned Task : {title}</h3>
-      <p>Points : {description}</p>
-      <p>Submission Date : {date}</p>
-      <Button className='mt-4' colorScheme='blue'>More Details</Button>
-    </Box>
-  </>
-)
+const Card = ({ id, title, desc, submissionDate, domName, status }) => {
+  const router = useNavigate()
+  return (
+    <>
+      <Box
+        borderWidth="1px"
+        className="m-auto text-center"
+        borderRadius="md"
+        p={4}
+        shadow="md"
+      >
+        <h3 className="text-xl font-semibold">{title}</h3>
+        <p>{desc}</p>
+        <p>Submit Date : {submissionDate}</p>
+        <p>Task by : {domName}</p>
+        <p>Status : {status}</p>
+        <Button
+          onClick={() => router(`/task/${id}`)}
+          className="mt-4"
+          colorScheme="blue"
+        >
+          View
+        </Button>
+      </Box>
+    </>
+  )
+}
 
 export default function CardsWithPagination({ data }) {
   const [searchTerm, setSearchTerm] = useState('')
@@ -29,13 +46,13 @@ export default function CardsWithPagination({ data }) {
 
     if (selectedMonth) {
       filtered = filtered.filter(
-        (item) => new Date(item.date).getMonth() + 1 === Number(selectedMonth),
+        (item) => new Date(item.endDate).getMonth() + 1 === Number(selectedMonth),
       )
     }
 
     if (selectedYear) {
       filtered = filtered.filter(
-        (item) => new Date(item.date).getFullYear() === Number(selectedYear),
+        (item) => new Date(item.endDate).getFullYear() === Number(selectedYear),
       )
     }
 
@@ -56,11 +73,11 @@ export default function CardsWithPagination({ data }) {
 
   // Pagination logic here
   const pageSize = 6
-  const pageCount = Math.ceil(filteredData.length / pageSize)
+  const pageCount = Math.ceil(filteredData?.length / pageSize)
   const [currentPage, setCurrentPage] = useState(0)
   const startIndex = currentPage * pageSize
   const endIndex = startIndex + pageSize
-  const visibleData = filteredData.slice(startIndex, endIndex)
+  const visibleData = filteredData?.slice(startIndex, endIndex)
 
   const handlePageChange = (pageIndex) => {
     setCurrentPage(pageIndex)
@@ -104,14 +121,16 @@ export default function CardsWithPagination({ data }) {
         </Select>
       </Box>
 
-      <SimpleGrid className='grid grid-cols-1 md:grid-cols-3' spacing={4}>
-        {visibleData.map((item) => (
+      <SimpleGrid className="grid grid-cols-1 md:grid-cols-3" spacing={4}>
+        {visibleData?.map((item) => (
           <Card
-            key={item.id}
-            title={item.title}
-            description={item.description}
-            imageUrl={item.imageUrl}
-            date={item.date}
+            key={item._id}
+            id={item._id}
+            title={item.taskName}
+            desc={item.taskDesc}
+            submissionDate={item.endDate?.split('T')[0]}
+            domName={item.domName}
+            status={item.status}
           />
         ))}
       </SimpleGrid>

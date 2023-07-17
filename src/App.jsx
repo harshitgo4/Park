@@ -23,7 +23,7 @@ import TaskRecap from './pages/TaskRecap'
 import Rewards from './pages/Rewards'
 import BuyReward from './pages/BuyReward'
 import SearchDOM from './pages/SearchDOM'
-import GetTask from './pages/GetTask'
+import CurrentTask from './pages/CurrentTask'
 import FailedTask from './pages/FailedTask'
 import AcceptedTask from './pages/AcceptedTask'
 import AllTask from './pages/AllTasks'
@@ -67,7 +67,7 @@ function App() {
         <Route path="/Rewards" element={<Rewards />} />
         <Route path="settings" element={<Settings />} />
         <Route path="/dashboard" element={<DirectoryPage />} />
-        <Route path="/GetTask" element={<GetTask />} />
+        <Route path="/CurrentTask" element={<CurrentTask />} />
         <Route path="/AllTask" element={<AllTask />} />
         <Route path="/CreateTask" element={<CreateTask />} />
         <Route path="/CreateReward" element={<CreateReward />} />

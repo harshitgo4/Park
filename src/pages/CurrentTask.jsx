@@ -5,21 +5,25 @@ import Header2 from '../components/Header2'
 import { Box, Button, useColorModeValue, useColorMode } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
 import SideBar from '../components/sidebar/Main'
-import CardsWithPagination from '../partials/CardsWithPagination'
+import Cookies from 'js-cookie'
 import GetTask2 from '../partials/GetTask2'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
 
-export default function GetTask() {
+export default function CurrentTask() {
   const router = useNavigate()
 
   const [showDrawer, setShowDrawer] = useState(false)
-    useEffect(() => {
+  const [selectedOption, setSelectedOption] = useState('Daily')
+  const [data, setData] = useState()
+  const [filteredData, setFilteredData] = useState()
+
+  useEffect(() => {
     if (user && user.type === 'dom') {
       router('/404')
     }
   }, [])
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
-    useEffect(() => {
+  useEffect(() => {
     if (subscriptionDetails) {
       localStorage.setItem(
         'subscriptionDetails',
@@ -27,6 +31,41 @@ export default function GetTask() {
       )
     }
   }, [subscriptionDetails])
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const res = await fetch(
+        `https://bdsm-backend.onrender.com/api/getSubTask`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+
+      const resData = await res.json()
+
+      if (resData.error) {
+        console.log('Error fetching user')
+      } else if (resData.tasks) {
+        console.log(resData.tasks)
+        const temp = resData.tasks.filter((d) => {
+          return d.status == 'Pending'
+        })
+        setData(temp)
+      }
+    }
+    fetchTasks()
+  }, [])
+  useEffect(() => {
+    if (data && selectedOption) {
+      const temp = data.filter((el) => el.submissionFreq == selectedOption)
+      setFilteredData(temp)
+    }
+  }, [selectedOption, data])
+
   const { colorMode, toggleColorMode } = useColorMode()
 
   const [email, setEmail] = useState(null)
@@ -36,21 +75,9 @@ export default function GetTask() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
 
-  const data = [
-    {
-      id: 1,
-      title: 'Task 1',
-      submissionDate: '2023-06-01',
-      imageUrl: 'https://source.unsplash.com/random/',
-    },
-    {
-      id: 2,
-      title: 'Task 2',
-      submissionDate: '2023-06-02',
-      imageUrl: 'https://source.unsplash.com/random/',
-    },
-    // Add more data
-  ]
+  const handleButtonClick = (option) => {
+    setSelectedOption(option)
+  }
 
   return (
     <div className="h-[100vh] overflow-y-auto">
@@ -63,7 +90,7 @@ export default function GetTask() {
         user={user}
         showDrawer={showDrawer}
         setShowDrawer={setShowDrawer}
-                subscriptionDetails={subscriptionDetails}
+        subscriptionDetails={subscriptionDetails}
         setSubscriptionDetails={setSubscriptionDetails}
       />
       <div className={`flex pb-40 h-screen}`}>
@@ -82,9 +109,29 @@ export default function GetTask() {
           <div className={`${bg} m-2 flex flex-row rounded-lg p-8`}>
             <div className="w-full">
               {' '}
-              <h1 className="font-semibold mb-8">Available Tasks</h1>
+              <h1 className="font-semibold mb-8">Current Tasks</h1>
+              <Box mt={4} mb={2} className="flex flex-row space-x-4">
+                <Button
+                  colorScheme={selectedOption === 'Daily' ? 'blue' : 'gray'}
+                  onClick={() => handleButtonClick('Daily')}
+                >
+                  Daily
+                </Button>
+                <Button
+                  colorScheme={selectedOption === 'Weekly' ? 'blue' : 'gray'}
+                  onClick={() => handleButtonClick('Weekly')}
+                >
+                  Weekly
+                </Button>
+                <Button
+                  colorScheme={selectedOption === 'Monthly' ? 'blue' : 'gray'}
+                  onClick={() => handleButtonClick('Monthly')}
+                >
+                  Monthly
+                </Button>
+              </Box>
               <Box p={4}>
-                <GetTask2 data={data} />
+                <GetTask2 data={filteredData} />
               </Box>
             </div>
           </div>

@@ -1,28 +1,40 @@
 import { useState, useMemo } from 'react'
 import { Box, Input, Select, Button, SimpleGrid } from '@chakra-ui/react'
-
-const Card = ({ title, submissionDate, imageUrl }) => (
-  <>
-    <Box borderWidth="1px" className='m-auto text-center' borderRadius="md" p={4} shadow="md">
-      <img className="mb-4" src={imageUrl} />
-      <h3 className='text-xl font-semibold'>{title}</h3>
-      <p>{submissionDate}</p>
-      <Button className='mt-4' colorScheme='blue'>Select</Button>
-    </Box>
-  </>
-)
+import { useNavigate } from 'react-router-dom'
+const Card = ({ id, title, desc, submissionDate, domName, status }) => {
+  const router = useNavigate()
+  return (
+    <>
+      <Box
+        borderWidth="1px"
+        className="m-auto text-center"
+        borderRadius="md"
+        p={4}
+        shadow="md"
+      >
+        <h3 className="text-xl font-semibold">{title}</h3>
+        <p>{desc}</p>
+        <p>Submit Date : {submissionDate}</p>
+        <p>Task by : {domName}</p>
+        <p>Status : {status}</p>
+        <Button onClick={() => router(`/task/${id}`)} className="mt-4" colorScheme="blue">
+          View
+        </Button>
+      </Box>
+    </>
+  )
+}
 
 export default function GetTask2({ data }) {
-
   const filteredData = data
 
   // Pagination logic here
   const pageSize = 8
-  const pageCount = Math.ceil(filteredData.length / pageSize)
+  const pageCount = Math.ceil(filteredData?.length / pageSize)
   const [currentPage, setCurrentPage] = useState(0)
   const startIndex = currentPage * pageSize
   const endIndex = startIndex + pageSize
-  const visibleData = filteredData.slice(startIndex, endIndex)
+  const visibleData = filteredData?.slice(startIndex, endIndex)
 
   const handlePageChange = (pageIndex) => {
     setCurrentPage(pageIndex)
@@ -30,13 +42,16 @@ export default function GetTask2({ data }) {
 
   return (
     <Box>
-      <SimpleGrid className='grid grid-cols-1 md:grid-cols-4' spacing={4}>
-        {visibleData.map((item) => (
+      <SimpleGrid className="grid grid-cols-1 md:grid-cols-4" spacing={4}>
+        {visibleData?.map((item) => (
           <Card
-            key={item.id}
-            title={item.title}
-            submissionDate={item.submissionDate}
-            imageUrl={item.imageUrl}
+            key={item._id}
+            id={item._id}
+            title={item.taskName}
+            desc={item.taskDesc}
+            submissionDate={item.endDate?.split('T')[0]}
+            domName={item.domName}
+            status={item.status}
           />
         ))}
       </SimpleGrid>

@@ -25,6 +25,7 @@ export default function Home({ folder, initialNamespace }) {
   const router = useNavigate()
   const [showDrawer, setShowDrawer] = useState(false)
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
+  const [user, setUser] = useState(null)
   const [barData, setBarData] = useState([
     ['Year', 'Sales', 'Expenses', 'Profit'],
     ['2014', 1000, 400, 200],
@@ -57,17 +58,18 @@ export default function Home({ folder, initialNamespace }) {
   }, [subscriptionDetails])
 
   useEffect(() => {
+    const url =
+      user?.type == 'sub'
+        ? 'https://bdsm-backend.onrender.com/api/getSubTaskDash'
+        : 'https://bdsm-backend.onrender.com/api/getTaskDash'
     const fetchTasks = async () => {
-      const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/getTaskDash`,
-        {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${Cookies.get('token')}`,
-            'Content-Type': 'application/json',
-          },
+      const res = await fetch(url, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+          'Content-Type': 'application/json',
         },
-      )
+      })
 
       const resData = await res.json()
 
@@ -209,12 +211,11 @@ export default function Home({ folder, initialNamespace }) {
       }
     }
     fetchTasks()
-  }, [])
+  }, [user])
 
   const { colorMode, toggleColorMode } = useColorMode()
 
   const [email, setEmail] = useState(null)
-  const [user, setUser] = useState(null)
 
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()

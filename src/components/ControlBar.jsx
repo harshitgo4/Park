@@ -74,18 +74,18 @@ const ControlBar = ({
               <button
                 onClick={() => {
                   user?.type === 'sub'
-                    ? router('/GetTask')
+                    ? router('/CurrentTask')
                     : router('/ConnectedSub')
                 }}
                 className={`flex flex-row text-right ${
-                  window.location.pathname === '/GetTask' ||
+                  window.location.pathname === '/CurrentTask' ||
                   window.location.pathname === '/ConnectedSub'
                     ? `w-full p-4 rounded-lg ${bg} ${txt}`
                     : null
                 }`}
               >
                 <CalendarDaysIcon className="w-5 mx-2" />
-                {user?.type === 'sub' ? 'Get Task' : 'Connected Sub'}
+                {user?.type === 'sub' ? 'Current Task' : 'Connected Sub'}
               </button>
               <button
                 onClick={() => {

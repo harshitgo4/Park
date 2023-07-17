@@ -7,11 +7,23 @@ import { useDisclosure } from '@chakra-ui/react'
 import SideBar from '../components/sidebar/Main'
 import Table from '../partials/DataGrid'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
+import Cookies from 'js-cookie'
 
 export default function CompletedTask() {
   const router = useNavigate()
 
   const [showDrawer, setShowDrawer] = useState(false)
+  const [data, setData] = useState([
+    {
+      taskId: null,
+      date: null,
+      taskName: null,
+      taskAssignedTo: null,
+      taskSubmittedTo: null,
+      status: null,
+    },
+  ])
+  const [user, setUser] = useState(null)
   useEffect(() => {
     if (user && user.type === 'dom') {
       router('/404')
@@ -26,124 +38,49 @@ export default function CompletedTask() {
       )
     }
   }, [subscriptionDetails])
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const res = await fetch(
+        `https://bdsm-backend.onrender.com/api/getSubTask`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+
+      const resData = await res.json()
+
+      if (resData.error) {
+        console.log('Error fetching user')
+      } else if (resData.tasks) {
+        console.log(resData.tasks)
+        const temp = resData.tasks.filter((d) => {
+          d.updatedAt = d.updatedAt.split('T')[0]
+          return d.status == 'Completed'
+        })
+        setData(temp)
+      }
+    }
+    fetchTasks()
+  }, [user])
+
   const { colorMode, toggleColorMode } = useColorMode()
 
   const [email, setEmail] = useState(null)
-  const [user, setUser] = useState(null)
 
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
 
-  const data = useMemo(
-    () => [
-      {
-        taskId: 1,
-        date: '2023-06-01',
-        taskName: 'Task 1',
-        taskAssignedTo: 'User 1',
-        taskSubmittedTo: 'User 2',
-        status: 'Completed and Approved',
-      },
-      {
-        taskId: 2,
-        date: '2023-06-02',
-        taskName: 'Task 2',
-        taskAssignedTo: 'User 2',
-        taskSubmittedTo: 'User 3',
-        status: 'Completed and Failed',
-      },
-      {
-        taskId: 3,
-        date: '2023-06-03',
-        taskName: 'Task 3',
-        taskAssignedTo: 'User 3',
-        taskSubmittedTo: 'User 1',
-        status: 'Did not complete at all',
-      },
-      {
-        taskId: 4,
-        date: '2023-06-04',
-        taskName: 'Task 4',
-        taskAssignedTo: 'User 1',
-        taskSubmittedTo: 'User 2',
-        status: 'Completed and Approved',
-      },
-      {
-        taskId: 5,
-        date: '2023-06-05',
-        taskName: 'Task 5',
-        taskAssignedTo: 'User 2',
-        taskSubmittedTo: 'User 3',
-        status: 'Completed and Failed',
-      },
-      {
-        taskId: 6,
-        date: '2023-06-06',
-        taskName: 'Task 6',
-        taskAssignedTo: 'User 3',
-        taskSubmittedTo: 'User 1',
-        status: 'Did not complete at all',
-      },
-      {
-        taskId: 7,
-        date: '2023-06-07',
-        taskName: 'Task 7',
-        taskAssignedTo: 'User 1',
-        taskSubmittedTo: 'User 2',
-        status: 'Completed and Approved',
-      },
-      {
-        taskId: 8,
-        date: '2023-06-08',
-        taskName: 'Task 8',
-        taskAssignedTo: 'User 2',
-        taskSubmittedTo: 'User 3',
-        status: 'Completed and Failed',
-      },
-      {
-        taskId: 9,
-        date: '2023-06-09',
-        taskName: 'Task 9',
-        taskAssignedTo: 'User 3',
-        taskSubmittedTo: 'User 1',
-        status: 'Did not complete at all',
-      },
-      {
-        taskId: 10,
-        date: '2023-06-10',
-        taskName: 'Task 10',
-        taskAssignedTo: 'User 1',
-        taskSubmittedTo: 'User 2',
-        status: 'Completed and Approved',
-      },
-      {
-        taskId: 11,
-        date: '2023-06-11',
-        taskName: 'Task 11',
-        taskAssignedTo: 'User 2',
-        taskSubmittedTo: 'User 3',
-        status: 'Completed and Failed',
-      },
-      {
-        taskId: 12,
-        date: '2023-06-12',
-        taskName: 'Task 12',
-        taskAssignedTo: 'User 3',
-        taskSubmittedTo: 'User 1',
-        status: 'Did not complete at all',
-      },
-    ],
-
-    [],
-  )
-
   const columns = useMemo(
     () => [
-      { Header: 'Date', accessor: 'date' },
+      { Header: 'Date', accessor: 'updatedAt' },
       { Header: 'Task Name', accessor: 'taskName' },
-      { Header: 'Task Assigned To', accessor: 'taskAssignedTo' },
-      { Header: 'Task Submitted To', accessor: 'taskSubmittedTo' },
+      { Header: 'Task Assigned To', accessor: 'subName' },
+      { Header: 'Task Submitted To', accessor: 'domName' },
       { Header: 'Status', accessor: 'status' },
     ],
     [],
