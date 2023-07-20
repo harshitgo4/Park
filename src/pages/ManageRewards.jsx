@@ -5,10 +5,8 @@ import Header2 from '../components/Header2'
 import { Box, Button, useColorModeValue, useColorMode } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
 import SideBar from '../components/sidebar/Main'
-import CardsWithPagination from '../partials/CardsWithPagination'
-import BuyRewardCard from '../partials/BuyRewardCard'
+import Cookies from 'js-cookie'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
-import SubmittedTaskCards from '../partials/SubmittedTaskCards'
 import ManageRewardsCards from '../partials/ManageRewardsCards'
 
 export default function ManageRewards() {
@@ -16,6 +14,14 @@ export default function ManageRewards() {
 
   const [showDrawer, setShowDrawer] = useState(false)
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
+  const [data, setData] = useState([
+    {
+      id: null,
+      subName: null,
+      rewardName: null,
+      rewardPoints: null,
+    },
+  ])
   useEffect(() => {
     if (user && user.type === 'sub') {
       router('/404')
@@ -29,6 +35,57 @@ export default function ManageRewards() {
       )
     }
   }, [subscriptionDetails])
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const res = await fetch(
+        `https://bdsm-backend.onrender.com/api/getRewards`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+
+      const resData = await res.json()
+
+      if (resData.error) {
+        console.log('Error fetching user')
+      } else if (resData.rewards) {
+        console.log(resData.rewards)
+        const boughtByObjectsWithPendingStatus = resData.rewards.flatMap(
+          (reward) => {
+            return reward.boughtBy
+              .filter((boughtByObject) => boughtByObject.status === 'Pending')
+              .map(
+                ({
+                  id,
+                  rewardName,
+                  rewardPoints,
+                  description,
+                  subEmail,
+                  subName,
+                }) => ({
+                  id: id || reward._id,
+                  rewardName: rewardName || reward.rewardName,
+                  description: description || reward.description,
+                  rewardPoints: rewardPoints || reward.rewardPoints,
+                  subEmail: subEmail || reward.subEmail,
+                  subName: subName,
+                }),
+              )
+          },
+        )
+
+        console.log(boughtByObjectsWithPendingStatus)
+        setData(boughtByObjectsWithPendingStatus)
+      }
+    }
+    fetchTasks()
+  }, [])
+
   const { colorMode, toggleColorMode } = useColorMode()
 
   const [email, setEmail] = useState(null)
@@ -37,51 +94,6 @@ export default function ManageRewards() {
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
-
-  const data = [
-    {
-      id: 1,
-      rewardName: 'Sub 1',
-      rewardPoints: '100'
-      
-    },
-    {
-      id: 2,
-      rewardName: 'Sub 2',
-      rewardPoints: '100'
-    },
-    {
-      id: 3,
-      rewardName: 'Sub 3',
-      rewardPoints: '100'
-    },
-    {
-      id: 4,
-      rewardName: 'Sub 4',
-      rewardPoints: '100'
-    },
-    {
-      id: 5,
-      rewardName: 'Sub 5',
-      rewardPoints: '100'
-    },
-    {
-      id: 6,
-      rewardName: 'Sub 6',
-      rewardPoints: '100'
-    },
-    {
-      id: 7,
-      rewardName: 'Sub 7',
-      rewardPoints: '100'
-    },
-    {
-      id: 8,
-      rewardName: 'Sub 8',
-      rewardPoints: '100'
-    },
-    // Add more data
-  ]
 
   return (
     <div className="h-[100vh] overflow-y-auto">

@@ -5,8 +5,7 @@ import Header2 from '../components/Header2'
 import { Box, Button, useColorModeValue, useColorMode } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
 import SideBar from '../components/sidebar/Main'
-import CardsWithPagination from '../partials/CardsWithPagination'
-import BuyRewardCard from '../partials/BuyRewardCard'
+import Cookies from 'js-cookie'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
 import SubmittedTaskCards from '../partials/SubmittedTaskCards'
 
@@ -15,6 +14,9 @@ export default function AllSubmittedTasks() {
 
   const [showDrawer, setShowDrawer] = useState(false)
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
+  const [data, setData] = useState([])
+  const [user, setUser] = useState(null)
+
   useEffect(() => {
     if (user && user.type === 'sub') {
       router('/404')
@@ -28,74 +30,50 @@ export default function AllSubmittedTasks() {
       )
     }
   }, [subscriptionDetails])
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const res = await fetch(
+        'https://bdsm-backend.onrender.com/api/getSubmittedTask',
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+
+      const resData = await res.json()
+
+      if (resData.error) {
+        console.log('Error fetching user')
+      } else if (resData.submittedTasks) {
+        console.log(resData.submittedTasks)
+        const temp = resData.submittedTasks.map((d, i) => {
+          return {
+            _id: d._id,
+            id: d.taskId,
+            subName: d.subName,
+            taskName: d.taskName,
+            proofText: d.submissionText,
+            submissionDate: d.createdAt.split('T')[0],
+            image: d.image,
+          }
+        })
+        setData(temp)
+      }
+    }
+    fetchTasks()
+  }, [user])
+
   const { colorMode, toggleColorMode } = useColorMode()
 
   const [email, setEmail] = useState(null)
-  const [user, setUser] = useState(null)
 
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
-
-  const data = [
-    {
-      id: 1,
-      subName: 'Sub 1',
-      proofText: 'Yes',
-      assignedDate: '2023-06-01',
-      submissionDate: '2023-06-01',
-    },
-    {
-      id: 2,
-      subName: 'Sub 2',
-      proofText: 'Yes',
-      assignedDate: '2023-06-01',
-      submissionDate: '2023-06-01',
-    },
-    {
-      id: 3,
-      subName: 'Sub 3',
-      proofText: 'Yes',
-      assignedDate: '2023-06-01',
-      submissionDate: '2023-06-01',
-    },
-    {
-      id: 4,
-      subName: 'Sub 4',
-      proofText: 'Yes',
-      assignedDate: '2023-06-01',
-      submissionDate: '2023-06-01',
-    },
-    {
-      id: 5,
-      subName: 'Sub 5',
-      proofText: 'Yes',
-      assignedDate: '2023-06-01',
-      submissionDate: '2023-06-01',
-    },
-    {
-      id: 6,
-      subName: 'Sub 6',
-      proofText: 'Yes',
-      assignedDate: '2023-06-01',
-      submissionDate: '2023-06-01',
-    },
-    {
-      id: 7,
-      subName: 'Sub 7',
-      proofText: 'No',
-      assignedDate: '2023-06-01',
-      submissionDate: '2023-06-01',
-    },
-    {
-      id: 8,
-      subName: 'Sub 8',
-      proofText: 'No',
-      assignedDate: '2023-06-01',
-      submissionDate: '2023-06-01',
-    },
-    // Add more data
-  ]
 
   return (
     <div className="h-[100vh] overflow-y-auto">

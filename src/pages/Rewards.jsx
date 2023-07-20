@@ -5,8 +5,7 @@ import Header2 from '../components/Header2'
 import { Box, Button, useColorModeValue, useColorMode } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
 import SideBar from '../components/sidebar/Main'
-import Table from '../partials/DataGrid'
-import PieChart from '../partials/PieChart'
+import Cookies from 'js-cookie'
 import { ColumnChart } from '../partials/ColumnChart'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
 
@@ -14,13 +13,16 @@ export default function Rewards() {
   const router = useNavigate()
 
   const [showDrawer, setShowDrawer] = useState(false)
-    useEffect(() => {
+  const [user, setUser] = useState(null)
+  const [data, setData] = useState(null)
+
+  useEffect(() => {
     if (user && user.type === 'dom') {
       router('/404')
     }
   }, [])
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
-    useEffect(() => {
+  useEffect(() => {
     if (subscriptionDetails) {
       localStorage.setItem(
         'subscriptionDetails',
@@ -28,10 +30,33 @@ export default function Rewards() {
       )
     }
   }, [subscriptionDetails])
+
+  // getRewardsStats
+  useEffect(() => {
+    const url = 'https://bdsm-backend.onrender.com/api/getRewardsStats'
+    const fetchTasks = async () => {
+      const res = await fetch(url, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+        },
+      })
+
+      const resData = await res.json()
+
+      if (resData.error) {
+        console.log('Error fetching user')
+      } else if (resData.monthlyRewards) {
+        console.log(resData.monthlyRewards)
+        setData(resData.monthlyRewards)
+        setUser(resData.user)
+      }
+    }
+    fetchTasks()
+  }, [])
   const { colorMode, toggleColorMode } = useColorMode()
 
   const [email, setEmail] = useState(null)
-  const [user, setUser] = useState(null)
 
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -48,7 +73,7 @@ export default function Rewards() {
         user={user}
         showDrawer={showDrawer}
         setShowDrawer={setShowDrawer}
-                subscriptionDetails={subscriptionDetails}
+        subscriptionDetails={subscriptionDetails}
         setSubscriptionDetails={setSubscriptionDetails}
       />
       <div className={`flex pb-40 h-screen}`}>
@@ -68,9 +93,9 @@ export default function Rewards() {
             <div className="w-full m-auto">
               {' '}
               <h1 className="font-semibold mb-8">
-                Your current Reward Point is : 200
+                Your current Reward Point is : {user?.rewards}
               </h1>
-              <ColumnChart />
+              <ColumnChart data={data} />
             </div>
           </div>
         </main>

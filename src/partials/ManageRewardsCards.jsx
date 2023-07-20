@@ -1,11 +1,51 @@
 import { useState, useMemo } from 'react'
 import { Box, Input, Select, Button, SimpleGrid } from '@chakra-ui/react'
-import { GifIcon } from '@heroicons/react/20/solid'
-import { GiftIcon } from '@heroicons/react/24/outline'
 import { useNavigate } from 'react-router-dom'
+import { useToast } from '@chakra-ui/react'
+import Cookies from 'js-cookie'
 
-const Card = ({ id, rewardName, rewardPoints }) => {
+const Card = ({ id, rewardName, desc, rewardPoints, subEmail, subName }) => {
   const router = useNavigate()
+  const toast = useToast()
+
+  const handleSubmit = async (e, status) => {
+    e.preventDefault()
+    const token = Cookies.get('token')
+    console.log(id, status)
+
+    fetch('https://bdsm-backend.onrender.com/api/updateRewardsStatus', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id,
+        subEmail,
+        status,
+      }),
+    })
+      .then((response) => response.json())
+      .then((res2) => {
+        console.log(res2.message)
+        toast({
+          title: 'Submitted!',
+          status: 'sucess',
+          duration: 9000,
+          isClosable: true,
+        })
+      })
+      .catch((error) => {
+        console.error(error)
+        toast({
+          title: 'Something went wrong!',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        })
+      })
+  }
+
   return (
     <>
       <Box
@@ -16,16 +56,27 @@ const Card = ({ id, rewardName, rewardPoints }) => {
         shadow="md"
       >
         <h3 className="text-xl font-semibold">Reward Name : {rewardName}</h3>
-        <p>Reward Details</p>
+        <p>Reward Description : {desc}</p>
         <hr />
         <br />
         <p>Reward Points: {rewardPoints}</p>
+        <p>Requested By: {subName}</p>
         <div className="space-x-1">
           {' '}
-          <Button colorScheme="green" className="mt-4" size="sm">
+          <Button
+            onClick={(e) => handleSubmit(e, 'Accepted')}
+            colorScheme="green"
+            className="mt-4"
+            size="sm"
+          >
             Approve
           </Button>
-          <Button colorScheme="red" className="mt-4" size="sm">
+          <Button
+            onClick={(e) => handleSubmit(e, 'Denied')}
+            colorScheme="red"
+            className="mt-4"
+            size="sm"
+          >
             Deny
           </Button>
         </div>
@@ -36,11 +87,11 @@ const Card = ({ id, rewardName, rewardPoints }) => {
 export default function ManageRewardsCards({ data }) {
   // Pagination logic here
   const pageSize = 8
-  const pageCount = Math.ceil(data.length / pageSize)
+  const pageCount = Math.ceil(data?.length / pageSize)
   const [currentPage, setCurrentPage] = useState(0)
   const startIndex = currentPage * pageSize
   const endIndex = startIndex + pageSize
-  const visibleData = data.slice(startIndex, endIndex)
+  const visibleData = data?.slice(startIndex, endIndex)
 
   const handlePageChange = (pageIndex) => {
     setCurrentPage(pageIndex)
@@ -49,12 +100,15 @@ export default function ManageRewardsCards({ data }) {
     <>
       <Box>
         <SimpleGrid className="grid grid-cols-1 md:grid-cols-4" spacing={4}>
-          {visibleData.map((item) => (
+          {visibleData?.map((item) => (
             <Card
               key={item.id}
               id={item.id}
               rewardName={item.rewardName}
+              desc={item.description}
               rewardPoints={item.rewardPoints}
+              subEmail={item.subEmail}
+              subName={item.subName}
             />
           ))}
         </SimpleGrid>

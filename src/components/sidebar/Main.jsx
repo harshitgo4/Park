@@ -51,6 +51,20 @@ function SideBar({
             Dashboard
           </button>
           <button
+            hidden={user?.type == 'dom'}
+            onClick={() => {
+              user?.type === 'sub' ? router('/SubmitTask') : null
+            }}
+            className={`flex flex-row text-right ${
+              window.location.pathname === '/SubmitTask'
+                ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                : null
+            }`}
+          >
+            <CalendarDaysIcon className="w-5 mx-2" />
+            {user?.type === 'sub' ? 'Submit Task' : null}
+          </button>
+          <button
             onClick={() => {
               user?.type === 'sub'
                 ? router('/SearchDOM')

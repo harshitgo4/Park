@@ -11,6 +11,10 @@ import {
   Textarea,
   Select,
   useToast,
+  SimpleGrid,
+  Tag,
+  TagLabel,
+  TagCloseButton,
 } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
 import SideBar from '../components/sidebar/Main'
@@ -23,6 +27,7 @@ export default function CreateReward() {
 
   const [showDrawer, setShowDrawer] = useState(false)
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
+  const [connections, setConnections] = useState([])
   useEffect(() => {
     if (user && user.type === 'sub') {
       router('/404')
@@ -36,8 +41,32 @@ export default function CreateReward() {
       )
     }
   }, [subscriptionDetails])
-  const { colorMode, toggleColorMode } = useColorMode()
+  useEffect(() => {
+    const fetchSubConnected = async () => {
+      const res = await fetch(
+        `https://bdsm-backend.onrender.com/api/fetchSubConnected`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      )
 
+      const resData = await res.json()
+
+      if (resData.error) {
+        console.log('Error fetching users')
+      } else if (resData.connections) {
+        setConnections(resData.connections)
+      }
+    }
+    fetchSubConnected()
+  }, [])
+
+  const { colorMode, toggleColorMode } = useColorMode()
+  const [selectedOptions, setSelectedOptions] = useState([])
   const [email, setEmail] = useState(null)
   const [user, setUser] = useState(null)
   const [data, setData] = useState({
@@ -64,6 +93,7 @@ export default function CreateReward() {
           },
           body: JSON.stringify({
             data,
+            selectedOptions,
           }),
         },
       )
@@ -99,6 +129,34 @@ export default function CreateReward() {
         isClosable: true,
       })
     }
+  }
+
+  const handleSelectChange = (event) => {
+    const selectedValues = Array.from(
+      event.target.selectedOptions,
+      (option) => option.value,
+    )
+
+    // Filter out selected options that are already in the state
+    const newSelectedOptions = connections.filter(
+      (option) =>
+        selectedValues.includes(option.subEmail) &&
+        !selectedOptions.some(
+          (selected) => selected.subEmail === option.subEmail,
+        ),
+    )
+
+    setSelectedOptions((prevSelected) => [
+      ...prevSelected,
+      ...newSelectedOptions,
+    ])
+  }
+
+  const handleRemoveOption = (optionValue) => {
+    console.log(optionValue)
+    setSelectedOptions((prevSelected) =>
+      prevSelected.filter((option) => option.subEmail !== optionValue),
+    )
   }
 
   return (
@@ -148,6 +206,42 @@ export default function CreateReward() {
                   type="number"
                   placeholder="Reward Points"
                 />
+              </div>
+              <div className="mt-6 gap-4">
+                {/* A select button where I can choose multiple from various options */}
+                <SimpleGrid gap={4}>
+                  <Select
+                    isMulti
+                    placeholder="Select SUBs"
+                    size="md"
+                    onChange={handleSelectChange}
+                  >
+                    {connections?.map((option) => (
+                      <option key={option.subEmail} value={option.subEmail}>
+                        {option.subName}
+                      </option>
+                    ))}
+                  </Select>
+                </SimpleGrid>
+
+                {/* Display selected options as tags with a close button */}
+                {selectedOptions?.map((d, i) => {
+                  console.log('selectedOption', selectedOptions)
+                  return (
+                    <Tag
+                      key={i + 1}
+                      size="md"
+                      variant="subtle"
+                      colorScheme="blue"
+                      className="m-2"
+                    >
+                      <TagLabel>{d.subName}</TagLabel>
+                      <TagCloseButton
+                        onClick={() => handleRemoveOption(d.subEmail)}
+                      />
+                    </Tag>
+                  )
+                })}
               </div>
               <div className="mt-6 gap-4 grid grid-cols-1">
                 <Textarea

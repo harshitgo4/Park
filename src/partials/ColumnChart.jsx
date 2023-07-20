@@ -18,7 +18,7 @@ export const data = [
   ['Dec', 21.45, 'blue'], // CSS-style declaration
 ]
 
-export function ColumnChart() {
+export function ColumnChart({ data }) {
   const bg = useColorModeValue('bg-gray-100', '#1E293B')
   const textColor = useColorModeValue('#000', '#fff')
 

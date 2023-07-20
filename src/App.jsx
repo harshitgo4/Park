@@ -40,6 +40,7 @@ import ConnectedSub from './pages/ConnectedSub'
 import ManageRewards from './pages/ManageRewards'
 import SubPage from './pages/SubPage'
 import PendingRewards from './pages/PendingRewards'
+import SubmitTask from './pages/SubmitTask'
 function App() {
   const location = useLocation()
 
@@ -69,6 +70,7 @@ function App() {
         <Route path="/dashboard" element={<DirectoryPage />} />
         <Route path="/CurrentTask" element={<CurrentTask />} />
         <Route path="/AllTask" element={<AllTask />} />
+        <Route path="/SubmitTask" element={<SubmitTask />} />
         <Route path="/CreateTask" element={<CreateTask />} />
         <Route path="/CreateReward" element={<CreateReward />} />
         <Route path="/ManageTask" element={<ManageTask />} />

@@ -8,12 +8,14 @@ import SideBar from '../components/sidebar/Main'
 import CardsWithPagination from '../partials/CardsWithPagination'
 import BuyRewardCard from '../partials/BuyRewardCard'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
+import Cookies from 'js-cookie'
 
 export default function BuyReward() {
   const router = useNavigate()
 
   const [showDrawer, setShowDrawer] = useState(false)
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
+  const [data, setData] = useState([])
   useEffect(() => {
     if (user && user.type === 'dom') {
       router('/404')
@@ -27,6 +29,28 @@ export default function BuyReward() {
       )
     }
   }, [subscriptionDetails])
+  useEffect(() => {
+    const url = 'https://bdsm-backend.onrender.com/api/getSubRewards'
+    const fetchBuyRewards = async () => {
+      const res = await fetch(url, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+        },
+      })
+
+      const resData = await res.json()
+
+      if (resData.error) {
+        console.log('Error fetching user')
+      } else if (resData.buyRewards) {
+        console.log(resData.buyRewards)
+        setData(resData.buyRewards)
+      }
+    }
+    fetchBuyRewards()
+  }, [])
+
   const { colorMode, toggleColorMode } = useColorMode()
 
   const [email, setEmail] = useState(null)
@@ -35,42 +59,6 @@ export default function BuyReward() {
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
-
-  const data = [
-    {
-      id: 1,
-      title: '100',
-    },
-    {
-      id: 2,
-      title: '200',
-    },
-    {
-      id: 3,
-      title: '300',
-    },
-    {
-      id: 4,
-      title: '400',
-    },
-    {
-      id: 5,
-      title: '500',
-    },
-    {
-      id: 6,
-      title: '600',
-    },
-    {
-      id: 7,
-      title: '800',
-    },
-    {
-      id: 8,
-      title: '1000',
-    },
-    // Add more data
-  ]
 
   return (
     <div className="h-[100vh] overflow-y-auto">
@@ -104,7 +92,7 @@ export default function BuyReward() {
               {' '}
               <h1 className="font-semibold mb-8">Buy Reward Points</h1>
               <Box p={4}>
-                <BuyRewardCard data={data} />
+                <BuyRewardCard data={data} user={user} />
               </Box>
             </div>
           </div>
