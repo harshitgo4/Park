@@ -35,7 +35,7 @@ export default function CurrentTask() {
   useEffect(() => {
     const fetchTasks = async () => {
       const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/getSubTask`,
+        `https://bdsm-backend.onrender.com/api/getSubPendingSubmissions`,
         {
           method: 'GET',
           headers: {
@@ -51,10 +51,7 @@ export default function CurrentTask() {
         console.log('Error fetching user')
       } else if (resData.tasks) {
         console.log(resData.tasks)
-        const temp = resData.tasks.filter((d) => {
-          return d.status == 'Pending'
-        })
-        setData(temp)
+        setData(resData.tasks)
       }
     }
     fetchTasks()

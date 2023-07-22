@@ -40,13 +40,16 @@ export default function PendingSubmissions() {
   }, [subscriptionDetails])
   useEffect(() => {
     const fetchTasks = async () => {
-      const res = await fetch(`https://bdsm-backend.onrender.com/api/getTask`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${Cookies.get('token')}`,
-          'Content-Type': 'application/json',
+      const res = await fetch(
+        `https://bdsm-backend.onrender.com/api/getPendingSubmissions`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json',
+          },
         },
-      })
+      )
 
       const resData = await res.json()
 
@@ -86,7 +89,7 @@ export default function PendingSubmissions() {
       { Header: 'Task ID', accessor: 'taskId' },
       { Header: 'Sub Name', accessor: 'subName' },
       { Header: 'Task Name', accessor: 'taskName' },
-      { Header: 'Submission Date', accessor: 'submissionDate' },
+      { Header: 'End Date', accessor: 'submissionDate' },
       { Header: 'Submission Time', accessor: 'submissionTime' },
       { Header: 'Point Value', accessor: 'pointValue' },
     ],

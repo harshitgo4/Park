@@ -13,7 +13,7 @@ import Swal from 'sweetalert2'
 import Cookies from 'js-cookie'
 import { useNavigate } from 'react-router-dom'
 
-const Card = ({ id, title, points, dom, boughtBy, user }) => {
+const Card = ({ id, title, points, dom, user }) => {
   const toast = useToast()
   const router = useNavigate()
   return (
@@ -32,65 +32,57 @@ const Card = ({ id, title, points, dom, boughtBy, user }) => {
         <Button
           isDisabled={user.rewards < points}
           onClick={() => {
-            boughtBy.some((obj) => obj.subEmail === user?.email)
-              ? boughtBy.some((obj2) => obj2.status === 'Pending')
-                ? null
-                : null
-              : Swal.fire({
-                  title: `Are you sure you want to use ${points} on this`,
-                  text: "You won't be able to revert this!",
-                  icon: 'warning',
-                  showCancelButton: true,
-                  confirmButtonColor: '#3085d6',
-                  cancelButtonColor: '#d33',
-                  confirmButtonText: 'Yes, buy it!',
-                }).then(async (result) => {
-                  if (result.isConfirmed) {
-                    const res = await fetch(
-                      `https://bdsm-backend.onrender.com/api/BuyReward`,
-                      {
-                        method: 'POST',
-                        headers: {
-                          Authorization: `Bearer ${Cookies.get('token')}`,
-                          'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                          id,
-                          points,
-                        }),
-                      },
-                    )
+            Swal.fire({
+              title: `Are you sure you want to use ${points} on this`,
+              text: "You won't be able to revert this!",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, buy it!',
+            }).then(async (result) => {
+              if (result.isConfirmed) {
+                const res = await fetch(
+                  `https://bdsm-backend.onrender.com/api/BuyReward`,
+                  {
+                    method: 'POST',
+                    headers: {
+                      Authorization: `Bearer ${Cookies.get('token')}`,
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                      id,
+                      points,
+                    }),
+                  },
+                )
 
-                    const resData = await res.json()
+                const resData = await res.json()
 
-                    if (resData.error) {
-                      console.log('Error creating reward')
-                      toast({
-                        title: 'Something went wrong!',
-                        status: 'error',
-                        duration: 9000,
-                        isClosable: true,
-                      })
-                    } else if (resData.message) {
-                      toast({
-                        title: 'Reward awaiting approval!',
-                        status: 'success',
-                        duration: 9000,
-                        isClosable: true,
-                      })
-                      router('/BuyReward')
-                    }
-                  }
-                })
+                if (resData.error) {
+                  console.log('Error creating reward')
+                  toast({
+                    title: 'Something went wrong!',
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
+                  })
+                } else if (resData.message) {
+                  toast({
+                    title: 'Reward awaiting approval!',
+                    status: 'success',
+                    duration: 9000,
+                    isClosable: true,
+                  })
+                  router('/BuyReward')
+                }
+              }
+            })
           }}
           className="mt-6"
           colorScheme="blue"
         >
-          {boughtBy.some((obj) => obj.subEmail === user?.email)
-            ? boughtBy.some((obj2) => obj2.status === 'Pending')
-              ? 'Pending'
-              : 'Bought'
-            : 'Buy now'}
+          Buy now
         </Button>
       </Box>
     </>
@@ -120,7 +112,6 @@ export default function BuyRewardCard({ data, user }) {
               title={item.name}
               points={item.rewardPoints}
               dom={item.domName}
-              boughtBy={item.boughtBy}
               user={user}
             />
           ))}

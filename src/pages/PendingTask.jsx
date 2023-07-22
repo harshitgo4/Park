@@ -62,9 +62,7 @@ export default function PendingTask() {
         console.log(resData.tasks)
         const temp = resData.tasks.filter((d) => {
           d.updatedAt = d.updatedAt.split('T')[0]
-          const currentDate = new Date()
-          const endDate = new Date(d.endDate)
-          return d.status == 'Pending' && endDate >= currentDate
+          return d.status === 'Pending'
         })
 
         console.log(temp)

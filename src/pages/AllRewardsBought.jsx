@@ -6,30 +6,25 @@ import { Box, Button, useColorModeValue, useColorMode } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
 import SideBar from '../components/sidebar/Main'
 import Table from '../partials/DataGrid'
+import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
 import Cookies from 'js-cookie'
-import { ArrowUturnLeftIcon } from '@heroicons/react/20/solid'
-export default function AcceptedTask() {
+export default function AllRewardsBought() {
   const router = useNavigate()
   const [showDrawer, setShowDrawer] = useState(false)
-  const [subscriptionDetails, setSubscriptionDetails] = useState(false)
-  const { colorMode, toggleColorMode } = useColorMode()
+  const [user, setUser] = useState(null)
   const [data, setData] = useState([
     {
-      taskId: null,
+      rewardId: null,
       date: null,
-      taskName: null,
-      taskAssignedTo: null,
-      taskSubmittedTo: null,
+      rewardName: null,
+      description: null,
+      rewardPoints: null,
+      subName: null,
+      domName: null,
       status: null,
     },
   ])
-  const [email, setEmail] = useState(null)
-  const [user, setUser] = useState(null)
-  useEffect(() => {
-    if (user && user.type === 'dom') {
-      router('/404')
-    }
-  }, [])
+  const [subscriptionDetails, setSubscriptionDetails] = useState(false)
 
   useEffect(() => {
     if (subscriptionDetails) {
@@ -39,12 +34,13 @@ export default function AcceptedTask() {
       )
     }
   }, [subscriptionDetails])
+
   useEffect(() => {
     const url =
       user?.type == 'sub'
-        ? 'https://bdsm-backend.onrender.com/api/getSubTask'
-        : 'https://bdsm-backend.onrender.com/api/getTask'
-    const fetchTasks = async () => {
+        ? 'https://bdsm-backend.onrender.com/api/getSubBoughtRewards'
+        : 'https://bdsm-backend.onrender.com/api/getBoughtRewards'
+    const fetchRewardsBought = async () => {
       const res = await fetch(url, {
         method: 'GET',
         headers: {
@@ -57,30 +53,33 @@ export default function AcceptedTask() {
 
       if (resData.error) {
         console.log('Error fetching user')
-      } else if (resData.tasks) {
-        console.log(resData.tasks)
-        const temp = resData.tasks.filter((d) => {
+      } else if (resData.rewardBought) {
+        console.log(resData.rewardBought)
+        const temp = resData.rewardBought.filter((d) => {
           d.updatedAt = d.updatedAt.split('T')[0]
-          return d.status === 'Accepted'
+          return true
         })
-
-        console.log(temp)
         setData(temp)
       }
     }
-    fetchTasks()
+    fetchRewardsBought()
   }, [user])
 
+  const { colorMode, toggleColorMode } = useColorMode()
+
+  const [email, setEmail] = useState(null)
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const bg = useColorModeValue('bg-[#FFF2F2]', 'bg-[#1E293B]')
+  const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
 
   const columns = useMemo(
     () => [
       { Header: 'Date', accessor: 'updatedAt' },
-      { Header: 'Task Name', accessor: 'taskName' },
-      { Header: 'Task Assigned To', accessor: 'subName' },
-      { Header: 'Task Submitted To', accessor: 'domName' },
+      { Header: 'Reward Name', accessor: 'rewardName' },
+      { Header: 'Reward Description', accessor: 'description' },
+      { Header: 'Reward Points', accessor: 'rewardPoints' },
+      { Header: 'Redeemed By', accessor: 'subName' },
+      { Header: 'Created By', accessor: 'domName' },
       { Header: 'Status', accessor: 'status' },
     ],
     [],
@@ -116,7 +115,7 @@ export default function AcceptedTask() {
           <div className={`${bg} m-2 flex flex-row rounded-lg p-8`}>
             <div className="w-full">
               {' '}
-              <h1 className="font-semibold mb-8">Accepted Tasks Detail</h1>
+              <h1 className="font-semibold mb-8">All Rewards Redeemed</h1>
               <Table columns={columns} data={data} />
             </div>
           </div>

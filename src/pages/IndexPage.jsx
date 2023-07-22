@@ -21,6 +21,7 @@ import { CircularProgress, CircularProgressLabel } from '@chakra-ui/react'
 import Countdown from '../partials/Countdown'
 import { BarChart } from '../partials/BarChart'
 import Cookies from 'js-cookie'
+import moment from 'moment'
 export default function Home({ folder, initialNamespace }) {
   const router = useNavigate()
   const [showDrawer, setShowDrawer] = useState(false)
@@ -33,6 +34,12 @@ export default function Home({ folder, initialNamespace }) {
     ['2016', 660, 1120, 300],
     ['2017', 1030, 540, 350],
   ])
+  const [data, setData] = useState({
+    Accepted: 0,
+    Failed: 0,
+    Pending: 0,
+    All: 0,
+  })
   const [statistics, setStatistics] = useState({
     todayCompleted: 0,
     todayTotal: 0,
@@ -77,141 +84,336 @@ export default function Home({ folder, initialNamespace }) {
         console.log('Error fetching user')
       } else if (resData.tasks) {
         console.log(resData.tasks)
-
-        // Create a function to get the past date based on the number of days ago
-        function getDateAgo(daysAgo) {
-          const today = new Date()
-          const pastDate = new Date(today.setDate(today.getDate() - daysAgo))
-          return pastDate.toISOString().split('T')[0]
-        }
-
-        // Initialize the counts for each status
-        const statusCounts = {
-          Completed: [],
-          Failed: [],
-          Pending: [],
-        }
-
-        // Initialize variables
-        let todayCompleted = 0
-        let todayTotal = 0
-        let thisWeekCompleted = 0
-        let thisWeekTotal = 0
-        let thisMonthCompleted = 0
-        let thisMonthTotal = 0
-        let remaining = 0
-        let overtime = 0
-
-        // Iterate through resData.tasks
-        resData.tasks.forEach((task) => {
-          const taskEndDate = task.endDate.split('T')[0]
-          const daysAgo = Math.floor(
-            (new Date() - new Date(taskEndDate)) / (1000 * 60 * 60 * 24),
-          )
-
-          // Count for each status and day
-          if (statusCounts.hasOwnProperty(task.status)) {
-            if (daysAgo < 7) {
-              statusCounts[task.status][daysAgo] =
-                (statusCounts[task.status][daysAgo] || 0) + 1
-            }
-          }
-
-          // Today
-          if (taskEndDate === getDateAgo(0) && task.status === 'Completed') {
-            todayCompleted++
-          }
-          if (taskEndDate === getDateAgo(0)) {
-            todayTotal++
-          }
-
-          // This Week
-          if (
-            new Date(taskEndDate) >= new Date(getDateAgo(6)) &&
-            new Date(taskEndDate) <= new Date(getDateAgo(0)) &&
-            task.status === 'Completed'
-          ) {
-            thisWeekCompleted++
-          }
-          if (
-            new Date(taskEndDate) >= new Date(getDateAgo(6)) &&
-            new Date(taskEndDate) <= new Date(getDateAgo(0))
-          ) {
-            thisWeekTotal++
-          }
-
-          // This Month
-          if (
-            new Date(taskEndDate) >= new Date(getDateAgo(30)) &&
-            new Date(taskEndDate) <= new Date(getDateAgo(0)) &&
-            task.status === 'Completed'
-          ) {
-            thisMonthCompleted++
-          }
-          if (
-            new Date(taskEndDate) >= new Date(getDateAgo(30)) &&
-            new Date(taskEndDate) <= new Date(getDateAgo(0))
-          ) {
-            thisMonthTotal++
-          }
-
-          // Remaining
-          if (
-            task.status === 'Pending' &&
-            new Date(taskEndDate) >= new Date()
-          ) {
-            remaining++
-          }
-
-          // Overtime
-          if (
-            new Date(taskEndDate) < new Date() &&
-            task.status !== 'Completed'
-          ) {
-            overtime++
-          }
-        })
-        setStatistics({
-          todayCompleted: todayCompleted,
-          todayTotal: todayTotal,
-          thisWeekCompleted: thisWeekCompleted,
-          thisWeekTotal: thisWeekTotal,
-          thisMonthCompleted: thisMonthCompleted,
-          thisMonthTotal: thisMonthTotal,
-          remaining: remaining,
-          overtime: overtime,
-          total: resData.tasks.length,
-        })
+        console.log(resData.totalTasks)
         setCounts({
           rewardsCount: resData.rewardsCount,
           totalSubs: resData.totalSubs,
         })
-        // Prepare the data for the bar chart
-        const tempData = [['Status', 'Completed', 'Failed', 'Pending']]
-        for (let i = 6; i >= 0; i--) {
-          const date = getDateAgo(i)
-          const counts = [
-            date,
-            statusCounts['Completed'][i] || 0,
-            statusCounts['Failed'][i] || 0,
-            statusCounts['Pending'][i] || 0,
-          ]
-          tempData.push(counts)
-        }
+        const temp = await resData.tasks.filter(
+          (el) => el.status === 'Accepted',
+        )
+        const temp2 = await resData.tasks.filter((el) => el.status === 'Denied')
+        const temp3 = resData.totalTasks.filter((el) => {
+          // Convert the endDate to a date object
+          const endDate = new Date(el.endDate.split('T')[0])
 
-        console.log(tempData)
-        setBarData(tempData)
-        //         [
-        //   ['Year', 'Sales', 'Expenses', 'Profit'],
-        //   ['2014', 1000, 400, 200],
-        //   ['2015', 1170, 460, 250],
-        //   ['2016', 660, 1120, 300],
-        //   ['2017', 1030, 540, 350],
-        // ]
+          // Check if endDate is greater than or equal to today's date
+          const isEndDatePassed = endDate >= new Date()
+          const today = new Date().toISOString().split('T')[0]
+          // Check if there are no tasks in resData.tasks with the same createdAt date as today
+          const hasNoTasksToday = !resData.tasks.some((d) => {
+            const createdAtDate = new Date(d.createdAt)
+              .toISOString()
+              .split('T')[0]
+            return createdAtDate === today
+          })
+
+          // Check if there are no tasks in resData.tasks with the same createdAt week as the current week
+          const thisWeekStart = new Date()
+          thisWeekStart.setDate(
+            thisWeekStart.getDate() - ((thisWeekStart.getDay() + 6) % 7),
+          )
+          const thisWeekEnd = new Date(thisWeekStart)
+          thisWeekEnd.setDate(thisWeekEnd.getDate() + 6)
+          const hasNoTasksThisWeek = !resData.tasks.some((d) => {
+            const taskDate = new Date(d.createdAt)
+            return taskDate >= thisWeekStart && taskDate <= thisWeekEnd
+          })
+
+          // Check if there are no tasks in resData.tasks with the same createdAt month as the current month
+          const thisMonthStart = new Date()
+          thisMonthStart.setDate(1)
+          const thisMonthEnd = new Date(thisMonthStart)
+          thisMonthEnd.setMonth(thisMonthEnd.getMonth() + 1)
+          thisMonthEnd.setDate(thisMonthEnd.getDate() - 1)
+          const hasNoTasksThisMonth = !resData.tasks.some((d) => {
+            const taskDate = new Date(d.createdAt)
+            return taskDate >= thisMonthStart && taskDate <= thisMonthEnd
+          })
+
+          // Filter based on the conditions for 'Daily', 'Weekly', and 'Monthly' submissionFreqs
+          return (
+            isEndDatePassed &&
+            ((el.submissionFreq === 'Daily' && hasNoTasksToday) ||
+              (el.submissionFreq === 'Weekly' && hasNoTasksThisWeek) ||
+              (el.submissionFreq === 'Monthly' && hasNoTasksThisMonth))
+          )
+        })
+
+        // Calculate todayCompleted
+        const today = new Date().toISOString().split('T')[0]
+        const todayCompleted = resData.tasks.filter((d) => {
+          const createdAtDate = new Date(d.createdAt)
+            .toISOString()
+            .split('T')[0]
+          return d.status === 'Accepted' && createdAtDate === today
+        }).length
+
+        const todayFailed = resData.tasks.filter((d) => {
+          const createdAtDate = new Date(d.createdAt)
+            .toISOString()
+            .split('T')[0]
+          return d.status === 'Denied' && createdAtDate === today
+        }).length
+
+        // Calculate todayTotal
+        const todayTotal = resData.totalTasks.filter((d) =>
+          isDueForSubmissionToday(d, resData.tasks),
+        ).length
+
+        // Calculate weekCompleted (tasks completed within the current week from Monday to Sunday)
+        const weekCompleted = resData.totalTasks.filter((d) =>
+          isCompletedLastWeek(d, resData.tasks),
+        ).length
+
+        const weekFailed = resData.totalTasks.filter((d) =>
+          isFailedLastWeek(d, resData.tasks),
+        ).length
+
+        // Calculate weekTotal (tasks due for submission within the current week from Monday to Sunday)
+        const weekTotal = resData.totalTasks.filter((d) =>
+          isDueForSubmissionWeek(d, resData.tasks),
+        ).length
+
+        // Calculate monthCompleted (tasks completed within the current month from 1st to the end of the month)
+        const monthCompleted = resData.totalTasks.filter((d) =>
+          isCompletedThisMonth(d, resData.tasks),
+        ).length
+
+        const monthFailed = resData.totalTasks.filter((d) =>
+          isFailedThisMonth(d, resData.tasks),
+        ).length
+
+        // Calculate monthTotal (tasks due for submission within the current month from 1st to the end of the month)
+        const monthTotal = resData.totalTasks.filter((d) =>
+          isDueForSubmissionMonth(d, resData.tasks),
+        ).length
+
+        setData({
+          Accepted: temp.length,
+          Failed: temp2.length,
+          All: resData.totalTasks.length,
+          Pending: temp3.length,
+        })
+        setStatistics({
+          todayCompleted,
+          todayTotal,
+          thisWeekTotal: weekTotal,
+          thisWeekCompleted: weekCompleted,
+          thisMonthCompleted: monthCompleted,
+          thisMonthTotal: monthTotal,
+          remaining: temp3.length,
+          overtime: 0,
+          total: resData.totalTasks.length,
+        })
+
+        setBarData([
+          ['Status', 'Completed', 'Failed', 'Pending'],
+          [
+            'Today',
+            todayCompleted,
+            todayFailed,
+            todayTotal - todayCompleted - todayFailed,
+          ],
+          [
+            'Weekly',
+            weekCompleted,
+            weekFailed,
+            weekTotal - weekCompleted - weekFailed,
+          ],
+          [
+            'Monthly',
+            monthCompleted,
+            monthFailed,
+            monthTotal - monthCompleted - monthFailed,
+          ],
+        ])
       }
     }
     fetchTasks()
   }, [user])
+
+  function isDueForSubmissionToday(task, tasksData) {
+    const { createdAt, submissionFreq } = task
+    const today = new Date().toISOString().split('T')[0]
+
+    if (submissionFreq === 'Daily') {
+      // For daily tasks, check if there's no task submitted today
+      return !tasksData.some((d) => d.taskId === task._id && d.date === today)
+    }
+
+    return false // Invalid submission frequency
+  }
+
+  // Function to check if the task is due for submission within the current week (Monday to Sunday)
+  function isDueForSubmissionWeek(task, tasksData) {
+    const { createdAt, submissionFreq } = task
+    const today = new Date()
+
+    if (submissionFreq === 'Weekly') {
+      // Find the start and end dates of the current week (from Monday to Sunday)
+      const thisWeekStart = new Date()
+      thisWeekStart.setDate(
+        thisWeekStart.getDate() - ((thisWeekStart.getDay() + 6) % 7),
+      )
+      const thisWeekEnd = new Date(thisWeekStart)
+      thisWeekEnd.setDate(thisWeekEnd.getDate() + 6)
+
+      // Check if the task is due for submission within the current week
+      return !tasksData.some((d) => {
+        const taskDate = new Date(d.date)
+        return (
+          d.taskId === task._id &&
+          taskDate >= thisWeekStart &&
+          taskDate <= thisWeekEnd
+        )
+      })
+    }
+
+    return false // Invalid submission frequency
+  }
+
+  // Function to check if the task was completed within the last week (from Monday to Sunday)
+  function isCompletedLastWeek(task, tasksData) {
+    const { createdAt, submissionFreq } = task
+    const today = new Date()
+
+    if (submissionFreq === 'Weekly') {
+      // Find the start and end dates of the last week (from Monday to Sunday)
+      const lastWeekStart = new Date()
+      lastWeekStart.setDate(
+        lastWeekStart.getDate() - ((lastWeekStart.getDay() + 6) % 7) - 7,
+      )
+      const lastWeekEnd = new Date(lastWeekStart)
+      lastWeekEnd.setDate(lastWeekEnd.getDate() + 6)
+
+      // Check if the task was completed within the last week
+      return tasksData.some((d) => {
+        const taskDate = new Date(d.date)
+        return (
+          d.taskId === task._id &&
+          taskDate >= lastWeekStart &&
+          taskDate <= lastWeekEnd &&
+          d.status === 'Accepted'
+        )
+      })
+    }
+
+    return false // Invalid submission frequency
+  }
+
+  function isFailedLastWeek(task, tasksData) {
+    const { createdAt, submissionFreq } = task
+    const today = new Date()
+
+    if (submissionFreq === 'Weekly') {
+      // Find the start and end dates of the last week (from Monday to Sunday)
+      const lastWeekStart = new Date()
+      lastWeekStart.setDate(
+        lastWeekStart.getDate() - ((lastWeekStart.getDay() + 6) % 7) - 7,
+      )
+      const lastWeekEnd = new Date(lastWeekStart)
+      lastWeekEnd.setDate(lastWeekEnd.getDate() + 6)
+
+      // Check if the task was completed within the last week
+      return tasksData.some((d) => {
+        const taskDate = new Date(d.date)
+        return (
+          d.taskId === task._id &&
+          taskDate >= lastWeekStart &&
+          taskDate <= lastWeekEnd &&
+          d.status === 'Denied'
+        )
+      })
+    }
+
+    return false // Invalid submission frequency
+  }
+
+  // Function to check if the task is due for submission within the current month (from 1st to the end of the month)
+  function isDueForSubmissionMonth(task, tasksData) {
+    const { createdAt, submissionFreq } = task
+    const today = new Date()
+
+    if (submissionFreq === 'Monthly') {
+      // Find the start and end dates of the current month (from 1st to the end of the month)
+      const thisMonthStart = new Date(today.getFullYear(), today.getMonth(), 1)
+      const thisMonthEnd = new Date(
+        today.getFullYear(),
+        today.getMonth() + 1,
+        0,
+      )
+
+      // Check if the task is due for submission within the current month
+      return !tasksData.some((d) => {
+        const taskDate = new Date(d.date)
+        return (
+          d.taskId === task._id &&
+          taskDate >= thisMonthStart &&
+          taskDate <= thisMonthEnd
+        )
+      })
+    }
+
+    return false // Invalid submission frequency
+  }
+
+  // Function to check if the task was completed within the current month (from 1st to the end of the month)
+  function isCompletedThisMonth(task, tasksData) {
+    const { createdAt, submissionFreq } = task
+    const today = new Date()
+
+    if (submissionFreq === 'Monthly') {
+      // Find the start and end dates of the current month (from 1st to the end of the month)
+      const thisMonthStart = new Date(today.getFullYear(), today.getMonth(), 1)
+      const thisMonthEnd = new Date(
+        today.getFullYear(),
+        today.getMonth() + 1,
+        0,
+      )
+
+      // Check if the task was completed within the current month
+      return tasksData.some((d) => {
+        const taskDate = new Date(d.date)
+        return (
+          d.taskId === task._id &&
+          taskDate >= thisMonthStart &&
+          taskDate <= thisMonthEnd &&
+          d.status === 'Accepted'
+        )
+      })
+    }
+
+    return false // Invalid submission frequency
+  }
+
+  function isFailedThisMonth(task, tasksData) {
+    const { createdAt, submissionFreq } = task
+    const today = new Date()
+
+    if (submissionFreq === 'Monthly') {
+      // Find the start and end dates of the current month (from 1st to the end of the month)
+      const thisMonthStart = new Date(today.getFullYear(), today.getMonth(), 1)
+      const thisMonthEnd = new Date(
+        today.getFullYear(),
+        today.getMonth() + 1,
+        0,
+      )
+
+      // Check if the task was completed within the current month
+      return tasksData.some((d) => {
+        const taskDate = new Date(d.date)
+        return (
+          d.taskId === task._id &&
+          taskDate >= thisMonthStart &&
+          taskDate <= thisMonthEnd &&
+          d.status === 'Denied'
+        )
+      })
+    }
+
+    return false // Invalid submission frequency
+  }
 
   const { colorMode, toggleColorMode } = useColorMode()
 
@@ -269,13 +471,11 @@ export default function Home({ folder, initialNamespace }) {
               <div>
                 {' '}
                 <h1 className="font-semibold">
-                  {user?.type === 'sub' ? 'Completed Tasks' : 'Accepted Tasks'}
+                  {user?.type === 'sub'
+                    ? 'Completed Tasks'
+                    : 'Accepted Submissions'}
                 </h1>
-                <p className="text-3xl">
-                  {statistics.total -
-                    statistics.remaining -
-                    statistics.overtime}
-                </p>
+                <p className="text-3xl">{data.Accepted}</p>
                 <Button rightIcon={<ArrowRightIcon className="w-5" />}>
                   View Details
                 </Button>
@@ -295,9 +495,11 @@ export default function Home({ folder, initialNamespace }) {
               <div>
                 {' '}
                 <h1 className="font-semibold">
-                  {user?.type === 'sub' ? 'Failed Tasks' : 'Failed Tasks'}
+                  {user?.type === 'sub'
+                    ? 'Failed Submissions'
+                    : 'Failed Submissions'}
                 </h1>
-                <p className="text-3xl">{statistics.overtime}</p>
+                <p className="text-3xl">{data.Failed}</p>
                 <Button rightIcon={<ArrowRightIcon className="w-5" />}>
                   View Details
                 </Button>
@@ -339,9 +541,9 @@ export default function Home({ folder, initialNamespace }) {
               <div>
                 {' '}
                 <h1 className="font-semibold">
-                  {user?.type === 'sub' ? 'Accepted Tasks' : 'All Tasks'}
+                  {user?.type === 'sub' ? 'Accepted Submissions' : 'All Tasks'}
                 </h1>
-                <p className="text-3xl">{statistics.total}</p>
+                <p className="text-3xl">{data.All}</p>
                 <Button rightIcon={<ArrowRightIcon className="w-5" />}>
                   View Details
                 </Button>
@@ -354,16 +556,18 @@ export default function Home({ folder, initialNamespace }) {
               onClick={() =>
                 user?.type === 'sub'
                   ? router('/PendingTask')
-                  : router('/PendingTask')
+                  : router('/PendingSubmissions')
               }
               className="m-2 bg-blue-400 flex flex-row p-4"
             >
               <div>
                 {' '}
                 <h1 className="font-semibold">
-                  {user?.type === 'sub' ? 'Pending Tasks' : 'Pending Tasks'}
+                  {user?.type === 'sub'
+                    ? 'Pending Submissions'
+                    : 'Pending Submissions'}
                 </h1>
-                <p className="text-3xl">{statistics.remaining}</p>
+                <p className="text-3xl">{data.Pending}</p>
                 <Button rightIcon={<ArrowRightIcon className="w-5" />}>
                   View Details
                 </Button>

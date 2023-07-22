@@ -36,8 +36,8 @@ export default function AllTask() {
   useEffect(() => {
     const url =
       user?.type == 'sub'
-        ? 'https://bdsm-backend.onrender.com/api/getSubTask'
-        : 'https://bdsm-backend.onrender.com/api/getTask'
+        ? 'https://bdsm-backend.onrender.com/api/getAllSubTask'
+        : 'https://bdsm-backend.onrender.com/api/getAllTask'
     const fetchTasks = async () => {
       const res = await fetch(url, {
         method: 'GET',
@@ -55,6 +55,7 @@ export default function AllTask() {
         console.log(resData.tasks)
         const temp = resData.tasks.filter((d) => {
           d.updatedAt = d.updatedAt.split('T')[0]
+          d.taskId = d._id
           return true
         })
         setData(temp)
@@ -74,9 +75,11 @@ export default function AllTask() {
     () => [
       { Header: 'Date', accessor: 'updatedAt' },
       { Header: 'Task Name', accessor: 'taskName' },
+      { Header: 'Task Description', accessor: 'taskDesc' },
+      { Header: 'Submission Freq', accessor: 'submissionFreq' },
       { Header: 'Task Assigned To', accessor: 'subName' },
       { Header: 'Task Submitted To', accessor: 'domName' },
-      { Header: 'Status', accessor: 'status' },
+      { Header: 'Points', accessor: 'rewardPoints' },
     ],
     [],
   )

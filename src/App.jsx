@@ -41,6 +41,7 @@ import ManageRewards from './pages/ManageRewards'
 import SubPage from './pages/SubPage'
 import PendingRewards from './pages/PendingRewards'
 import SubmitTask from './pages/SubmitTask'
+import AllRewardsBought from './pages/AllRewardsBought'
 function App() {
   const location = useLocation()
 
@@ -70,6 +71,7 @@ function App() {
         <Route path="/dashboard" element={<DirectoryPage />} />
         <Route path="/CurrentTask" element={<CurrentTask />} />
         <Route path="/AllTask" element={<AllTask />} />
+        <Route path="/AllRewardsBought" element={<AllRewardsBought />} />
         <Route path="/SubmitTask" element={<SubmitTask />} />
         <Route path="/CreateTask" element={<CreateTask />} />
         <Route path="/CreateReward" element={<CreateReward />} />

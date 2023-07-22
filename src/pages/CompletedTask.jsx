@@ -59,7 +59,7 @@ export default function CompletedTask() {
         console.log(resData.tasks)
         const temp = resData.tasks.filter((d) => {
           d.updatedAt = d.updatedAt.split('T')[0]
-          return d.status == 'Completed'
+          return d.status == 'Accepted'
         })
         setData(temp)
       }

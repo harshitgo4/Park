@@ -185,6 +185,17 @@ function SideBar({
             <CalendarDaysIcon className="w-5 mx-2" />
             {user?.type === 'sub' ? '' : 'Manage Rewards'}
           </button>
+          <button
+            className={`flex flex-row text-right ${
+              window.location.pathname === '/AllRewardsBought'
+                ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                : null
+            }`}
+            onClick={() => router('/AllRewardsBought')}
+          >
+            <CalendarDaysIcon className="w-5 mx-2" />
+            {'Rewards History'}
+          </button>
         </div>
         <div className="bottom-0 flex flex-row">
           <span className="text-left font-semibold text-[#00A739] text-sm ">

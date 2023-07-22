@@ -103,7 +103,7 @@ export default function ManageRewardsCards({ data }) {
           {visibleData?.map((item) => (
             <Card
               key={item.id}
-              id={item.id}
+              id={item._id}
               rewardName={item.rewardName}
               desc={item.description}
               rewardPoints={item.rewardPoints}

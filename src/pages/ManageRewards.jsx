@@ -14,14 +14,7 @@ export default function ManageRewards() {
 
   const [showDrawer, setShowDrawer] = useState(false)
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
-  const [data, setData] = useState([
-    {
-      id: null,
-      subName: null,
-      rewardName: null,
-      rewardPoints: null,
-    },
-  ])
+  const [data, setData] = useState([])
   useEffect(() => {
     if (user && user.type === 'sub') {
       router('/404')
@@ -39,7 +32,7 @@ export default function ManageRewards() {
   useEffect(() => {
     const fetchTasks = async () => {
       const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/getRewards`,
+        `https://bdsm-backend.onrender.com/api/getBoughtRewards`,
         {
           method: 'GET',
           headers: {
@@ -53,34 +46,9 @@ export default function ManageRewards() {
 
       if (resData.error) {
         console.log('Error fetching user')
-      } else if (resData.rewards) {
-        console.log(resData.rewards)
-        const boughtByObjectsWithPendingStatus = resData.rewards.flatMap(
-          (reward) => {
-            return reward.boughtBy
-              .filter((boughtByObject) => boughtByObject.status === 'Pending')
-              .map(
-                ({
-                  id,
-                  rewardName,
-                  rewardPoints,
-                  description,
-                  subEmail,
-                  subName,
-                }) => ({
-                  id: id || reward._id,
-                  rewardName: rewardName || reward.rewardName,
-                  description: description || reward.description,
-                  rewardPoints: rewardPoints || reward.rewardPoints,
-                  subEmail: subEmail || reward.subEmail,
-                  subName: subName,
-                }),
-              )
-          },
-        )
-
-        console.log(boughtByObjectsWithPendingStatus)
-        setData(boughtByObjectsWithPendingStatus)
+      } else if (resData.boughtRewards) {
+        console.log(resData.boughtRewards)
+        setData(resData.boughtRewards)
       }
     }
     fetchTasks()

@@ -17,7 +17,6 @@ const Card = ({ id, title, desc, submissionDate, domName, status }) => {
         <p>{desc}</p>
         <p>Submit Date : {submissionDate}</p>
         <p>Task by : {domName}</p>
-        <p>Status : {status}</p>
         <Button
           onClick={() => router(`/task/${id}`)}
           className="mt-4"

@@ -88,13 +88,14 @@ export default function TaskRecap() {
       if (resData.error) {
         console.log('Error fetching users')
       } else if (resData.connections) {
+        console.log('resData.connections', resData.connections)
         setConnections(resData.connections)
       }
     }
     if (user?.type == 'dom') {
       fetchSubConnected()
     }
-  }, [])
+  }, [user])
   useEffect(() => {
     const url =
       user?.type == 'sub'
@@ -132,8 +133,9 @@ export default function TaskRecap() {
               taskAssignedTo: d.subName,
               taskSubmittedTo: d.domName,
               status: d.status,
+              submissionFreq: d.submissionFreq,
             })
-          } else if (d.status == 'Failed') {
+          } else if (d.status == 'Failed' || d.status == 'Denied') {
             temp3.push({
               taskId: d._id,
               date: d.updatedAt.split('T')[0],
@@ -141,6 +143,7 @@ export default function TaskRecap() {
               taskAssignedTo: d.subName,
               taskSubmittedTo: d.domName,
               status: d.status,
+              submissionFreq: d.submissionFreq,
             })
           } else if (d.status == 'Pending') {
             temp4.push({
@@ -150,6 +153,7 @@ export default function TaskRecap() {
               taskAssignedTo: d.subName,
               taskSubmittedTo: d.domName,
               status: d.status,
+              submissionFreq: d.submissionFreq,
             })
           }
         })
@@ -166,7 +170,22 @@ export default function TaskRecap() {
       }
     }
     fetchTasks()
-  }, [subEmail, selectedOption])
+  }, [subEmail])
+
+  useEffect(() => {
+    if (selectedOption) {
+      const temp2 = data2.filter((el) => el.submissionFreq == selectedOption)
+      const temp3 = data3.filter((el) => el.submissionFreq == selectedOption)
+      const temp4 = data4.filter((el) => el.submissionFreq == selectedOption)
+      console.log(data2, temp2)
+      setPieData([
+        ['Status', 'Count'],
+        ['Completed', temp2.length],
+        ['Failed', temp3.length],
+        ['Pending', temp4.length],
+      ])
+    }
+  }, [data2, data3, data4, selectedOption])
 
   const { colorMode, toggleColorMode } = useColorMode()
 
@@ -235,8 +254,8 @@ export default function TaskRecap() {
                     <option value="">Select Sub</option>
                     {connections?.map((d, i) => {
                       return (
-                        <option key={i} value={d.subEmail}>
-                          {d.subName}
+                        <option key={i} value={d?.subEmail}>
+                          {d?.subName}
                         </option>
                       )
                     })}

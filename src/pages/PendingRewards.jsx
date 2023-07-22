@@ -37,11 +37,10 @@ export default function PendingRewards() {
       )
     }
   }, [subscriptionDetails])
-
   useEffect(() => {
     const fetchTasks = async () => {
       const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/getRewards`,
+        `https://bdsm-backend.onrender.com/api/getBoughtRewards`,
         {
           method: 'GET',
           headers: {
@@ -55,15 +54,9 @@ export default function PendingRewards() {
 
       if (resData.error) {
         console.log('Error fetching user')
-      } else if (resData.rewards) {
-        console.log(resData.rewards)
-        const temp = resData.rewards.filter((d) => {
-          d.updatedAt = d.updatedAt.split('T')[0]
-          return d.status == 'Pending'
-        })
-
-        console.log(temp)
-        setData(temp)
+      } else if (resData.boughtRewards) {
+        console.log(resData.boughtRewards)
+        setData(resData.boughtRewards)
       }
     }
     fetchTasks()
