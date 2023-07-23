@@ -59,9 +59,9 @@ const Card = ({
     <>
       <Box
         borderWidth="1px"
-        className="m-auto text-center"
+        className="m-auto text-center mx-2"
         borderRadius="md"
-        p={4}
+        p={2}
         shadow="md"
       >
         <img className="mb-4 w-[12rem]" src={imageUrl} />
@@ -128,7 +128,10 @@ export default function SearchDOM({ data, connections, setConnections }) {
           onChange={handleSearch}
         />
       </Box>
-      <SimpleGrid className="grid grid-cols-1 md:grid-cols-4" spacing={4}>
+      <SimpleGrid
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-2"
+        spacing={4}
+      >
         {visibleData?.map((item) => (
           <Card
             key={item._id}
