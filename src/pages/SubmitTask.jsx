@@ -1,5 +1,5 @@
 import React from 'react'
-import { useRef, useState, useEffect, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header2 from '../components/Header2'
 import {
@@ -11,14 +11,13 @@ import {
   Textarea,
   Select,
 } from '@chakra-ui/react'
-import { useDisclosure, useToast } from '@chakra-ui/react'
+import { useDisclosure } from '@chakra-ui/react'
+import { useToast } from '@chakra-ui/react'
 import SideBar from '../components/sidebar/Main'
 import {
   ArrowUpTrayIcon,
   ArrowUturnLeftIcon,
 } from '@heroicons/react/24/outline'
-import { Checkbox, FormControl, FormLabel } from '@chakra-ui/react'
-import { SingleDatepicker } from 'chakra-dayzed-datepicker'
 import Cookies from 'js-cookie'
 export default function SubmitTask() {
   const router = useNavigate()
@@ -28,6 +27,8 @@ export default function SubmitTask() {
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
   const [data, setData] = useState(null)
   const [imageFile, setImageFile] = useState(null)
+  const [email, setEmail] = useState(null)
+  const [user, setUser] = useState(null)
   const [formData, setFormData] = useState({
     selectedTaskId: null,
     isMediaReq: false,
@@ -35,10 +36,10 @@ export default function SubmitTask() {
     textSubmission: '',
   })
   useEffect(() => {
-    if (user && user.type === 'sub') {
+    if (user && user.type === 'dom') {
       router('/404')
     }
-  }, [])
+  }, [user])
   useEffect(() => {
     if (subscriptionDetails) {
       localStorage.setItem(
@@ -94,62 +95,60 @@ export default function SubmitTask() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (formData.isSubmissionReq && !formData.textSubmission?.length > 0) {
-      return toast({
+      toast({
         title: 'Submission text required!',
         status: 'error',
         duration: 9000,
         isClosable: true,
       })
     } else if (formData.isMediaReq && !imageFile) {
-      return toast({
+      toast({
         title: 'Media required!',
         status: 'error',
         duration: 9000,
         isClosable: true,
       })
+    } else {
+      setIsLoading(true)
+      const token = Cookies.get('token') // Assuming you have a library like 'js-cookie' to retrieve the token from the cookie
+
+      const formData2 = new FormData()
+      formData2.append('selectedTaskId', formData.selectedTaskId)
+      formData2.append('textSubmission', formData.textSubmission)
+      formData2.append('image', imageFile)
+
+      fetch('https://bdsm-backend.onrender.com/api/submitTask', {
+        method: 'POST',
+        body: formData2,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((res2) => {
+          console.log(res2.message)
+          setIsLoading(false)
+          toast({
+            title: 'Submitted!',
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+          })
+        })
+        .catch((error) => {
+          setIsLoading(false)
+          console.error(error)
+          toast({
+            title: 'Something went wrong!',
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          })
+        })
     }
-    setIsLoading(true)
-    const token = Cookies.get('token') // Assuming you have a library like 'js-cookie' to retrieve the token from the cookie
-
-    const formData2 = new FormData()
-    formData2.append('selectedTaskId', formData.selectedTaskId)
-    formData2.append('textSubmission', formData.textSubmission)
-    formData2.append('image', imageFile)
-
-    fetch('https://bdsm-backend.onrender.com/api/submitTask', {
-      method: 'POST',
-      body: formData2,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((res2) => {
-        console.log(res2.message)
-        setIsLoading(false)
-        toast({
-          title: 'Submitted!',
-          status: 'sucess',
-          duration: 9000,
-          isClosable: true,
-        })
-      })
-      .catch((error) => {
-        setIsLoading(false)
-        console.error(error)
-        toast({
-          title: 'Something went wrong!',
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
-        })
-      })
   }
 
   const { colorMode, toggleColorMode } = useColorMode()
-
-  const [email, setEmail] = useState(null)
-  const [user, setUser] = useState(null)
 
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -193,7 +192,11 @@ export default function SubmitTask() {
                 >
                   <option value={null}>Select Tasks</option>
                   {data?.map((d, i) => {
-                    return <option value={d._id}>{d.taskName}</option>
+                    return (
+                      <option key={d?._id} value={d._id}>
+                        {d.taskName}
+                      </option>
+                    )
                   })}
                 </Select>
               </div>

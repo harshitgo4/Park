@@ -30,7 +30,7 @@ const Card = ({ id, rewardName, desc, rewardPoints, subEmail, subName }) => {
         console.log(res2.message)
         toast({
           title: 'Submitted!',
-          status: 'sucess',
+          status: 'success',
           duration: 9000,
           isClosable: true,
         })
