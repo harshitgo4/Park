@@ -32,13 +32,16 @@ export default function ManageTask() {
 
   useEffect(() => {
     const fetchTasks = async () => {
-      const res = await fetch(`https://bdsm-backend.onrender.com/api/getTask`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${Cookies.get('token')}`,
-          'Content-Type': 'application/json',
+      const res = await fetch(
+        `https://bdsm-backend.onrender.com/api/getAllTask`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json',
+          },
         },
-      })
+      )
 
       const resData = await res.json()
 
