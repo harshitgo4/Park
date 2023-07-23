@@ -23,7 +23,7 @@ const Card = ({
     const token = Cookies.get('token')
     console.log(id, status)
 
-    fetch('https://bdsm-backend.onrender.com/api/updateSubmittedTask', {
+    fetch('http://localhost:5000/api/updateSubmittedTask', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,

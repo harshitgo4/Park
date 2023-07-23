@@ -95,7 +95,11 @@ export default function Rewards() {
               <h1 className="font-semibold mb-8">
                 Your current Reward Point is : {user?.rewards}
               </h1>
-              <ColumnChart data={data} />
+              {data && data.length > 1 ? (
+                <ColumnChart data={data} />
+              ) : (
+                "You haven't earned any reward points yet! Complete tasks to earn reward points!"
+              )}
             </div>
           </div>
         </main>

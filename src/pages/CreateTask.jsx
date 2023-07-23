@@ -40,16 +40,13 @@ export default function CreateTask() {
 
   useEffect(() => {
     const fetchSubConnected = async () => {
-      const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/fetchSubConnected`,
-        {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${Cookies.get('token')}`,
-            'Content-Type': 'application/json',
-          },
+      const res = await fetch(`http://localhost:5000/api/fetchSubConnected`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+          'Content-Type': 'application/json',
         },
-      )
+      })
 
       const resData = await res.json()
 
@@ -110,23 +107,20 @@ export default function CreateTask() {
       data.userName &&
       dueTime
     ) {
-      const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/createTask`,
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${Cookies.get('token')}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            data,
-            dueTime,
-            startDate,
-            endDate,
-            isNoEndDate,
-          }),
+      const res = await fetch(`http://localhost:5000/api/createTask`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+          'Content-Type': 'application/json',
         },
-      )
+        body: JSON.stringify({
+          data,
+          dueTime,
+          startDate,
+          endDate,
+          isNoEndDate,
+        }),
+      })
 
       const resData = await res.json()
 

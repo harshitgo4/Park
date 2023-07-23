@@ -46,6 +46,7 @@ export default function BuyReward() {
       } else if (resData.buyRewards) {
         console.log(resData.buyRewards)
         setData(resData.buyRewards)
+        setUser(resData.user)
       }
     }
     fetchBuyRewards()

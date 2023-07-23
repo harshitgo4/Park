@@ -30,7 +30,7 @@ const Card = ({ id, title, points, dom, user }) => {
         <h3 className="text-xl font-semibold">{points}</h3>
         <p>{dom}</p>
         <Button
-          isDisabled={user.rewards < points}
+          isDisabled={user?.rewards < points}
           onClick={() => {
             Swal.fire({
               title: `Are you sure you want to use ${points} on this`,
@@ -42,20 +42,17 @@ const Card = ({ id, title, points, dom, user }) => {
               confirmButtonText: 'Yes, buy it!',
             }).then(async (result) => {
               if (result.isConfirmed) {
-                const res = await fetch(
-                  `https://bdsm-backend.onrender.com/api/BuyReward`,
-                  {
-                    method: 'POST',
-                    headers: {
-                      Authorization: `Bearer ${Cookies.get('token')}`,
-                      'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                      id,
-                      points,
-                    }),
+                const res = await fetch(`http://localhost:5000/api/BuyReward`, {
+                  method: 'POST',
+                  headers: {
+                    Authorization: `Bearer ${Cookies.get('token')}`,
+                    'Content-Type': 'application/json',
                   },
-                )
+                  body: JSON.stringify({
+                    id,
+                    points,
+                  }),
+                })
 
                 const resData = await res.json()
 

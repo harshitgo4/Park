@@ -75,24 +75,21 @@ const Card = ({ id, data2, tasks, setTasks, email, connections }) => {
       data.userName &&
       dueTime
     ) {
-      const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/updateTask`,
-        {
-          method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${Cookies.get('token')}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            id: data2._id,
-            data,
-            dueTime,
-            startDate,
-            endDate,
-            isNoEndDate,
-          }),
+      const res = await fetch(`http://localhost:5000/api/updateTask`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+          'Content-Type': 'application/json',
         },
-      )
+        body: JSON.stringify({
+          id: data2._id,
+          data,
+          dueTime,
+          startDate,
+          endDate,
+          isNoEndDate,
+        }),
+      })
 
       const resData = await res.json()
 
@@ -128,19 +125,16 @@ const Card = ({ id, data2, tasks, setTasks, email, connections }) => {
 
   const handlePause = async (e) => {
     e.preventDefault()
-    const res = await fetch(
-      `https://bdsm-backend.onrender.com/api/handlePause`,
-      {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${Cookies.get('token')}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          id: data2._id,
-        }),
+    const res = await fetch(`http://localhost:5000/api/handlePause`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${Cookies.get('token')}`,
+        'Content-Type': 'application/json',
       },
-    )
+      body: JSON.stringify({
+        id: data2._id,
+      }),
+    })
 
     const resData = await res.json()
 
@@ -168,19 +162,16 @@ const Card = ({ id, data2, tasks, setTasks, email, connections }) => {
 
   const handleDelete = async (e) => {
     e.preventDefault()
-    const res = await fetch(
-      `https://bdsm-backend.onrender.com/api/deleteTask`,
-      {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${Cookies.get('token')}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          id: data2._id,
-        }),
+    const res = await fetch(`http://localhost:5000/api/deleteTask`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${Cookies.get('token')}`,
+        'Content-Type': 'application/json',
       },
-    )
+      body: JSON.stringify({
+        id: data2._id,
+      }),
+    })
 
     const resData = await res.json()
 
