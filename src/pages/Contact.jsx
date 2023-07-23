@@ -59,7 +59,7 @@ function Contact() {
       data.checkbox
     ) {
       setDisabled(true)
-      const res = await fetch(`http://localhost:5000/api/contact`, {
+      const res = await fetch(`https://bdsm-backend.onrender.com/api/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

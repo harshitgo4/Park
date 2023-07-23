@@ -35,7 +35,7 @@ function PricingTables() {
       } else {
         // Fetch subscription details from the API
         const response = await fetch(
-          'http://localhost:5000/api/getSubscription',
+          'https://bdsm-backend.onrender.com/api/getSubscription',
           {
             headers: {
               Authorization: `Bearer ${authToken}`,
@@ -77,7 +77,7 @@ function PricingTables() {
     console.log(priceId)
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/createCheckoutSession',
+        'https://bdsm-backend.onrender.com/api/createCheckoutSession',
         {
           priceId,
         },
