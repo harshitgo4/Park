@@ -8,6 +8,7 @@ function Verify() {
   const { email, otp } = useParams()
   const router = useNavigate()
   const toast = useToast()
+  console.log(email, otp)
 
   useEffect(() => {
     const verifyEmail = async () => {
