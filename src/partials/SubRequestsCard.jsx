@@ -84,7 +84,7 @@ const Card = ({ id, email, subName, imageURL, data, setRequests }) => {
   return (
     <>
       <Box
-        className="m-auto text-left"
+        className="m-auto text-left mx-2"
         borderWidth="1px"
         borderRadius="md"
         p={4}
@@ -102,6 +102,7 @@ const Card = ({ id, email, subName, imageURL, data, setRequests }) => {
             colorScheme="red"
             onClick={(e) => removeReq(e, email)}
             className="mx-2"
+            size="xs"
           >
             Remove
           </Button>
@@ -109,6 +110,7 @@ const Card = ({ id, email, subName, imageURL, data, setRequests }) => {
             colorScheme="green"
             onClick={(e) => acceptReq(e, email)}
             className="mx-2"
+            size="xs"
           >
             Accept
           </Button>
@@ -132,7 +134,7 @@ export default function SubRequestsCard({ data, setRequests }) {
   return (
     <>
       <Box>
-        <SimpleGrid className="grid grid-cols-1 md:grid-cols-4" spacing={4}>
+        <SimpleGrid className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 mx-2" spacing={4}>
           {visibleData?.map((item) => (
             <Card
               key={item._id}
