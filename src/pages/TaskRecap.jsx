@@ -125,7 +125,7 @@ export default function TaskRecap() {
         const temp4 = []
 
         resData.tasks.forEach((d, i) => {
-          if (d.status == 'Completed') {
+          if (d.status == 'Accepted') {
             temp2.push({
               taskId: d._id,
               date: d.updatedAt.split('T')[0],
@@ -213,7 +213,7 @@ export default function TaskRecap() {
   }
 
   return (
-    <div className="h-[100vh] overflow-y-auto">
+    <div className="h-[100vh] overflow-y-auto overflow-x-hidden">
       <Header2
         isOpen={isOpen}
         onOpen={onOpen}

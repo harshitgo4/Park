@@ -88,7 +88,7 @@ export default function ManageTask() {
   const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
 
   return (
-    <div className="h-[100vh] overflow-y-auto">
+    <div className="h-[100vh] overflow-y-auto overflow-x-hidden">
       <Header2
         isOpen={isOpen}
         onOpen={onOpen}
@@ -110,7 +110,7 @@ export default function ManageTask() {
           setShowDrawer={setShowDrawer}
           toggleColorMode={toggleColorMode}
         />
-        <main className="z-1 mx-auto w-full md:pl-80 p-4 overflow-y-auto">
+        <main className="z-1 mx-auto w-full md:pl-64 p-4 overflow-y-auto">
           <Button onClick={() => router(-1)} className="m-2">
             <ArrowUturnLeftIcon className="w-5" />{' '}
           </Button>

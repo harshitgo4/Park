@@ -160,7 +160,7 @@ export default function CreateReward() {
   }
 
   return (
-    <div className="h-[100vh] overflow-y-auto">
+    <div className="h-[100vh] overflow-y-auto overflow-x-hidden">
       <Header2
         isOpen={isOpen}
         onOpen={onOpen}
@@ -182,7 +182,7 @@ export default function CreateReward() {
           setShowDrawer={setShowDrawer}
           toggleColorMode={toggleColorMode}
         />
-        <main className="z-1 mx-auto w-full md:pl-80 p-4 overflow-y-auto">
+        <main className="z-1 mx-auto w-full md:pl-64 p-4 overflow-y-auto">
           <Button onClick={() => router(-1)} className="m-2">
             <ArrowUturnLeftIcon className="w-5" />{' '}
           </Button>
@@ -254,7 +254,9 @@ export default function CreateReward() {
                 />
               </div>
               <div className="mt-6 flex gap-4 grid  grid-cols-3">
-                <Button onClick={handleSubmit}>Create +</Button>
+                <Button colorScheme="green" onClick={handleSubmit}>
+                  Create +
+                </Button>
               </div>
             </div>
           </div>

@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react'
 import {
   Box,
   Button,
@@ -16,7 +17,7 @@ import { BanknotesIcon } from '@heroicons/react/20/solid'
 import { ArrowRightOnRectangleIcon } from '@heroicons/react/20/solid'
 import Cookies from 'js-cookie'
 import ControlBar from '../ControlBar'
-import { useColorModeValue, useColorMode } from '@chakra-ui/react'
+import { useColorModeValue, useColorMode, Collapse } from '@chakra-ui/react'
 
 function SideBar({
   showDrawer,
@@ -30,177 +31,348 @@ function SideBar({
 
   const bg = useColorModeValue('bg-[#1E293B]', 'bg-[#fff]')
   const txt = useColorModeValue('text-white', 'text-blue-500')
+
+  const [isTaskOpen, setTaskOpen] = useState(false)
+  const [isRewardOpen, setRewardOpen] = useState(false)
+  const [isConnectOpen, setConnectOpen] = useState(false)
+
+  useEffect(() => {
+    if (window.location.pathname === '/dashboard') {
+      console.log('Dashboard')
+    } else if (
+      window.location.pathname === '/SubmitTask' ||
+      window.location.pathname === '/CurrentTask' ||
+      window.location.pathname === '/AssignedTask' ||
+      window.location.pathname === '/AllTask' ||
+      window.location.pathname === '/createTask' ||
+      window.location.pathname === '/ManageTask' ||
+      window.location.pathname === '/AllTask' ||
+      window.location.pathname === '/AllSubmittedTasks' ||
+      window.location.pathname === '/PendingSubmissions'
+    ) {
+      setTaskOpen(true)
+    } else if (
+      window.location.pathname === '/SearchDOM' ||
+      window.location.pathname === '/ConnectedSub' ||
+      window.location.pathname === '/SubRequests'
+    ) {
+      setConnectOpen(true)
+    } else if (
+      window.location.pathname === '/Rewards' ||
+      window.location.pathname === '/BuyReward' ||
+      window.location.pathname === '/PendingRewards' ||
+      window.location.pathname === '/ManageRewards' ||
+      window.location.pathname === '/CreateReward' ||
+      window.location.pathname === '/AllRewardsBought'
+    ) {
+      setRewardOpen(true)
+    }
+  }, [])
+
   return (
     <div>
       {' '}
       <Box
         display={{ base: 'none', md: 'block' }}
-        className={`pt-2 pl-2 pr-0 z-99 overflow-y-scroll w-[19.1rem] fixed left-0 h-screen flex flex-col border-[#CEC7C7] border-r-2`}
+        className={`pt-2 pl-2 pr-0 z-99 overflow-y-scroll w-[15rem] fixed left-0 h-screen flex flex-col border-[#CEC7C7] border-r-2`}
         id="responsive"
       >
         <div className="my-8 pb-12 w-full my-8 space-y-4">
-          <button
+          <Button
             onClick={() => router('/dashboard')}
-            className={`flex flex-row text-right ${
-              window.location.pathname === '/dashboard'
-                ? `w-full p-4 rounded-lg ${bg} ${txt}`
-                : null
-            }`}
+            className={`flex flex-row text-right w-full p-4 rounded-lg ${bg} ${txt}`}
+            rightIcon={
+              <AdjustmentsVerticalIcon
+                className={`${
+                  isConnectOpen ? 'transform rotate-180' : 'transform rotate-0'
+                }`}
+              />
+            }
           >
-            <AdjustmentsVerticalIcon className="w-5 mx-2" />
+            <CalendarDaysIcon className="w-5 mx-2" />
             Dashboard
-          </button>
-          <button
-            hidden={user?.type == 'dom'}
-            onClick={() => {
-              user?.type === 'sub' ? router('/SubmitTask') : null
-            }}
-            className={`flex flex-row text-right ${
-              window.location.pathname === '/SubmitTask'
-                ? `w-full p-4 rounded-lg ${bg} ${txt}`
-                : null
-            }`}
+          </Button>
+
+          {/* Task */}
+          <Button
+            onClick={() => setTaskOpen(!isTaskOpen)}
+            className={`flex flex-row text-right w-full p-4 rounded-lg ${bg} ${txt}`}
+            rightIcon={
+              <ChevronDownIcon
+                className={`${
+                  isTaskOpen ? 'transform rotate-180' : 'transform rotate-0'
+                }`}
+              />
+            }
           >
             <CalendarDaysIcon className="w-5 mx-2" />
-            {user?.type === 'sub' ? 'Submit Task' : null}
-          </button>
-          <button
-            onClick={() => {
-              user?.type === 'sub'
-                ? router('/SearchDOM')
-                : router('/SubRequests')
-            }}
-            className={`flex flex-row text-right ${
-              window.location.pathname === '/SearchDOM' ||
-              window.location.pathname === '/SubRequests'
-                ? `w-full p-4 rounded-lg ${bg} ${txt}`
-                : null
-            }`}
+            Task
+          </Button>
+          <Collapse className="my-8 w-full my-8 space-y-4" in={isTaskOpen}>
+            <button
+              hidden={user?.type == 'dom'}
+              onClick={() => {
+                user?.type === 'sub' ? router('/SubmitTask') : null
+              }}
+              className={`flex flex-row text-right ${
+                window.location.pathname === '/SubmitTask'
+                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  : null
+              }`}
+            >
+              <CalendarDaysIcon className="w-5 mx-2" />
+              Submit Task
+            </button>
+            <button
+              onClick={() => router('/CurrentTask')}
+              hidden={user?.type == 'dom'}
+              className={`flex flex-row text-right ${
+                window.location.pathname === '/CurrentTask'
+                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  : null
+              }`}
+            >
+              <CalendarDaysIcon className="w-5 mx-2" />
+              Current Task
+            </button>
+            <button
+              onClick={() => router('/AssignedTask')}
+              hidden={user?.type == 'dom'}
+              className={`flex flex-row text-right ${
+                window.location.pathname === '/AssignedTask'
+                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  : null
+              }`}
+            >
+              <CalendarDaysIcon className="w-5 mx-2" />
+              Assigned Tasks
+            </button>
+            <button
+              onClick={() => router('/AllTask')}
+              hidden={user?.type == 'dom'}
+              className={`flex flex-row text-right ${
+                window.location.pathname === '/AllTask'
+                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  : null
+              }`}
+            >
+              <CalendarDaysIcon className="w-5 mx-2" />
+              All Task
+            </button>
+            <button
+              onClick={() => router('/createTask')}
+              hidden={user?.type == 'sub'}
+              className={`flex flex-row text-right ${
+                window.location.pathname === '/createTask'
+                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  : null
+              }`}
+            >
+              <CalendarDaysIcon className="w-5 mx-2" />
+              Create task
+            </button>
+            <button
+              onClick={() => router('/ManageTask')}
+              hidden={user?.type == 'sub'}
+              className={`flex flex-row text-right ${
+                window.location.pathname === '/ManageTask'
+                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  : null
+              }`}
+            >
+              <CalendarDaysIcon className="w-5 mx-2" />
+              Manage Tasks
+            </button>
+            <button
+              onClick={() => router('/AllSubmittedTasks')}
+              hidden={user?.type == 'sub'}
+              className={`flex flex-row text-right ${
+                window.location.pathname === '/AllSubmittedTasks'
+                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  : null
+              }`}
+            >
+              <CalendarDaysIcon className="w-5 mx-2" />
+              Submitted Tasks
+            </button>
+            <button
+              hidden={user?.type == 'sub'}
+              className={`flex flex-row text-right ${
+                window.location.pathname === '/PendingSubmissions'
+                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  : null
+              }`}
+              onClick={() => router('/PendingSubmissions')}
+            >
+              <CalendarDaysIcon className="w-5 mx-2" />
+              Pending Submissions
+            </button>
+          </Collapse>
+
+          {/* Connection */}
+          <Button
+            onClick={() => setConnectOpen(!isConnectOpen)}
+            className={`flex flex-row text-right w-full p-4 rounded-lg ${bg} ${txt}`}
+            rightIcon={
+              <ChevronDownIcon
+                className={`${
+                  isConnectOpen ? 'transform rotate-180' : 'transform rotate-0'
+                }`}
+              />
+            }
           >
             <CalendarDaysIcon className="w-5 mx-2" />
-            {user?.type === 'sub' ? 'Search DOM' : 'Sub requests'}
-          </button>
-          <button
-            onClick={() => {
-              user?.type === 'sub'
-                ? router('/CurrentTask')
-                : router('/ConnectedSub')
-            }}
-            className={`flex flex-row text-right ${
-              window.location.pathname === '/CurrentTask' ||
-              window.location.pathname === '/ConnectedSub'
-                ? `w-full p-4 rounded-lg ${bg} ${txt}`
-                : null
-            }`}
+            Connection
+          </Button>
+          <Collapse className="my-8 w-full my-8 space-y-4" in={isConnectOpen}>
+            <button
+              onClick={() => router('/SearchDOM')}
+              hidden={user?.type == 'dom'}
+              className={`flex flex-row text-right ${
+                window.location.pathname === '/SearchDOM'
+                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  : null
+              }`}
+            >
+              <CalendarDaysIcon className="w-5 mx-2" />
+              Search DOM
+            </button>
+            <button
+              onClick={() => router('/SubRequests')}
+              hidden={user?.type == 'sub'}
+              className={`flex flex-row text-right ${
+                window.location.pathname === '/SubRequests'
+                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  : null
+              }`}
+            >
+              <CalendarDaysIcon className="w-5 mx-2" />
+              Sub requests
+            </button>
+            <button
+              onClick={() => router('/ConnectedSub')}
+              hidden={user?.type == 'sub'}
+              className={`flex flex-row text-right ${
+                window.location.pathname === '/ConnectedSub'
+                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  : null
+              }`}
+            >
+              <CalendarDaysIcon className="w-5 mx-2" />
+              Connected Sub
+            </button>
+          </Collapse>
+
+          {/* Rewards */}
+          <Button
+            onClick={() => setRewardOpen(!isRewardOpen)}
+            className={`flex flex-row text-right w-full p-4 rounded-lg ${bg} ${txt}`}
+            rightIcon={
+              <ChevronDownIcon
+                className={`${
+                  isRewardOpen ? 'transform rotate-180' : 'transform rotate-0'
+                }`}
+              />
+            }
           >
             <CalendarDaysIcon className="w-5 mx-2" />
-            {user?.type === 'sub' ? 'Current Task' : 'Connected Sub'}
-          </button>
-          <button
-            onClick={() => {
-              user?.type === 'sub'
-                ? router('/AssignedTask')
-                : router('/createTask')
-            }}
-            className={`flex flex-row text-right ${
-              window.location.pathname === '/AssignedTask' ||
-              window.location.pathname === '/createTask'
-                ? `w-full p-4 rounded-lg ${bg} ${txt}`
-                : null
-            }`}
-          >
-            <CalendarDaysIcon className="w-5 mx-2" />
-            {user?.type === 'sub' ? 'Assigned Tasks' : 'Create task'}
-          </button>
-          <button
-            onClick={() => {
-              user?.type === 'sub'
-                ? router('/Rewards')
-                : router('/CreateReward')
-            }}
-            className={`flex flex-row text-right ${
-              window.location.pathname === '/Rewards' ||
-              window.location.pathname === '/CreateReward'
-                ? `w-full p-4 rounded-lg ${bg} ${txt}`
-                : null
-            }`}
-          >
-            <CalendarDaysIcon className="w-5 mx-2" />
-            {user?.type === 'sub' ? 'Reward Points' : 'Create Reward'}
-          </button>
-          <button
-            onClick={() => {
-              user?.type === 'sub'
-                ? router('/BuyReward')
-                : router('/ManageTask')
-            }}
-            className={`flex flex-row text-right ${
-              window.location.pathname === '/BuyReward' ||
-              window.location.pathname === '/ManageTask'
-                ? `w-full p-4 rounded-lg ${bg} ${txt}`
-                : null
-            }`}
-          >
-            <CalendarDaysIcon className="w-5 mx-2" />
-            {user?.type === 'sub' ? 'Buy Reward' : 'Manage Tasks'}
-          </button>
-          <button
-            onClick={() => {
-              user?.type === 'sub'
-                ? router('/AllTask')
-                : router('/AllSubmittedTasks')
-            }}
-            className={`flex flex-row text-right ${
-              (window.location.pathname === '/AllTask' &&
-                user?.type === 'sub') ||
-              window.location.pathname === '/AllSubmittedTasks'
-                ? `w-full p-4 rounded-lg ${bg} ${txt}`
-                : null
-            }`}
-          >
-            <CalendarDaysIcon className="w-5 mx-2" />
-            {user?.type === 'sub' ? 'All Task' : 'Submitted Tasks'}
-          </button>
-          <button
-            hidden={user?.type === 'sub'}
-            className={`flex flex-row text-right ${
-              window.location.pathname === '/PendingSubmissions'
-                ? `w-full p-4 rounded-lg ${bg} ${txt}`
-                : null
-            }`}
-            onClick={() => router('/PendingSubmissions')}
-          >
-            <CalendarDaysIcon className="w-5 mx-2" />
-            {user?.type === 'sub' ? '' : 'Pending Submissions'}
-          </button>
-          <button
-            hidden={user?.type === 'sub'}
-            className={`flex flex-row text-right ${
-              window.location.pathname === '/ManageRewards'
-                ? `w-full p-4 rounded-lg ${bg} ${txt}`
-                : null
-            }`}
-            onClick={() => router('/ManageRewards')}
-          >
-            <CalendarDaysIcon className="w-5 mx-2" />
-            {user?.type === 'sub' ? '' : 'Manage Rewards'}
-          </button>
-          <button
-            className={`flex flex-row text-right ${
-              window.location.pathname === '/AllRewardsBought'
-                ? `w-full p-4 rounded-lg ${bg} ${txt}`
-                : null
-            }`}
-            onClick={() => router('/AllRewardsBought')}
-          >
-            <CalendarDaysIcon className="w-5 mx-2" />
-            {'Rewards History'}
-          </button>
+            Rewards
+          </Button>
+          <Collapse className="my-8 w-full my-8 space-y-4" in={isRewardOpen}>
+            <button
+              onClick={() => router('/Rewards')}
+              hidden={user?.type == 'dom'}
+              className={`flex flex-row text-right ${
+                window.location.pathname === '/Rewards'
+                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  : null
+              }`}
+            >
+              <CalendarDaysIcon className="w-5 mx-2" />
+              Reward Points
+            </button>
+            <button
+              onClick={() => router('/BuyReward')}
+              hidden={user?.type == 'dom'}
+              className={`flex flex-row text-right ${
+                window.location.pathname === '/BuyReward'
+                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  : null
+              }`}
+            >
+              <CalendarDaysIcon className="w-5 mx-2" />
+              Buy Reward
+            </button>
+            <button
+              hidden={user?.type == 'sub'}
+              className={`flex flex-row text-right ${
+                window.location.pathname === '/PendingRewards'
+                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  : null
+              }`}
+              onClick={() => router('/PendingRewards')}
+            >
+              <CalendarDaysIcon className="w-5 mx-2" />
+              Pending Rewards
+            </button>
+            <button
+              hidden={user?.type == 'sub'}
+              className={`flex flex-row text-right ${
+                window.location.pathname === '/ManageRewards'
+                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  : null
+              }`}
+              onClick={() => router('/ManageRewards')}
+            >
+              <CalendarDaysIcon className="w-5 mx-2" />
+              Manage Rewards
+            </button>
+            <button
+              onClick={() => router('/CreateReward')}
+              hidden={user?.type == 'sub'}
+              className={`flex flex-row text-right ${
+                window.location.pathname === '/CreateReward'
+                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  : null
+              }`}
+            >
+              <CalendarDaysIcon className="w-5 mx-2" />
+              Create Reward
+            </button>
+            <button
+              className={`flex flex-row text-right ${
+                window.location.pathname === '/AllRewardsBought'
+                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  : null
+              }`}
+              onClick={() => router('/AllRewardsBought')}
+            >
+              <CalendarDaysIcon className="w-5 mx-2" />
+              Rewards History
+            </button>
+          </Collapse>
         </div>
+
         <div className="bottom-0 flex flex-row">
-          <span className="text-left font-semibold text-[#00A739] text-sm ">
-            {user?.email}
-          </span>
+          <div
+            onClick={toggleColorMode}
+            className="text-center text-[#767676] justify-center flex flex-row text-lg rounded-lg border border-2 p-1 w-[60%] m-auto "
+          >
+            <button
+              className={`p-2 ${
+                colorMode === 'light' ? 'bg-black text-white rounded-lg' : null
+              } `}
+            >
+              Light
+            </button>
+            <button
+              className={`p-2 ${
+                colorMode === 'dark' ? 'bg-black text-white rounded-lg' : null
+              } `}
+            >
+              Dark
+            </button>
+          </div>
           <span className="-mt-4 justify-end font-bolder text-3xl flex flex-1 text-right">
             {' '}
             <Menu>
@@ -223,25 +395,6 @@ function SideBar({
               </MenuList>
             </Menu>
           </span>
-        </div>
-        <div
-          onClick={toggleColorMode}
-          className="text-center text-[#767676] justify-center mb-20 flex flex-row text-lg rounded-lg border border-2 p-1 w-[50%] m-auto "
-        >
-          <button
-            className={`p-2 ${
-              colorMode === 'light' ? 'bg-black text-white rounded-lg' : null
-            } `}
-          >
-            Light
-          </button>
-          <button
-            className={`p-2 ${
-              colorMode === 'dark' ? 'bg-black text-white rounded-lg' : null
-            } `}
-          >
-            Dark
-          </button>
         </div>
       </Box>
       <ControlBar

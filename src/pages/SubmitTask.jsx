@@ -26,7 +26,7 @@ export default function SubmitTask() {
   const [isLoading, setIsLoading] = useState(false)
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
   const [data, setData] = useState(null)
-  const [imageFile, setImageFile] = useState(null)
+  const [imageFile, setImageFile] = useState([])
   const [email, setEmail] = useState(null)
   const [user, setUser] = useState(null)
   const [formData, setFormData] = useState({
@@ -87,9 +87,9 @@ export default function SubmitTask() {
     console.log('Selected value:', selectedValue)
   }
   const handleFileChange = (event) => {
-    const file = event.target.files[0]
-    setImageFile(file)
-    console.log(file)
+    const files = event.target.files
+    setImageFile(files) // Assuming you have a state variable to store the array of files
+    console.log(files)
   }
 
   const handleSubmit = async (e) => {
@@ -115,7 +115,9 @@ export default function SubmitTask() {
       const formData2 = new FormData()
       formData2.append('selectedTaskId', formData.selectedTaskId)
       formData2.append('textSubmission', formData.textSubmission)
-      formData2.append('image', imageFile)
+      for (let i = 0; i < imageFile.length; i++) {
+        formData2.append(`image`, imageFile[i])
+      }
 
       fetch('https://bdsm-backend.onrender.com/api/submitTask', {
         method: 'POST',
@@ -155,7 +157,7 @@ export default function SubmitTask() {
   const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
 
   return (
-    <div className="h-[100vh] overflow-y-auto">
+    <div className="h-[100vh] overflow-y-auto overflow-x-hidden">
       <Header2
         isOpen={isOpen}
         onOpen={onOpen}
@@ -177,7 +179,7 @@ export default function SubmitTask() {
           setShowDrawer={setShowDrawer}
           toggleColorMode={toggleColorMode}
         />
-        <main className="z-1 mx-auto w-full md:pl-80 p-4 overflow-y-auto">
+        <main className="z-1 mx-auto w-full md:pl-64 p-4 overflow-y-auto">
           <Button onClick={() => router(-1)} className="m-2">
             <ArrowUturnLeftIcon className="w-5" />{' '}
           </Button>
@@ -208,6 +210,7 @@ export default function SubmitTask() {
                       display="none"
                       id="file-upload"
                       onChange={handleFileChange}
+                      multiple
                     />
                     <label htmlFor="file-upload">
                       <Button

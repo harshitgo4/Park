@@ -16,13 +16,13 @@ export default function PieChart({data}) {
   }
 
   return (
-    <div className="m-auto">
+    <div className="m-auto py-8">
       <Chart
         chartType="PieChart"
         data={data}
         options={options}
-        width={'90vw'}
-        height={'40vh'}
+        width="100%"
+        height="20rem"
         style={{
           color: '#fff',
         }}

@@ -39,7 +39,7 @@ function DomPage() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
   return (
-    <div className="h-[100vh] overflow-y-auto">
+    <div className="h-[100vh] overflow-y-auto overflow-x-hidden">
       <Header2
         isOpen={isOpen}
         onOpen={onOpen}
@@ -61,7 +61,7 @@ function DomPage() {
           setShowDrawer={setShowDrawer}
           toggleColorMode={toggleColorMode}
         />
-        <main className="z-1 mx-auto w-full md:pl-80 p-4 overflow-y-auto">
+        <main className="z-1 mx-auto w-full md:pl-64 p-4 overflow-y-auto">
           <Button onClick={() => router(-1)} className="m-2">
             <ArrowUturnLeftIcon className="w-5" />{' '}
           </Button>
@@ -71,17 +71,13 @@ function DomPage() {
               <h1 className="font-semibold mb-8">DOM Details</h1>
               <Box className="space-y-4" p={4}>
                 <div className="flex items-center">
-                  <span className="w-28 p-2 inline-block">
-                    DOM Id:
-                  </span>
+                  <span className="w-28 p-2 inline-block">DOM Id:</span>
                   <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
                     {id}
                   </span>
                 </div>
                 <div className="flex items-center">
-                  <span className="w-28 p-2 inline-block">
-                    DOM Status:
-                  </span>
+                  <span className="w-28 p-2 inline-block">DOM Status:</span>
                   <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
                     Connected
                   </span>

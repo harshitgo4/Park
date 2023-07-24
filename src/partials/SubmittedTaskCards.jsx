@@ -1,10 +1,10 @@
 import { useState, useMemo } from 'react'
 import { Box, Input, Select, Button, SimpleGrid } from '@chakra-ui/react'
-import { GifIcon } from '@heroicons/react/20/solid'
-import { GiftIcon } from '@heroicons/react/24/outline'
+import ReactImageVideoLightbox from 'react-image-video-lightbox'
 import { useNavigate } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
 import Cookies from 'js-cookie'
+import { Modal, ModalOverlay, ModalContent, ModalBody } from '@chakra-ui/react'
 
 const Card = ({
   taskId,
@@ -13,10 +13,20 @@ const Card = ({
   proofText,
   taskName,
   submissionDate,
+  submissionTime,
   image,
 }) => {
   const router = useNavigate()
   const toast = useToast()
+  const [lightBox, setLightBox] = useState(false)
+
+  const imageData = image.map((d, i) => {
+    return {
+      url: d,
+      type: 'photo',
+      altTag: 'some other image',
+    }
+  })
 
   const handleSubmit = async (e, id, status) => {
     e.preventDefault()
@@ -44,6 +54,7 @@ const Card = ({
           duration: 9000,
           isClosable: true,
         })
+        window.location.reload(true)
       })
       .catch((error) => {
         console.error(error)
@@ -66,7 +77,12 @@ const Card = ({
         shadow="md"
       >
         <div className="h-[15rem] w-[12rem] m-auto justify-between">
-          <img src={image} alt="" className="rounded-lg mb-4 m-auto w-full" />
+          <img
+            src={image[0]}
+            alt=""
+            className="rounded-lg mb-4 m-auto w-full"
+            onClick={() => setLightBox(true)}
+          />
         </div>
         <h3 className="text-xl font-semibold">SUB Name : {subName}</h3>
         <p>Task Details</p>
@@ -75,6 +91,7 @@ const Card = ({
         <p>Task Name: {taskName}</p>
         <p>Proof text: {proofText}</p>
         <p>Submission Date: {submissionDate}</p>
+        <p>Submission Time: {submissionTime?.split('.')[0]}</p>
         <div className="flex flex-row gap-x-1">
           <Button
             size="xs"
@@ -100,6 +117,25 @@ const Card = ({
             View Task
           </Button>
         </div>
+        <Modal isOpen={lightBox} onClose={() => setLightBox(false)}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalBody>
+              {/* Content for the lightbox, e.g., ReactImageVideoLightbox */}
+              {lightBox ? (
+                <ReactImageVideoLightbox
+                  data={imageData}
+                  startIndex={0}
+                  showResourceCount={true}
+                  onNavigationCallback={(currentIndex) =>
+                    console.log(`Current index: ${currentIndex}`)
+                  }
+                  onCloseCallback={() => setLightBox(false)}
+                />
+              ) : null}
+            </ModalBody>
+          </ModalContent>
+        </Modal>
       </Box>
     </>
   )
@@ -129,6 +165,7 @@ export default function SubmittedTaskCards({ data }) {
               proofText={item.proofText}
               taskName={item.taskName}
               submissionDate={item.submissionDate}
+              submissionTime={item.submissionTime}
               image={item.image}
             />
           ))}

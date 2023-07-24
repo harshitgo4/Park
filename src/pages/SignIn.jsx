@@ -8,10 +8,11 @@ import PageIllustration from '../partials/PageIllustration'
 import { useEffect } from 'react'
 import { Button, useToast } from '@chakra-ui/react'
 import FacebookLogin from 'react-facebook-login'
-import { FaceFrownIcon } from '@heroicons/react/20/solid'
+import { useColorMode } from '@chakra-ui/react'
 
 function SignIn() {
   const navigate = useNavigate()
+  const { colorMode, toggleColorMode } = useColorMode()
   const toast = useToast()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -251,6 +252,7 @@ function SignIn() {
                         width: '100%',
                         marginTop: '0.5rem',
                         borderRadius: '2px',
+                        color: 'white',
                       }}
                     />
                   </div>

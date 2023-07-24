@@ -66,7 +66,7 @@ function Header() {
               <li>
                 <Link
                   to="/features"
-                  className="text-gray-300 hover:text-gray-200 px-4 py-2 flex items-center transition duration-150 ease-in-out"
+                  className={`${colorMode === "light" ? 'text-black' : 'text-gray-300'}  hover:text-gray-200 px-4 py-2 flex items-center transition duration-150 ease-in-out`}
                 >
                   Features
                 </Link>
@@ -74,7 +74,7 @@ function Header() {
               <li>
                 <Link
                   to="/pricing"
-                  className="text-gray-300 hover:text-gray-200 px-4 py-2 flex items-center transition duration-150 ease-in-out"
+                  className={`${colorMode === "light" ? 'text-black' : 'text-gray-300'}  hover:text-gray-200 px-4 py-2 flex items-center transition duration-150 ease-in-out`}
                 >
                   Pricing
                 </Link>
@@ -82,7 +82,7 @@ function Header() {
               <li>
                 <Link
                   to="/contact"
-                  className="text-gray-300 hover:text-gray-200 px-4 py-2 flex items-center transition duration-150 ease-in-out"
+                  className={`${colorMode === "light" ? 'text-black' : 'text-gray-300'}  hover:text-gray-200 px-4 py-2 flex items-center transition duration-150 ease-in-out`}
                 >
                   Contact us
                 </Link>

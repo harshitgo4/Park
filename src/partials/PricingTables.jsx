@@ -154,7 +154,9 @@ function PricingTables() {
                       <span className="text-2xl md:text-3xl font-medium text-gray-400">
                         {priceOutput.plan1[value][0]}
                       </span>
-                      <span className="h2">{priceOutput.plan1[value][1]}</span>
+                      <span className="h2 text-gray-400">
+                        {priceOutput.plan1[value][1]}
+                      </span>
                       <span className="font-medium text-gray-400">
                         {priceOutput.plan1[value][2]}
                       </span>
@@ -164,7 +166,9 @@ function PricingTables() {
                       efficiently.
                     </div>
                   </div>
-                  <div className="font-medium mb-3">Features include:</div>
+                  <div className="font-medium mb-3 text-gray-400">
+                    Features include:
+                  </div>
                   <ul className="text-gray-400 -mb-3 grow">
                     <li className="flex items-center mb-3">
                       <svg
@@ -210,7 +214,7 @@ function PricingTables() {
                       {subscriptionDetails &&
                       subscriptionDetails.planId === 'Free Plan'
                         ? 'Active'
-                        : 'Start free trial'}
+                        : 'Get Started'}
                     </a>
                   </div>
                 </div>
@@ -232,7 +236,9 @@ function PricingTables() {
                       <span className="text-2xl md:text-3xl font-medium text-gray-400">
                         {priceOutput.plan2[value][0]}
                       </span>
-                      <span className="h2">{priceOutput.plan2[value][1]}</span>
+                      <span className="h2 text-gray-400">
+                        {priceOutput.plan2[value][1]}
+                      </span>
                       <span className="font-medium text-gray-400">
                         {priceOutput.plan2[value][2]}
                       </span>
@@ -242,8 +248,8 @@ function PricingTables() {
                       articles.
                     </div>
                   </div>
-                  <div className="font-medium mb-3">
-                    All features of Essential plus:
+                  <div className="font-medium mb-3 text-gray-400">
+                    All features of Pro:
                   </div>
                   <ul className="text-gray-400 -mb-3 grow">
                     <li className="flex items-center mb-3">
@@ -302,7 +308,7 @@ function PricingTables() {
                       {subscriptionDetails &&
                       subscriptionDetails.planId === 'Standard Plan'
                         ? 'Active'
-                        : 'Get Started'}
+                        : 'Sign up'}
                     </a>
                   </div>
                 </div>
@@ -319,7 +325,9 @@ function PricingTables() {
                       <span className="text-2xl md:text-3xl font-medium text-gray-400">
                         {priceOutput.plan3[value][0]}
                       </span>
-                      <span className="h2">{priceOutput.plan3[value][1]}</span>
+                      <span className="h2 text-gray-400">
+                        {priceOutput.plan3[value][1]}
+                      </span>
                       <span className="font-medium text-gray-400">
                         {priceOutput.plan3[value][2]}
                       </span>
@@ -329,10 +337,20 @@ function PricingTables() {
                       reports.
                     </div>
                   </div>
-                  <div className="font-medium mb-3">
-                    All features of Essential plus:
+                  <div className="font-medium mb-3 text-gray-400">
+                    All features of Yearly Pro:
                   </div>
                   <ul className="text-gray-400 -mb-3 grow">
+                    <li className="flex items-center mb-3">
+                      <svg
+                        className="w-3 h-3 fill-current text-green-500 mr-3 shrink-0"
+                        viewBox="0 0 12 12"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
+                      </svg>
+                      <span>Everything included in pro!</span>
+                    </li>
                     <li className="flex items-center mb-3">
                       <svg
                         className="w-3 h-3 fill-current text-green-500 mr-3 shrink-0"
@@ -365,24 +383,9 @@ function PricingTables() {
                       {subscriptionDetails &&
                       subscriptionDetails.planId === 'Pro Plan'
                         ? 'Active'
-                        : 'Get Started'}
+                        : 'Sign up'}
                     </a>
                   </div>
-                </div>
-              </div>
-
-              {/* Bottom infobox */}
-              <div className="flex flex-col lg:flex-row justify-between items-center mt-12 lg:mt-6 lg:py-8 lg:border-t lg:border-b lg:border-gray-800">
-                <div className="font-medium text-lg text-center lg:text-left mb-4 lg:mb-0">
-                  Expecting more than 1000 Active End Users?
-                </div>
-                <div>
-                  <a
-                    className="btn-sm text-white bg-purple-600 hover:bg-purple-700 rounded-lg "
-                    href="/contact"
-                  >
-                    Contact us
-                  </a>
                 </div>
               </div>
             </div>

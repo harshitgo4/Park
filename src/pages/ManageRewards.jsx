@@ -7,14 +7,17 @@ import { useDisclosure } from '@chakra-ui/react'
 import SideBar from '../components/sidebar/Main'
 import Cookies from 'js-cookie'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
+import ManageTaskCard from '../partials/ManageTaskCard'
 import ManageRewardsCards from '../partials/ManageRewardsCards'
+import ManageRewardsCards2 from '../partials/ManageRewardsCards2'
 
 export default function ManageRewards() {
   const router = useNavigate()
 
   const [showDrawer, setShowDrawer] = useState(false)
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
-  const [data, setData] = useState([])
+  const [rewards, setRewards] = useState(null)
+  const [connections, setConnections] = useState(null)
   useEffect(() => {
     if (user && user.type === 'sub') {
       router('/404')
@@ -30,9 +33,9 @@ export default function ManageRewards() {
   }, [subscriptionDetails])
 
   useEffect(() => {
-    const fetchTasks = async () => {
+    const fetchRewards = async () => {
       const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/getBoughtRewards`,
+        `https://bdsm-backend.onrender.com/api/getRewards`,
         {
           method: 'GET',
           headers: {
@@ -46,12 +49,35 @@ export default function ManageRewards() {
 
       if (resData.error) {
         console.log('Error fetching user')
-      } else if (resData.boughtRewards) {
-        console.log(resData.boughtRewards)
-        setData(resData.boughtRewards)
+      } else if (resData.rewards) {
+        console.log(resData.rewards)
+        setRewards(resData.rewards)
       }
     }
-    fetchTasks()
+    fetchRewards()
+  }, [])
+  useEffect(() => {
+    const fetchSubConnected = async () => {
+      const res = await fetch(
+        `https://bdsm-backend.onrender.com/api/fetchSubConnected`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+
+      const resData = await res.json()
+
+      if (resData.error) {
+        console.log('Error fetching users')
+      } else if (resData.connections) {
+        setConnections(resData.connections)
+      }
+    }
+    fetchSubConnected()
   }, [])
 
   const { colorMode, toggleColorMode } = useColorMode()
@@ -64,7 +90,7 @@ export default function ManageRewards() {
   const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
 
   return (
-    <div className="h-[100vh] overflow-y-auto">
+    <div className="h-[100vh] overflow-y-auto overflow-x-hidden">
       <Header2
         isOpen={isOpen}
         onOpen={onOpen}
@@ -86,7 +112,7 @@ export default function ManageRewards() {
           setShowDrawer={setShowDrawer}
           toggleColorMode={toggleColorMode}
         />
-        <main className="z-1 mx-auto w-full md:pl-80 p-4 overflow-y-auto">
+        <main className="z-1 mx-auto w-full md:pl-64 p-4 overflow-y-auto">
           <Button onClick={() => router(-1)} className="m-2">
             <ArrowUturnLeftIcon className="w-5" />{' '}
           </Button>
@@ -95,7 +121,7 @@ export default function ManageRewards() {
               {' '}
               <h1 className="font-semibold mb-8">Manage Rewards</h1>
               <Box p={4}>
-                <ManageRewardsCards data={data} />
+                <ManageRewardsCards2 data={rewards} connections={connections} />
               </Box>
             </div>
           </div>

@@ -91,7 +91,7 @@ export default function CreateTask() {
     console.log('Selected value:', selectedValue)
   }
 
-  const [dueTime, setDueTime] = useState('')
+  const [dueTime, setDueTime] = useState('00:00:00')
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
   const [isNoEndDate, setIsNoEndDate] = useState(false)
@@ -103,13 +103,7 @@ export default function CreateTask() {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (
-      data.taskName &&
-      data.description &&
-      data.rewardPoints &&
-      data.userName &&
-      dueTime
-    ) {
+    if (data.taskName && data.rewardPoints && data.userName && dueTime) {
       const res = await fetch(
         `https://bdsm-backend.onrender.com/api/createTask`,
         {
@@ -178,7 +172,7 @@ export default function CreateTask() {
   const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
 
   return (
-    <div className="h-[100vh] overflow-y-auto">
+    <div className="h-[100vh] overflow-y-auto overflow-x-hidden">
       <Header2
         isOpen={isOpen}
         onOpen={onOpen}
@@ -200,7 +194,7 @@ export default function CreateTask() {
           setShowDrawer={setShowDrawer}
           toggleColorMode={toggleColorMode}
         />
-        <main className="z-1 mx-auto w-full md:pl-80 p-4 overflow-y-auto">
+        <main className="z-1 mx-auto w-full md:pl-64 p-4 overflow-y-auto">
           <Button onClick={() => router(-1)} className="m-2">
             <ArrowUturnLeftIcon className="w-5" />{' '}
           </Button>
@@ -214,7 +208,7 @@ export default function CreateTask() {
                     setData({ ...data, taskName: e.target.value })
                   }
                   value={data.taskName}
-                  placeholder="Task Name"
+                  placeholder="Task Name*"
                 />
                 <Input
                   onChange={(e) =>
@@ -222,7 +216,7 @@ export default function CreateTask() {
                   }
                   value={data.rewardPoints}
                   type="number"
-                  placeholder="Reward Points"
+                  placeholder="Reward Points*"
                 />
               </div>
               <div className="mt-6 gap-4 grid grid-cols-1">
@@ -237,7 +231,7 @@ export default function CreateTask() {
               </div>
               <div className="mt-6 gap-4 grid grid-cols-2">
                 <Select value={data.userName} onChange={handleSelectChange2}>
-                  <option value={null}>Select Sub</option>
+                  <option value={null}>Select Sub*</option>
                   {connections?.map((d, i) => {
                     return (
                       <option key={i} value={d.subEmail}>
@@ -269,7 +263,7 @@ export default function CreateTask() {
                   </Select>
                 </FormControl>
                 <FormControl>
-                  <FormLabel className="text-[#6D7D86]">Due time</FormLabel>
+                  <FormLabel className="text-[#6D7D86]">Due time*</FormLabel>
                   <Input
                     placeholder="Select Date and Time"
                     size="md"
@@ -337,7 +331,9 @@ export default function CreateTask() {
                   </Checkbox>
                 </FormControl>
                 <div className="mt-6 flex gap-4 grid  grid-cols-2">
-                  <Button onClick={handleSubmit}>Add +</Button>
+                  <Button colorScheme="green" onClick={handleSubmit}>
+                    Add +
+                  </Button>
                 </div>
               </div>
             </div>

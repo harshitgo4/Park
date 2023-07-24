@@ -19,6 +19,7 @@ export const data = [
 ]
 
 export function ColumnChart({ data }) {
+  const { colorMode } = useColorMode()
   const bg = useColorModeValue('bg-gray-100', '#1E293B')
   const textColor = useColorModeValue('#000', '#fff')
 
@@ -28,10 +29,10 @@ export function ColumnChart({ data }) {
       textStyle: { color: textColor },
     },
     hAxis: {
-      textStyle: { color: 'green' },
+      textStyle: { color: textColor },
     },
     vAxis: {
-      textStyle: { color: 'green' },
+      textStyle: { color: textColor },
     },
   }
   return (

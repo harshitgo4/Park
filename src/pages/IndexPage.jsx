@@ -48,7 +48,7 @@ export default function Home({ folder, initialNamespace }) {
     thisMonthCompleted: 0,
     thisMonthTotal: 0,
     remaining: 0,
-    overtime: 0,
+    overdue: 0,
     total: 0,
   })
   const [counts, setCounts] = useState({
@@ -203,7 +203,7 @@ export default function Home({ folder, initialNamespace }) {
           thisMonthCompleted: monthCompleted,
           thisMonthTotal: monthTotal,
           remaining: temp3.length,
-          overtime: 0,
+          overdue: temp2.length,
           total: resData.totalTasks.length,
         })
 
@@ -419,9 +419,10 @@ export default function Home({ folder, initialNamespace }) {
 
   const [email, setEmail] = useState(null)
 
-  const textColor = useColorModeValue('gray.200', 'white')
+  const textColor = useColorModeValue('text-black', 'text-white')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
+  const bg2 = useColorModeValue('bg-gray-400', 'bg-black')
 
   const options = {
     weekday: 'short',
@@ -436,7 +437,7 @@ export default function Home({ folder, initialNamespace }) {
   const formattedTime = new Date().toLocaleString(undefined, options)
 
   return (
-    <div className="h-[100vh] overflow-y-auto">
+    <div className="h-[100vh] overflow-y-auto overflow-x-hidden">
       <Header2
         isOpen={isOpen}
         onOpen={onOpen}
@@ -458,7 +459,7 @@ export default function Home({ folder, initialNamespace }) {
           setShowDrawer={setShowDrawer}
           toggleColorMode={toggleColorMode}
         />
-        <main className="z-1 mx-auto w-full md:pl-72 overflow-y-auto">
+        <main className="z-1 mx-auto w-full md:pl-64 p-4 overflow-y-auto">
           <div className="grid grid-cols-1 gap-y-4 md:grid-cols-2 lg:grid-cols-3 p-8">
             <div
               onClick={() =>
@@ -587,7 +588,7 @@ export default function Home({ folder, initialNamespace }) {
               <div>
                 {' '}
                 <h1 className="font-semibold">
-                  {user?.type === 'sub' ? 'Reportings' : 'Reportings'}
+                  {user?.type === 'sub' ? 'Reporting' : 'Reporting'}
                 </h1>
                 <p className="text-3xl">{counts.totalSubs}</p>
                 <Button rightIcon={<ArrowRightIcon className="w-5" />}>
@@ -600,8 +601,8 @@ export default function Home({ folder, initialNamespace }) {
             </div>
             <div className={`rounded-lg  ${bg} p-4 m-2`}>
               <h1 className="font-semibold ">Statistics</h1>
-              <div className="bg-black p-2  text-white rounded-lg my-4">
-                <div className="flex flex-row text-white">
+              <div className={`${bg2} p-2  ${textColor} rounded-lg my-4`}>
+                <div className="flex flex-row">
                   <div>Today</div>
                   <div className="ml-auto">
                     <span className="font-bold">
@@ -619,7 +620,7 @@ export default function Home({ folder, initialNamespace }) {
                   }
                 />
               </div>
-              <div className="bg-black p-2  text-white rounded-lg my-4">
+              <div className={`${bg2} p-2 rounded-lg my-4`}>
                 <div className="flex flex-row">
                   <div>This week</div>
                   <div className="ml-auto">
@@ -639,7 +640,7 @@ export default function Home({ folder, initialNamespace }) {
                   }
                 />
               </div>
-              <div className="bg-black p-2  text-white rounded-lg my-4">
+              <div className={`${bg2} p-2 rounded-lg my-4`}>
                 <div className="flex flex-row">
                   <div>This month</div>
                   <div className="ml-auto">
@@ -660,7 +661,7 @@ export default function Home({ folder, initialNamespace }) {
                   }
                 />
               </div>
-              <div className="bg-black p-2  text-white rounded-lg my-4">
+              <div className={`${bg2} p-2  rounded-lg my-4`}>
                 <div className="flex flex-row">
                   <div>Remaining</div>
                   <div className="ml-auto">
@@ -675,11 +676,11 @@ export default function Home({ folder, initialNamespace }) {
                   value={(statistics.remaining / statistics.total) * 100}
                 />
               </div>
-              <div className="bg-black p-2  text-white rounded-lg my-4">
+              <div className={`${bg2} p-2  rounded-lg my-4`}>
                 <div className="flex flex-row">
-                  <div>Overtime</div>
+                  <div>Overdue</div>
                   <div className="ml-auto">
-                    <span className="font-bold">{statistics.overtime}</span>/
+                    <span className="font-bold">{statistics.overdue}</span>/
                     {statistics.total}
                   </div>
                 </div>
@@ -687,16 +688,18 @@ export default function Home({ folder, initialNamespace }) {
                 <Progress
                   colorScheme="red"
                   size="sm"
-                  value={(statistics.overtime / statistics.total) * 100}
+                  value={(statistics.overdue / statistics.total) * 100}
                 />
               </div>
             </div>
             <div className={`rounded-lg ${bg} p-4 m-2`}>
               <h1 className="font-semibold ">Tasks Overview</h1>
-              <div className="bg-black  text-white p-2 rounded-lg my-4 text-center">
+              <div
+                className={`${bg2}  ${textColor} p-2 rounded-lg my-4 text-center`}
+              >
                 {formattedTime}
               </div>
-              <div className="bg-black  text-white p-2 rounded-lg my-4 ">
+              <div className={`${bg2}  p-2 rounded-lg my-4 `}>
                 <div className="flex flex-col space-y-4 m-auto p-4">
                   <CircularProgress
                     className="m-auto"
@@ -712,15 +715,15 @@ export default function Home({ folder, initialNamespace }) {
                       /{statistics.todayTotal}
                     </CircularProgressLabel>
                   </CircularProgress>
-                  <div className="bg-green-500 p-2 rounded-lg text-center text-white">
+                  <div className="bg-green-500 p-2 rounded-lg text-center">
                     <Countdown />
                   </div>
                 </div>
               </div>
             </div>
-            <div className={`rounded-lg ${bg} p-4 m-2`}>
+            <div className={`rounded-lg ${bg} ${textColor} p-4 m-2`}>
               <h1 className="font-semibold ">Daily Records</h1>
-              <div className="bg-black p-2 rounded-lg my-4 ">
+              <div className={`${bg2} p-2 rounded-lg my-4 `}>
                 <div className="flex flex-col space-y-4 m-auto p-4">
                   <BarChart data={barData} />
                 </div>

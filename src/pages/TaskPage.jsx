@@ -55,11 +55,11 @@ function TaskPage() {
   const [email, setEmail] = useState(null)
   const [user, setUser] = useState(null)
 
-  const textColor = useColorModeValue('gray.200', 'white')
+  const textColor = useColorModeValue('text-black', 'text-white')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
   return (
-    <div className="h-[100vh] overflow-y-auto">
+    <div className="h-[100vh] overflow-y-auto overflow-x-hidden">
       <Header2
         isOpen={isOpen}
         onOpen={onOpen}
@@ -81,30 +81,92 @@ function TaskPage() {
           setShowDrawer={setShowDrawer}
           toggleColorMode={toggleColorMode}
         />
-        <main className="z-1 mx-auto w-full md:pl-80 p-4 overflow-y-auto">
+        <main className="z-1 mx-auto w-full md:pl-64 p-4 overflow-y-auto">
           {' '}
           <Button onClick={() => router(-1)} className="m-2">
             <ArrowUturnLeftIcon className="w-5" />{' '}
           </Button>
-          <div className={`${bg} m-2 flex flex-row rounded-lg p-8`}>
+          <div
+            className={`${bg} ${textColor} m-2 flex flex-row rounded-lg p-8`}
+          >
             <div className="w-full">
               {' '}
               <h1 className="font-semibold mb-8">Tasks Details</h1>
               <Box className="space-y-4" p={4}>
                 <div className="flex items-center">
-                  <span className="w-28 p-2 inline-block text-white">
-                    Task Id:
-                  </span>
+                  <span className="w-28 p-2 inline-block">Task Id:</span>
                   <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
                     {id}
                   </span>
                 </div>
                 <div className="flex items-center">
-                  <span className="w-28 p-2 inline-block text-white">
-                    Task Status:
+                  <span className="w-28 p-2 inline-block">Task Name:</span>
+                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                    {taskDetails?.taskName}
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <span className="w-28 p-2 inline-block">
+                    Task Description:
                   </span>
                   <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
-                    {taskDetails?.status}
+                    {taskDetails?.taskDesc}
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <span className="w-28 p-2 inline-block">DOM:</span>
+                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                    {taskDetails?.createdBy}
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <span className="w-28 p-2 inline-block">Task Due Time:</span>
+                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                    {taskDetails?.dueTime}
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <span className="w-28 p-2 inline-block">
+                    Task Start Date:
+                  </span>
+                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                    {taskDetails?.startDate.split('T')[0]}
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <span className="w-28 p-2 inline-block">Task End Date:</span>
+                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                    {taskDetails?.endDate.split('T')[0]}
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <span className="w-28 p-2 inline-block">
+                    Task Submission Freq:
+                  </span>
+                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                    {taskDetails?.submissionFreq}
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <span className="w-28 p-2 inline-block">
+                    Task is Media Req:
+                  </span>
+                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                    {taskDetails?.isMediaReq.toString()}
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <span className="w-28 p-2 inline-block">
+                    Task is Text submission req:
+                  </span>
+                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                    {taskDetails?.isSubmissionReq.toString()}
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <span className="w-28 p-2 inline-block">Reward Points</span>
+                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                    {taskDetails?.rewardPoints}
                   </span>
                 </div>
               </Box>

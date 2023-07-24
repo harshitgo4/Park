@@ -62,7 +62,19 @@ const Card = ({ id, data2, tasks, setTasks, email, connections }) => {
   }
 
   const closeModal = () => {
-    setModalOpen(false)
+    Swal.fire({
+      title: 'Are you sure you want to cancel these unsaved changes?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, discard it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setModalOpen(false)
+      }
+    })
   }
 
   const handleSubmit = async (e) => {
@@ -153,7 +165,6 @@ const Card = ({ id, data2, tasks, setTasks, email, connections }) => {
         isClosable: true,
       })
     } else if (resData.message) {
-      closeModal()
       toast({
         title: `Task ${data2.isPaused ? 'Resumed' : 'Paused'}!`,
         status: 'success',
@@ -193,7 +204,6 @@ const Card = ({ id, data2, tasks, setTasks, email, connections }) => {
         isClosable: true,
       })
     } else if (resData.message) {
-      closeModal()
       toast({
         title: `Task Deleted!`,
         status: 'success',
@@ -209,7 +219,7 @@ const Card = ({ id, data2, tasks, setTasks, email, connections }) => {
   return (
     <>
       <Box
-        className="m-auto text-left"
+        className={`m-auto text-left ${data2.isPaused ? 'opacity-80' : null} `}
         borderWidth="1px"
         borderRadius="md"
         p={4}
@@ -229,10 +239,16 @@ const Card = ({ id, data2, tasks, setTasks, email, connections }) => {
               openModal()
             }}
             className="mt-4"
+            colorScheme="green"
           >
             Edit
           </Button>
-          <Button onClick={handlePause} size="sm" className="mt-4">
+          <Button
+            onClick={handlePause}
+            size="sm"
+            className="mt-4"
+            colorScheme="yellow"
+          >
             {data2.isPaused ? 'Resume' : 'Pause'}
           </Button>
           <Button
@@ -274,49 +290,68 @@ const Card = ({ id, data2, tasks, setTasks, email, connections }) => {
           <ModalBody>
             <div className="w-full">
               <div className="mt-6 gap-4 grid grid-cols-2">
-                <Input
-                  onChange={(e) =>
-                    setData({ ...data, taskName: e.target.value })
-                  }
-                  value={data.taskName}
-                  placeholder="Task Name"
-                />
-                <Input
-                  onChange={(e) =>
-                    setData({ ...data, rewardPoints: e.target.value })
-                  }
-                  value={data.rewardPoints}
-                  type="number"
-                  placeholder="Reward Points"
-                />
+                <FormControl>
+                  <FormLabel className="text-[#6D7D86]">Task Name</FormLabel>
+                  <Input
+                    onChange={(e) =>
+                      setData({ ...data, taskName: e.target.value })
+                    }
+                    value={data.taskName}
+                    placeholder="Task Name"
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel className="text-[#6D7D86]">
+                    Reward Points
+                  </FormLabel>
+                  <Input
+                    onChange={(e) =>
+                      setData({ ...data, rewardPoints: e.target.value })
+                    }
+                    value={data.rewardPoints}
+                    type="number"
+                    placeholder="Reward Points"
+                  />
+                </FormControl>
               </div>
               <div className="mt-6 gap-4 grid grid-cols-1">
-                <Textarea
-                  onChange={(e) =>
-                    setData({ ...data, description: e.target.value })
-                  }
-                  value={data.description}
-                  placeholder="Description (in max 200 chars)"
-                  maxLength={200}
-                />
+                <FormControl>
+                  <FormLabel className="text-[#6D7D86]">
+                    Task Description
+                  </FormLabel>
+                  <Textarea
+                    onChange={(e) =>
+                      setData({ ...data, description: e.target.value })
+                    }
+                    value={data.description}
+                    placeholder="Description (in max 200 chars)"
+                    maxLength={200}
+                  />
+                </FormControl>
               </div>
               <div className="mt-6 gap-4 grid grid-cols-2">
-                <Select value={data.userName} onChange={handleSelectChange2}>
-                  <option value={null}>Select Sub</option>
-                  {connections?.map((d, i) => {
-                    return (
-                      <option key={i} value={d.subEmail}>
-                        {d.subName}
-                      </option>
-                    )
-                  })}
-                </Select>
-                <Input
-                  value={email}
-                  placeholder="Email"
-                  type="email"
-                  readOnly
-                />
+                <FormControl>
+                  <FormLabel className="text-[#6D7D86]">Select Sub</FormLabel>
+                  <Select value={data.userName} onChange={handleSelectChange2}>
+                    <option value={null}>Select Sub</option>
+                    {connections?.map((d, i) => {
+                      return (
+                        <option key={i} value={d.subEmail}>
+                          {d.subName}
+                        </option>
+                      )
+                    })}
+                  </Select>
+                </FormControl>
+                <FormControl>
+                  <FormLabel className="text-[#6D7D86]">DOM</FormLabel>
+                  <Input
+                    value={email}
+                    placeholder="Email"
+                    type="email"
+                    readOnly
+                  />
+                </FormControl>
               </div>
               <div className="mt-6 flex gap-4 grid  grid-cols-2">
                 <FormControl>
