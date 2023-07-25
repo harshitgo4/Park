@@ -177,7 +177,4 @@ export default function SubRequestsCard({ data, setRequests }) {
         >
           Next
         </Button>
-      </Box>
-    </>
-  )
-}
+      <

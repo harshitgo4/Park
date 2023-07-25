@@ -127,7 +127,7 @@ export default function TaskRecap() {
         resData.tasks.forEach((d, i) => {
           if (d.status == 'Accepted') {
             temp2.push({
-              taskId: d._id,
+              taskId: d.taskId,
               date: d.updatedAt.split('T')[0],
               taskName: d.taskName,
               taskAssignedTo: d.subName,
@@ -137,7 +137,7 @@ export default function TaskRecap() {
             })
           } else if (d.status == 'Failed' || d.status == 'Denied') {
             temp3.push({
-              taskId: d._id,
+              taskId: d.taskId,
               date: d.updatedAt.split('T')[0],
               taskName: d.taskName,
               taskAssignedTo: d.subName,
@@ -147,7 +147,7 @@ export default function TaskRecap() {
             })
           } else if (d.status == 'Pending') {
             temp4.push({
-              taskId: d._id,
+              taskId: d.taskId,
               date: d.updatedAt.split('T')[0],
               taskName: d.taskName,
               taskAssignedTo: d.subName,
@@ -170,7 +170,7 @@ export default function TaskRecap() {
       }
     }
     fetchTasks()
-  }, [subEmail])
+  }, [user])
 
   useEffect(() => {
     if (selectedOption) {

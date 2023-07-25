@@ -80,7 +80,7 @@ function SideBar({
         <div className="my-8 pb-12 w-full my-8 space-y-4">
           <Button
             onClick={() => router('/dashboard')}
-            className={`flex flex-row text-right w-full p-4 rounded-lg ${bg} ${txt}`}
+            className={`flex flex-row text-right w-full py-4 rounded-lg ${bg} ${txt}`}
             rightIcon={
               <AdjustmentsVerticalIcon
                 className={`${
@@ -96,7 +96,7 @@ function SideBar({
           {/* Task */}
           <Button
             onClick={() => setTaskOpen(!isTaskOpen)}
-            className={`flex flex-row text-right w-full p-4 rounded-lg ${bg} ${txt}`}
+            className={`flex flex-row text-right w-full py-4 rounded-lg ${bg} ${txt}`}
             rightIcon={
               <ChevronDownIcon
                 className={`${
@@ -116,7 +116,7 @@ function SideBar({
               }}
               className={`flex flex-row text-right ${
                 window.location.pathname === '/SubmitTask'
-                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  ? `w-full py-4 rounded-lg ${bg} ${txt}`
                   : null
               }`}
             >
@@ -128,7 +128,7 @@ function SideBar({
               hidden={user?.type == 'dom'}
               className={`flex flex-row text-right ${
                 window.location.pathname === '/CurrentTask'
-                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  ? `w-full py-4 rounded-lg ${bg} ${txt}`
                   : null
               }`}
             >
@@ -140,7 +140,7 @@ function SideBar({
               hidden={user?.type == 'dom'}
               className={`flex flex-row text-right ${
                 window.location.pathname === '/AssignedTask'
-                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  ? `w-full py-4 rounded-lg ${bg} ${txt}`
                   : null
               }`}
             >
@@ -152,7 +152,7 @@ function SideBar({
               hidden={user?.type == 'dom'}
               className={`flex flex-row text-right ${
                 window.location.pathname === '/AllTask'
-                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  ? `w-full py-4 rounded-lg ${bg} ${txt}`
                   : null
               }`}
             >
@@ -164,7 +164,7 @@ function SideBar({
               hidden={user?.type == 'sub'}
               className={`flex flex-row text-right ${
                 window.location.pathname === '/createTask'
-                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  ? `w-full py-4 rounded-lg ${bg} ${txt}`
                   : null
               }`}
             >
@@ -176,7 +176,7 @@ function SideBar({
               hidden={user?.type == 'sub'}
               className={`flex flex-row text-right ${
                 window.location.pathname === '/ManageTask'
-                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  ? `w-full py-4 rounded-lg ${bg} ${txt}`
                   : null
               }`}
             >
@@ -188,7 +188,7 @@ function SideBar({
               hidden={user?.type == 'sub'}
               className={`flex flex-row text-right ${
                 window.location.pathname === '/AllSubmittedTasks'
-                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  ? `w-full py-4 rounded-lg ${bg} ${txt}`
                   : null
               }`}
             >
@@ -197,9 +197,9 @@ function SideBar({
             </button>
             <button
               hidden={user?.type == 'sub'}
-              className={`flex flex-row text-right ${
+              className={`flex flex-row text-left ${
                 window.location.pathname === '/PendingSubmissions'
-                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  ? `w-full py-4 rounded-lg ${bg} ${txt}`
                   : null
               }`}
               onClick={() => router('/PendingSubmissions')}
@@ -212,7 +212,7 @@ function SideBar({
           {/* Connection */}
           <Button
             onClick={() => setConnectOpen(!isConnectOpen)}
-            className={`flex flex-row text-right w-full p-4 rounded-lg ${bg} ${txt}`}
+            className={`flex flex-row text-right w-full py-4 rounded-lg ${bg} ${txt}`}
             rightIcon={
               <ChevronDownIcon
                 className={`${
@@ -230,7 +230,7 @@ function SideBar({
               hidden={user?.type == 'dom'}
               className={`flex flex-row text-right ${
                 window.location.pathname === '/SearchDOM'
-                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  ? `w-full py-4 rounded-lg ${bg} ${txt}`
                   : null
               }`}
             >
@@ -242,7 +242,7 @@ function SideBar({
               hidden={user?.type == 'sub'}
               className={`flex flex-row text-right ${
                 window.location.pathname === '/SubRequests'
-                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  ? `w-full py-4 rounded-lg ${bg} ${txt}`
                   : null
               }`}
             >
@@ -254,7 +254,7 @@ function SideBar({
               hidden={user?.type == 'sub'}
               className={`flex flex-row text-right ${
                 window.location.pathname === '/ConnectedSub'
-                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  ? `w-full py-4 rounded-lg ${bg} ${txt}`
                   : null
               }`}
             >
@@ -266,7 +266,7 @@ function SideBar({
           {/* Rewards */}
           <Button
             onClick={() => setRewardOpen(!isRewardOpen)}
-            className={`flex flex-row text-right w-full p-4 rounded-lg ${bg} ${txt}`}
+            className={`flex flex-row text-right w-full py-4 rounded-lg ${bg} ${txt}`}
             rightIcon={
               <ChevronDownIcon
                 className={`${
@@ -284,7 +284,7 @@ function SideBar({
               hidden={user?.type == 'dom'}
               className={`flex flex-row text-right ${
                 window.location.pathname === '/Rewards'
-                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  ? `w-full py-4 rounded-lg ${bg} ${txt}`
                   : null
               }`}
             >
@@ -296,7 +296,7 @@ function SideBar({
               hidden={user?.type == 'dom'}
               className={`flex flex-row text-right ${
                 window.location.pathname === '/BuyReward'
-                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  ? `w-full py-4 rounded-lg ${bg} ${txt}`
                   : null
               }`}
             >
@@ -307,7 +307,7 @@ function SideBar({
               hidden={user?.type == 'sub'}
               className={`flex flex-row text-right ${
                 window.location.pathname === '/PendingRewards'
-                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  ? `w-full py-4 rounded-lg ${bg} ${txt}`
                   : null
               }`}
               onClick={() => router('/PendingRewards')}
@@ -319,7 +319,7 @@ function SideBar({
               hidden={user?.type == 'sub'}
               className={`flex flex-row text-right ${
                 window.location.pathname === '/ManageRewards'
-                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  ? `w-full py-4 rounded-lg ${bg} ${txt}`
                   : null
               }`}
               onClick={() => router('/ManageRewards')}
@@ -332,7 +332,7 @@ function SideBar({
               hidden={user?.type == 'sub'}
               className={`flex flex-row text-right ${
                 window.location.pathname === '/CreateReward'
-                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  ? `w-full py-4 rounded-lg ${bg} ${txt}`
                   : null
               }`}
             >
@@ -342,7 +342,7 @@ function SideBar({
             <button
               className={`flex flex-row text-right ${
                 window.location.pathname === '/AllRewardsBought'
-                  ? `w-full p-4 rounded-lg ${bg} ${txt}`
+                  ? `w-full py-4 rounded-lg ${bg} ${txt}`
                   : null
               }`}
               onClick={() => router('/AllRewardsBought')}

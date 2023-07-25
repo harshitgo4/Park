@@ -198,6 +198,4 @@ export default function SubmittedTaskCards({ data }) {
           Next
         </Button>
       </Box>
-    </>
-  )
-}
+    <
