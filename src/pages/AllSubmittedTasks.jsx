@@ -18,11 +18,6 @@ export default function AllSubmittedTasks() {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    if (user && user.type === 'sub') {
-      router('/404')
-    }
-  }, [])
-  useEffect(() => {
     if (subscriptionDetails) {
       localStorage.setItem(
         'subscriptionDetails',
@@ -32,17 +27,18 @@ export default function AllSubmittedTasks() {
   }, [subscriptionDetails])
 
   useEffect(() => {
+    const url =
+      user?.type == 'dom'
+        ? 'https://bdsm-backend.onrender.com/api/getSubmittedTask'
+        : 'https://bdsm-backend.onrender.com/api/getSubSubmittedTask'
     const fetchTasks = async () => {
-      const res = await fetch(
-        'https://bdsm-backend.onrender.com/api/getSubmittedTask',
-        {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${Cookies.get('token')}`,
-            'Content-Type': 'application/json',
-          },
+      const res = await fetch(url, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+          'Content-Type': 'application/json',
         },
-      )
+      })
 
       const resData = await res.json()
 
@@ -55,11 +51,13 @@ export default function AllSubmittedTasks() {
             _id: d._id,
             id: d.taskId,
             subName: d.subName,
+            domName: d.domName,
             taskName: d.taskName,
             proofText: d.submissionText,
             submissionDate: d.createdAt.split('T')[0],
             submissionTime: d.createdAt.split('T')[1],
             image: d.image,
+            status: d.status,
           }
         })
         setData(temp)
@@ -111,7 +109,7 @@ export default function AllSubmittedTasks() {
               {' '}
               <h1 className="font-semibold mb-8">All Submitted Tasks</h1>
               <Box p={4}>
-                <SubmittedTaskCards data={data} />
+                <SubmittedTaskCards user={user} data={data} />
               </Box>
             </div>
           </div>

@@ -10,11 +10,14 @@ const Card = ({
   taskId,
   id,
   subName,
+  domName,
   proofText,
   taskName,
   submissionDate,
   submissionTime,
   image,
+  status,
+  user,
 }) => {
   const router = useNavigate()
   const toast = useToast()
@@ -84,7 +87,11 @@ const Card = ({
             onClick={() => setLightBox(true)}
           />
         </div>
-        <h3 className="text-xl font-semibold">SUB Name : {subName}</h3>
+        <h3 className="text-xl font-semibold">
+          {user.type == 'sub'
+            ? `DOM Name : ${domName} `
+            : `SUB Name : ${subName} `}
+        </h3>
         <p>Task Details</p>
         <hr />
         <br />
@@ -92,12 +99,14 @@ const Card = ({
         <p>Proof text: {proofText}</p>
         <p>Submission Date: {submissionDate}</p>
         <p>Submission Time: {submissionTime?.split('.')[0]}</p>
+        <p>Status: {status}</p>
         <div className="flex flex-row gap-x-1">
           <Button
             size="xs"
             colorScheme="green"
             onClick={(e) => handleSubmit(e, id, 'Accepted')}
             className="mt-4"
+            hidden={status != 'Pending' || user.type == 'sub'}
           >
             Accept
           </Button>{' '}
@@ -106,6 +115,7 @@ const Card = ({
             colorScheme="red"
             onClick={(e) => handleSubmit(e, id, 'Denied')}
             className="mt-4"
+            hidden={status != 'Pending' || user.type == 'sub'}
           >
             Deny
           </Button>{' '}
@@ -140,7 +150,7 @@ const Card = ({
     </>
   )
 }
-export default function SubmittedTaskCards({ data }) {
+export default function SubmittedTaskCards({ user, data }) {
   // Pagination logic here
   const pageSize = 8
   const pageCount = Math.ceil(data?.length / pageSize)
@@ -162,11 +172,14 @@ export default function SubmittedTaskCards({ data }) {
               taskId={item.id}
               id={item._id}
               subName={item.subName}
+              domName={item.domName}
               proofText={item.proofText}
               taskName={item.taskName}
               submissionDate={item.submissionDate}
               submissionTime={item.submissionTime}
               image={item.image}
+              status={item.status}
+              user={user}
             />
           ))}
         </SimpleGrid>

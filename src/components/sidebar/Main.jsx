@@ -185,7 +185,6 @@ function SideBar({
             </button>
             <button
               onClick={() => router('/AllSubmittedTasks')}
-              hidden={user?.type == 'sub'}
               className={`flex flex-row text-right ${
                 window.location.pathname === '/AllSubmittedTasks'
                   ? `w-full py-4 rounded-lg ${bg} ${txt}`
