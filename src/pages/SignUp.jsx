@@ -344,6 +344,7 @@ function SignUp() {
                         width: '100%',
                         marginTop: '0.5rem',
                         borderRadius: '2px',
+                        color: 'white',
                       }}
                     />
                   </div>

@@ -2,8 +2,7 @@ import React from 'react'
 import { Chart } from 'react-google-charts'
 import { Box, Button, useColorModeValue, useColorMode } from '@chakra-ui/react'
 
-
-export default function PieChart({data}) {
+export default function PieChart({ data }) {
   const bg = useColorModeValue('bg-gray-100', '#1E293B')
   const textColor = useColorModeValue('#000', '#fff')
 
@@ -17,16 +16,20 @@ export default function PieChart({data}) {
 
   return (
     <div className="m-auto py-8">
-      <Chart
-        chartType="PieChart"
-        data={data}
-        options={options}
-        width="100%"
-        height="20rem"
-        style={{
-          color: '#fff',
-        }}
-      />
+      {data ? (
+        <Chart
+          chartType="PieChart"
+          data={data}
+          options={options}
+          width="100%"
+          height="20rem"
+          style={{
+            color: '#fff',
+          }}
+        />
+      ) : (
+        'No data yet!'
+      )}
     </div>
   )
 }

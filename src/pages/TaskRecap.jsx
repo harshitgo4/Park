@@ -161,12 +161,14 @@ export default function TaskRecap() {
         setData3(temp3)
         setData4(temp4)
 
-        setPieData([
-          ['Status', 'Count'],
-          ['Completed', temp2.length],
-          ['Failed', temp3.length],
-          ['Pending', temp4.length],
-        ])
+        if (temp2.length > 0 || temp3.length > 0 || temp4.length > 0) {
+          setPieData([
+            ['Status', 'Count'],
+            ['Completed', temp2.length],
+            ['Failed', temp3.length],
+            ['Pending', temp4.length],
+          ])
+        }
       }
     }
     fetchTasks()
@@ -178,12 +180,16 @@ export default function TaskRecap() {
       const temp3 = data3.filter((el) => el.submissionFreq == selectedOption)
       const temp4 = data4.filter((el) => el.submissionFreq == selectedOption)
       console.log(data2, temp2)
-      setPieData([
-        ['Status', 'Count'],
-        ['Completed', temp2.length],
-        ['Failed', temp3.length],
-        ['Pending', temp4.length],
-      ])
+      if (temp2.length == 0 && temp3.length == 0 && temp4.length == 0) {
+        setPieData(null)
+      } else {
+        setPieData([
+          ['Status', 'Count'],
+          ['Completed', temp2.length],
+          ['Failed', temp3.length],
+          ['Pending', temp4.length],
+        ])
+      }
     }
   }, [data2, data3, data4, selectedOption])
 
@@ -291,21 +297,21 @@ export default function TaskRecap() {
             <div className="w-full">
               {' '}
               <h1 className="font-semibold mb-8">Completed Tasks Detail</h1>
-              <Table columns={columns} data={data2} />
+              {data2.length>0 ? <Table columns={columns} data={data2} />: 'No Data Yet!'}
             </div>
           </div>
           <div className={`${bg} m-4 flex flex-row rounded-lg p-8`}>
             <div className="w-full">
               {' '}
               <h1 className="font-semibold mb-8">Failed Tasks Detail</h1>
-              <Table columns={columns} data={data3} />
+              {data3.length>0 ? <Table columns={columns} data={data3} />: 'No Data Yet!'}
             </div>
           </div>
           <div className={`${bg} m-4 flex flex-row rounded-lg p-8`}>
             <div className="w-full">
               {' '}
               <h1 className="font-semibold mb-8">Pending Tasks Detail</h1>
-              <Table columns={columns} data={data4} />
+              {data4.length>0 ? <Table columns={columns} data={data4} />: 'No Data Yet!'}
             </div>
           </div>
         </main>

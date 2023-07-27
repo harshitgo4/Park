@@ -230,7 +230,9 @@ export default function Home({ folder, initialNamespace }) {
         ])
       }
     }
-    fetchTasks()
+    if (user) {
+      fetchTasks()
+    }
   }, [user])
 
   function isDueForSubmissionToday(task, tasksData) {
@@ -422,7 +424,7 @@ export default function Home({ folder, initialNamespace }) {
   const textColor = useColorModeValue('text-black', 'text-white')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
-  const bg2 = useColorModeValue('bg-gray-400', 'bg-black')
+  const bg2 = useColorModeValue('bg-white', 'bg-black')
 
   const options = {
     weekday: 'short',

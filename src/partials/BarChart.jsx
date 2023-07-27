@@ -4,7 +4,7 @@ import { Box, Button, useColorModeValue, useColorMode } from '@chakra-ui/react'
 
 export function BarChart({ data }) {
   const bg = useColorModeValue('bg-gray-100', '#1E293B')
-  const bg2 = useColorModeValue('#9BA9B4', '#000')
+  const bg2 = useColorModeValue('#fff', '#000')
   const textColor = useColorModeValue('#000', '#fff')
   const options = {
     chart: {

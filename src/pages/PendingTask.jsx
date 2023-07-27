@@ -122,7 +122,7 @@ export default function PendingTask() {
             <div className="w-full">
               {' '}
               <h1 className="font-semibold mb-8">Pending Tasks Detail</h1>
-              <Table columns={columns} data={data} />
+              {data.length>0 ? <Table columns={columns} data={data} />: 'No Data Yet!'}
             </div>
           </div>
         </main>

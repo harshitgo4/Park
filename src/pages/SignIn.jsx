@@ -273,7 +273,7 @@ function SignIn() {
                 <div className="flex flex-wrap -mx-3 mb-4">
                   <div className="w-full px-3">
                     <label
-                      className="block text-gray-300 text-sm font-medium mb-1"
+                      className="block text-sm font-medium mb-1"
                       htmlFor="email"
                     >
                       Email
@@ -281,7 +281,7 @@ function SignIn() {
                     <input
                       id="email"
                       type="email"
-                      className="form-input w-full text-gray-300"
+                      className="form-input w-full"
                       placeholder="you@yourcompany.com"
                       required
                       value={email}
@@ -292,7 +292,7 @@ function SignIn() {
                 <div className="flex flex-wrap -mx-3 mb-4">
                   <div className="w-full px-3">
                     <label
-                      className="block text-gray-300 text-sm font-medium mb-1"
+                      className="block text-sm font-medium mb-1"
                       htmlFor="password"
                     >
                       Password
@@ -300,7 +300,7 @@ function SignIn() {
                     <input
                       id="password"
                       type="password"
-                      className="form-input w-full text-gray-300"
+                      className="form-input w-full"
                       placeholder="Password (at least 10 characters)"
                       required
                       value={password}

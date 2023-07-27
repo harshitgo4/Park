@@ -106,7 +106,7 @@ function SideBar({
             }
           >
             <CalendarDaysIcon className="w-5 mx-2" />
-            Task
+            Tasks
           </Button>
           <Collapse className="my-8 w-full my-8 space-y-4" in={isTaskOpen}>
             <button
@@ -221,7 +221,7 @@ function SideBar({
             }
           >
             <CalendarDaysIcon className="w-5 mx-2" />
-            Connection
+            Connections
           </Button>
           <Collapse className="my-8 w-full my-8 space-y-4" in={isConnectOpen}>
             <button
