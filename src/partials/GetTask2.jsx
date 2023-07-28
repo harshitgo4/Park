@@ -17,7 +17,18 @@ const Card = ({ id, title, desc, submissionDate, domName, status }) => {
         <p>Submit Date : {submissionDate}</p>
         <p>Task by : {domName}</p>
         <p>Status : {status}</p>
-        <Button onClick={() => router(`/task/${id}`)} className="mt-4" colorScheme="blue">
+        <Button
+          onClick={() => router(`/SubmitTask/${id}`)}
+          className="mt-4 mr-2"
+          colorScheme="green"
+        >
+          Submit
+        </Button>
+        <Button
+          onClick={() => router(`/task/${id}`)}
+          className="mt-4"
+          colorScheme="blue"
+        >
           View
         </Button>
       </Box>

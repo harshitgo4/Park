@@ -27,6 +27,7 @@ export function ColumnChart({ data }) {
     backgroundColor: bg,
     legend: {
       textStyle: { color: textColor },
+      position: 'bottom'
     },
     hAxis: {
       textStyle: { color: textColor },

@@ -58,6 +58,7 @@ function TaskPage() {
   const textColor = useColorModeValue('text-black', 'text-white')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const bg = useColorModeValue('bg-gray-100', 'bg-[#1E293B]')
+  const bg2 = useColorModeValue('bg-gray-300', 'bg-blue-500')
   return (
     <div className="h-[100vh] overflow-y-auto overflow-x-hidden">
       <Header2
@@ -95,13 +96,13 @@ function TaskPage() {
               <Box className="space-y-4" p={4}>
                 <div className="flex items-center">
                   <span className="w-28 p-2 inline-block">Task Id:</span>
-                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                  <span className={`font-semibold  p-2 rounded-lg ${bg2}`}>
                     {id}
                   </span>
                 </div>
                 <div className="flex items-center">
                   <span className="w-28 p-2 inline-block">Task Name:</span>
-                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                  <span className={`font-semibold  p-2 rounded-lg ${bg2}`}>
                     {taskDetails?.taskName}
                   </span>
                 </div>
@@ -109,19 +110,19 @@ function TaskPage() {
                   <span className="w-28 p-2 inline-block">
                     Task Description:
                   </span>
-                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                  <span className={`font-semibold  p-2 rounded-lg ${bg2}`}>
                     {taskDetails?.taskDesc}
                   </span>
                 </div>
                 <div className="flex items-center">
                   <span className="w-28 p-2 inline-block">DOM:</span>
-                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                  <span className={`font-semibold  p-2 rounded-lg ${bg2}`}>
                     {taskDetails?.createdBy}
                   </span>
                 </div>
                 <div className="flex items-center">
                   <span className="w-28 p-2 inline-block">Task Due Time:</span>
-                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                  <span className={`font-semibold  p-2 rounded-lg ${bg2}`}>
                     {taskDetails?.dueTime}
                   </span>
                 </div>
@@ -129,13 +130,13 @@ function TaskPage() {
                   <span className="w-28 p-2 inline-block">
                     Task Start Date:
                   </span>
-                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                  <span className={`font-semibold  p-2 rounded-lg ${bg2}`}>
                     {taskDetails?.startDate.split('T')[0]}
                   </span>
                 </div>
                 <div className="flex items-center">
                   <span className="w-28 p-2 inline-block">Task End Date:</span>
-                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                  <span className={`font-semibold  p-2 rounded-lg ${bg2}`}>
                     {taskDetails?.endDate.split('T')[0]}
                   </span>
                 </div>
@@ -143,7 +144,7 @@ function TaskPage() {
                   <span className="w-28 p-2 inline-block">
                     Task Submission Freq:
                   </span>
-                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                  <span className={`font-semibold  p-2 rounded-lg ${bg2}`}>
                     {taskDetails?.submissionFreq}
                   </span>
                 </div>
@@ -151,7 +152,7 @@ function TaskPage() {
                   <span className="w-28 p-2 inline-block">
                     Task is Media Req:
                   </span>
-                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                  <span className={`font-semibold  p-2 rounded-lg ${bg2}`}>
                     {taskDetails?.isMediaReq.toString()}
                   </span>
                 </div>
@@ -159,13 +160,13 @@ function TaskPage() {
                   <span className="w-28 p-2 inline-block">
                     Task is Text submission req:
                   </span>
-                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                  <span className={`font-semibold  p-2 rounded-lg ${bg2}`}>
                     {taskDetails?.isSubmissionReq.toString()}
                   </span>
                 </div>
                 <div className="flex items-center">
                   <span className="w-28 p-2 inline-block">Reward Points</span>
-                  <span className="font-semibold  p-2 rounded-lg bg-blue-500 ">
+                  <span className={`font-semibold  p-2 rounded-lg ${bg2}`}>
                     {taskDetails?.rewardPoints}
                   </span>
                 </div>

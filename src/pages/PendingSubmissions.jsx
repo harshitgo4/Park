@@ -14,6 +14,7 @@ export default function PendingSubmissions() {
   const [showDrawer, setShowDrawer] = useState(false)
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
   const [tasks, setTasks] = useState(null)
+  const [user, setUser] = useState(null)
   const [data2, setData2] = useState([
     {
       taskId: null,
@@ -26,11 +27,6 @@ export default function PendingSubmissions() {
   ])
 
   useEffect(() => {
-    if (user && user.type === 'sub') {
-      router('/404')
-    }
-  }, [])
-  useEffect(() => {
     if (subscriptionDetails) {
       localStorage.setItem(
         'subscriptionDetails',
@@ -39,17 +35,18 @@ export default function PendingSubmissions() {
     }
   }, [subscriptionDetails])
   useEffect(() => {
+    const url =
+      user?.type == 'sub'
+        ? 'https://bdsm-backend.onrender.com/api/getSubPendingSubmissions'
+        : 'https://bdsm-backend.onrender.com/api/getPendingSubmissions'
     const fetchTasks = async () => {
-      const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/getPendingSubmissions`,
-        {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${Cookies.get('token')}`,
-            'Content-Type': 'application/json',
-          },
+      const res = await fetch(url, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+          'Content-Type': 'application/json',
         },
-      )
+      })
 
       const resData = await res.json()
 
@@ -72,13 +69,14 @@ export default function PendingSubmissions() {
         setData2(temp)
       }
     }
-    fetchTasks()
-  }, [])
+    if (user) {
+      fetchTasks()
+    }
+  }, [user])
 
   const { colorMode, toggleColorMode } = useColorMode()
 
   const [email, setEmail] = useState(null)
-  const [user, setUser] = useState(null)
 
   const textColor = useColorModeValue('gray.200', 'white')
   const { isOpen, onOpen, onClose } = useDisclosure()

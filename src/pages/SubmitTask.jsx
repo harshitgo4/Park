@@ -2,6 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header2 from '../components/Header2'
+import { useParams } from 'react-router-dom'
 import {
   Box,
   Button,
@@ -21,6 +22,7 @@ import {
 import Cookies from 'js-cookie'
 export default function SubmitTask() {
   const router = useNavigate()
+  const { id } = useParams()
   const toast = useToast()
   const [showDrawer, setShowDrawer] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -72,6 +74,19 @@ export default function SubmitTask() {
     }
     fetchTasks()
   }, [])
+
+  useEffect(() => {
+    if (id && data) {
+      const temp = data.filter((el) => el._id == id)
+      console.log(temp)
+      setFormData({
+        ...data,
+        selectedTaskId: id,
+        isMediaReq: temp[0].isMediaReq,
+        isSubmissionReq: temp[0].isSubmissionReq,
+      })
+    }
+  }, [id, data])
 
   const handleSelectChange = (event) => {
     const selectedValue = event.target.value

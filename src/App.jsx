@@ -72,7 +72,7 @@ function App() {
         <Route path="/CurrentTask" element={<CurrentTask />} />
         <Route path="/AllTask" element={<AllTask />} />
         <Route path="/AllRewardsBought" element={<AllRewardsBought />} />
-        <Route path="/SubmitTask" element={<SubmitTask />} />
+        <Route path="/SubmitTask/:id?" element={<SubmitTask />} />
         <Route path="/CreateTask" element={<CreateTask />} />
         <Route path="/CreateReward" element={<CreateReward />} />
         <Route path="/ManageTask" element={<ManageTask />} />

@@ -193,7 +193,7 @@ export default function Home({ folder, initialNamespace }) {
           Accepted: temp.length,
           Failed: temp2.length,
           All: resData.totalTasks.length,
-          Pending: temp3.length,
+          Pending: resData.pendingTaskCount,
         })
         setStatistics({
           todayCompleted,
@@ -558,7 +558,7 @@ export default function Home({ folder, initialNamespace }) {
             <div
               onClick={() =>
                 user?.type === 'sub'
-                  ? router('/PendingTask')
+                  ? router('/PendingSubmissions')
                   : router('/PendingSubmissions')
               }
               className="m-2 bg-blue-400 flex flex-row p-4"

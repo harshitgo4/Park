@@ -25,6 +25,7 @@ import { useNavigate } from 'react-router-dom'
 import { Box, useColorModeValue, useColorMode } from '@chakra-ui/react'
 import { useToast } from '@chakra-ui/react'
 import Swal from 'sweetalert2'
+import SideBar from './sidebar/Main'
 
 function Settings() {
   const [user, setUser] = useState(null)
@@ -41,6 +42,7 @@ function Settings() {
 
   const [isLoading, setIsLoading] = useState(false)
   const [isLoading2, setIsLoading2] = useState(false)
+  const [showDrawer, setShowDrawer] = useState(false)
   const [subscriptionDetails, setSubscriptionDetails] = useState(null)
   const { colorMode, toggleColorMode } = useColorMode()
   const toast = useToast()
@@ -187,161 +189,169 @@ function Settings() {
         isOpen={isOpen}
         onOpen={onOpen}
         onClose={onClose}
-        user={user}
         setUser={setUser}
+        user={user}
+        showDrawer={showDrawer}
+        setShowDrawer={setShowDrawer}
         subscriptionDetails={subscriptionDetails}
         setSubscriptionDetails={setSubscriptionDetails}
       />
-      <button
-        className="z-50 md:hidden px-3 py-2 rounded-md  focus:outline-none flex-none ml-auto"
-        onClick={onOpen}
-      >
-        <Bars3Icon className="h-6 w-6" />
-      </button>
-      <main className="w-[100%] md:w-[60%] p-8 flex flex-col z-1 mx-auto w-full p-4">
-        <Button onClick={() => router(-1)} className="m-2 w-[4rem] p-2">
-          <ArrowUturnLeftIcon className="w-5" />{' '}
-        </Button>
-        <div className={`${bg} p-8 rounded-lg m-auto `}>
-          <div className="w-full flex flex-row">
-            <div>
-              {' '}
-              <h1 className="text-lg font-semibold">Personal Details</h1>
-              <p>Setup your account according to your preferences.</p>
-              <>
-                <Input
-                  type="file"
-                  display="none"
-                  id="file-upload"
-                  onChange={handleFileChange}
-                />
-                <label htmlFor="file-upload">
-                  <Button
-                    className="mt-6"
-                    bg="brand"
-                    textColor="white"
-                    rightIcon={<ArrowUpTrayIcon className="w-5 h-5" />}
-                    as="span"
-                  >
-                    {imageFile?.name || 'Upload Profile Image'}
-                  </Button>
-                </label>
-              </>
+      <div className={`flex pb-40 h-screen}`}>
+        <SideBar
+          showDrawer={showDrawer}
+          user={user}
+          email=""
+          router={router}
+          setShowDrawer={setShowDrawer}
+          toggleColorMode={toggleColorMode}
+        />
+        <main className="md:pl-64 md:p-8 flex flex-col z-1 mt-6 mx-auto w-full">
+          <Button onClick={() => router(-1)} className="m-2 w-[4rem] p-2">
+            <ArrowUturnLeftIcon className="w-5" />{' '}
+          </Button>
+          <div className={`${bg} p-2 md:p-8 rounded-lg m-auto w-full `}>
+            <div className="flex flex-col md:flex-row">
+              <div>
+                {' '}
+                <h1 className="text-lg font-semibold">Personal Details</h1>
+                <p>Setup your account according to your preferences.</p>
+                <>
+                  <Input
+                    type="file"
+                    display="none"
+                    id="file-upload"
+                    onChange={handleFileChange}
+                  />
+                  <label htmlFor="file-upload">
+                    <Button
+                      className="mt-6"
+                      bg="brand"
+                      textColor="white"
+                      rightIcon={<ArrowUpTrayIcon className="w-5 h-5" />}
+                      as="span"
+                    >
+                      {imageFile?.name || 'Upload Profile Image'}
+                    </Button>
+                  </label>
+                </>
+              </div>
+              <div className="md:ml-auto">
+                {user && user.avatar ? (
+                  <img
+                    className="rounded-full h-[10rem] w-[10rem]"
+                    src={user.avatar}
+                  />
+                ) : (
+                  <UserCircleIcon className="w-[10rem]  text-[#5D5DFF]" />
+                )}
+              </div>
             </div>
-            <div className="ml-auto">
-              {user && user.avatar ? (
-                <img
-                  className="rounded-full h-[10rem] w-[10rem]"
-                  src={user.avatar}
-                />
-              ) : (
-                <UserCircleIcon className="w-[10rem]  text-[#5D5DFF]" />
-              )}
+            <div className="mt-6 gap-4 grid grid-cols-1">
+              <Input readOnly value={user?.type} placeholder="User type" />
             </div>
-          </div>
-          <div className="mt-6 gap-4 grid grid-cols-1">
-            <Input readOnly value={user?.type} placeholder="User type" />
-          </div>
-          <div className="mt-6 gap-4 grid grid-cols-2">
-            <Input
-              onChange={(e) => setData({ ...data, fName: e.target.value })}
-              value={data.fName}
-              placeholder="Name"
-            />
-            <Input
-              onChange={(e) => setData({ ...data, lName: e.target.value })}
-              value={data.lName}
-              placeholder="Surname"
-            />
-          </div>
-          <div className="mt-6 gap-4 grid grid-cols-2">
-            <Input readOnly value={data.email} placeholder="email" />
-            <Input
-              onChange={(e) => setData({ ...data, phone: e.target.value })}
-              value={data.phone}
-              placeholder="Phone"
-            />
-          </div>
-          <div className="mt-6 gap-4 grid grid-cols-2">
-            <Input
-              value={subscriptionDetails?.planId}
-              placeholder="Plan"
-              readOnly
-            />
-            <Button onClick={() => router('/pricing')}>Upgrade</Button>
-          </div>
+            <div className="mt-6 gap-4 grid grid-cols-2">
+              <Input
+                onChange={(e) => setData({ ...data, fName: e.target.value })}
+                value={data.fName}
+                placeholder="Name"
+              />
+              <Input
+                onChange={(e) => setData({ ...data, lName: e.target.value })}
+                value={data.lName}
+                placeholder="Surname"
+              />
+            </div>
+            <div className="mt-6 gap-4 grid grid-cols-2">
+              <Input readOnly value={data.email} placeholder="email" />
+              <Input
+                onChange={(e) => setData({ ...data, phone: e.target.value })}
+                value={data.phone}
+                placeholder="Phone"
+              />
+            </div>
+            <div className="mt-6 gap-4 grid grid-cols-2">
+              <Input
+                value={subscriptionDetails?.planId}
+                placeholder="Plan"
+                readOnly
+              />
+              <Button onClick={() => router('/pricing')}>Upgrade</Button>
+            </div>
 
-          <div className="mt-6 gap-4 grid grid-cols-2">
-            <Checkbox
-              onChange={() =>
-                setData({ ...data, subscribed: !data.subscribed })
-              }
-              isChecked={data.subscribed}
-            >
-              Subscribe to newsletter
-            </Checkbox>
-            <Checkbox
-              onChange={() => setData({ ...data, isPrivate: !data.isPrivate })}
-              isChecked={!data.isPrivate}
-            >
-              Profile Picture Public
-            </Checkbox>
+            <div className="mt-6 gap-4 grid grid-cols-2">
+              <Checkbox
+                onChange={() =>
+                  setData({ ...data, subscribed: !data.subscribed })
+                }
+                isChecked={data.subscribed}
+              >
+                Subscribe to newsletter
+              </Checkbox>
+              <Checkbox
+                onChange={() =>
+                  setData({ ...data, isPrivate: !data.isPrivate })
+                }
+                isChecked={!data.isPrivate}
+              >
+                Profile Picture Public
+              </Checkbox>
+            </div>
+            <div className="border p-2 mt-4">
+              <h1 className=" text-md font-semibold">🟢 Making Changes</h1>
+              <p className="text-sm pl-7">
+                You can always make changes to your account whenevever you need.
+                Please ensure this information is accurate.
+              </p>
+            </div>
+            <div className="md:space-x-4 flex flex-col md:flex-row">
+              {' '}
+              <Button
+                className="mt-6"
+                bg="brand"
+                textColor="white"
+                isLoading={isLoading}
+                rightIcon={<CheckCircleIcon className="w-5" />}
+                onClick={(e) => handleSubmit(e)}
+              >
+                Save Changes
+              </Button>
+              <Button
+                className="mt-6"
+                colorScheme="red"
+                isLoading={isLoading2}
+                onClick={(e) =>
+                  Swal.fire({
+                    title: 'Are you sure you want to cancel subscription?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, cancel it!',
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      cancelSubscriptions(e)
+                    }
+                  })
+                }
+                hidden={subscriptionDetails?.planId === 'Free Plan'}
+                rightIcon={<TrashIcon className="w-5" />}
+              >
+                Cancel Subscription
+              </Button>
+              <Button
+                className="mt-6"
+                colorScheme="red"
+                isLoading={isLoading2}
+                onClick={openModal}
+                rightIcon={<TrashIcon className="w-5" />}
+              >
+                Delete Account
+              </Button>
+            </div>
           </div>
-          <div className="border p-2 mt-4">
-            <h1 className=" text-md font-semibold">🟢 Making Changes</h1>
-            <p className="text-sm pl-7">
-              You can always make changes to your account whenevever you need.
-              Please ensure this information is accurate.
-            </p>
-          </div>
-          <div className="space-x-4">
-            {' '}
-            <Button
-              className="mt-6"
-              bg="brand"
-              textColor="white"
-              isLoading={isLoading}
-              rightIcon={<CheckCircleIcon className="w-5" />}
-              onClick={(e) => handleSubmit(e)}
-            >
-              Save Changes
-            </Button>
-            <Button
-              className="mt-6"
-              colorScheme="red"
-              isLoading={isLoading2}
-              onClick={(e) =>
-                Swal.fire({
-                  title: 'Are you sure you want to cancel subscription?',
-                  text: "You won't be able to revert this!",
-                  icon: 'warning',
-                  showCancelButton: true,
-                  confirmButtonColor: '#3085d6',
-                  cancelButtonColor: '#d33',
-                  confirmButtonText: 'Yes, cancel it!',
-                }).then((result) => {
-                  if (result.isConfirmed) {
-                    cancelSubscriptions(e)
-                  }
-                })
-              }
-              hidden={subscriptionDetails?.planId === 'Free Plan'}
-              rightIcon={<TrashIcon className="w-5" />}
-            >
-              Cancel Subscription
-            </Button>
-            <Button
-              className="mt-6"
-              colorScheme="red"
-              isLoading={isLoading2}
-              onClick={openModal}
-              rightIcon={<TrashIcon className="w-5" />}
-            >
-              Delete Account
-            </Button>
-          </div>
-        </div>
-      </main>
+        </main>
+      </div>
       <Modal isOpen={isModalOpen} onClose={closeModal} size="xl">
         <ModalOverlay />
         <ModalContent
