@@ -116,7 +116,11 @@ export default function AllRewardsBought() {
             <div className="w-full">
               {' '}
               <h1 className="font-semibold mb-8">All Rewards Redeemed</h1>
-              {data.length>0 ? <Table columns={columns} data={data} />: 'No Data Yet!'}
+              {data.length > 0 ? (
+                <Table columns={columns} data={data} />
+              ) : (
+                'No Data Yet!'
+              )}
             </div>
           </div>
         </main>

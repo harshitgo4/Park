@@ -115,7 +115,11 @@ export default function AllTask() {
             <div className="w-full">
               {' '}
               <h1 className="font-semibold mb-8">All Tasks Detail</h1>
-              {data.length>0 ? <Table columns={columns} data={data} />: 'No Data Yet!'}
+              {data.length > 0 ? (
+                <Table columns={columns} data={data} />
+              ) : (
+                'No Data Yet!'
+              )}
             </div>
           </div>
         </main>

@@ -127,7 +127,11 @@ export default function PendingSubmissions() {
             <div className="w-full">
               {' '}
               <h1 className="font-semibold mb-8">Pending Submissions</h1>
-              {data2.length>0 ? <Table columns={columns} data={data2} />: 'No Data Yet!'}
+              {data2.length > 0 ? (
+                <Table columns={columns} data={data2} />
+              ) : (
+                'No Data Yet!'
+              )}
             </div>
           </div>
         </main>

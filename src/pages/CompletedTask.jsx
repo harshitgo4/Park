@@ -117,7 +117,11 @@ export default function CompletedTask() {
             <div className="w-full">
               {' '}
               <h1 className="font-semibold mb-8">Completed Tasks Detail</h1>
-              {data.length>0 ? <Table columns={columns} data={data} />: 'No Data Yet!'}
+              {data.length > 0 ? (
+                <Table columns={columns} data={data} />
+              ) : (
+                'No Data Yet!'
+              )}
             </div>
           </div>
         </main>

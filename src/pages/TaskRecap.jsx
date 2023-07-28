@@ -297,21 +297,33 @@ export default function TaskRecap() {
             <div className="w-full">
               {' '}
               <h1 className="font-semibold mb-8">Completed Tasks Detail</h1>
-              {data2.length>0 ? <Table columns={columns} data={data2} />: 'No Data Yet!'}
+              {data2.length > 0 ? (
+                <Table columns={columns} data={data2} />
+              ) : (
+                'No Data Yet!'
+              )}
             </div>
           </div>
           <div className={`${bg} m-4 flex flex-row rounded-lg p-8`}>
             <div className="w-full">
               {' '}
               <h1 className="font-semibold mb-8">Failed Tasks Detail</h1>
-              {data3.length>0 ? <Table columns={columns} data={data3} />: 'No Data Yet!'}
+              {data3.length > 0 ? (
+                <Table columns={columns} data={data3} />
+              ) : (
+                'No Data Yet!'
+              )}
             </div>
           </div>
           <div className={`${bg} m-4 flex flex-row rounded-lg p-8`}>
             <div className="w-full">
               {' '}
               <h1 className="font-semibold mb-8">Pending Tasks Detail</h1>
-              {data4.length>0 ? <Table columns={columns} data={data4} />: 'No Data Yet!'}
+              {data4.length > 0 ? (
+                <Table columns={columns} data={data4} />
+              ) : (
+                'No Data Yet!'
+              )}
             </div>
           </div>
         </main>
