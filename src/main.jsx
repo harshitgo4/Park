@@ -48,6 +48,7 @@ const subscribeToPush = async () => {
     const options = {
       userVisibleOnly: true,
       applicationServerKey: urlBase64ToUint8Array(applicationServerKey),
+      gcm_sender_id: '103953800507',
     }
 
     const subscription = await registration.pushManager.subscribe(options)
