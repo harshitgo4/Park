@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import App from './App'
 import { GoogleOAuthProvider } from '@react-oauth/google'
+import Cookies from 'js-cookie'
 
 const theme = extendTheme({
   colors: {
@@ -78,10 +79,11 @@ const sendSubscriptionToBackend = async (subscription) => {
   // Send the subscription data to your backend
   // You need to implement this API call to send the subscription to your backend
   console.log(subscription)
-  await fetch('https://bdsm-backend.onrender.com/subscribe', {
+  await fetch('https://bdsm-backend.onrender.com/api/subscribe', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${Cookies.get('token')}`,
     },
     body: JSON.stringify(subscription),
   })
