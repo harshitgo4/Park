@@ -9,7 +9,7 @@ const Card = ({ id, email, subName, imageURL, data, setRequests }) => {
   const toast = useToast()
   const removeReq = async (e, email) => {
     e.preventDefault()
-    const res = await fetch(`http://localhost:5000/api/removeReq`, {
+    const res = await fetch(`https://bdsm-backend.onrender.com/api/removeReq`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${Cookies.get('token')}`,
@@ -44,7 +44,7 @@ const Card = ({ id, email, subName, imageURL, data, setRequests }) => {
   }
   const acceptReq = async (e, email) => {
     e.preventDefault()
-    const res = await fetch(`http://localhost:5000/api/acceptReq`, {
+    const res = await fetch(`https://bdsm-backend.onrender.com/api/acceptReq`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${Cookies.get('token')}`,

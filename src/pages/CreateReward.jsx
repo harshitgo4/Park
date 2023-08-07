@@ -43,13 +43,16 @@ export default function CreateReward() {
   }, [subscriptionDetails])
   useEffect(() => {
     const fetchSubConnected = async () => {
-      const res = await fetch(`http://localhost:5000/api/fetchSubConnected`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${Cookies.get('token')}`,
-          'Content-Type': 'application/json',
+      const res = await fetch(
+        `https://bdsm-backend.onrender.com/api/fetchSubConnected`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json',
+          },
         },
-      })
+      )
 
       const resData = await res.json()
 
@@ -80,17 +83,20 @@ export default function CreateReward() {
     e.preventDefault()
 
     if (data.rewardName && data.rewardPoints) {
-      const res = await fetch(`http://localhost:5000/api/createReward`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${Cookies.get('token')}`,
-          'Content-Type': 'application/json',
+      const res = await fetch(
+        `https://bdsm-backend.onrender.com/api/createReward`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            data,
+            selectedOptions,
+          }),
         },
-        body: JSON.stringify({
-          data,
-          selectedOptions,
-        }),
-      })
+      )
 
       const resData = await res.json()
 

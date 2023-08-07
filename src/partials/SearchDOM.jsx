@@ -18,16 +18,19 @@ const Card = ({
   const toast = useToast()
   const connectDOM = async (e, email) => {
     e.preventDefault()
-    const res = await fetch(`http://localhost:5000/api/connectDOM`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${Cookies.get('token')}`,
-        'Content-Type': 'application/json',
+    const res = await fetch(
+      `https://bdsm-backend.onrender.com/api/connectDOM`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+        }),
       },
-      body: JSON.stringify({
-        email,
-      }),
-    })
+    )
 
     const resData = await res.json()
 

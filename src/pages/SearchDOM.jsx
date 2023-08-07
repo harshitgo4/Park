@@ -35,7 +35,7 @@ export default function Rewards() {
   }, [subscriptionDetails])
   useEffect(() => {
     const fetchDOMUsers = async () => {
-      const res = await fetch(`http://localhost:5000/api/users`, {
+      const res = await fetch(`https://bdsm-backend.onrender.com/api/users`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${Cookies.get('token')}`,

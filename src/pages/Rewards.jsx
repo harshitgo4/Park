@@ -33,7 +33,7 @@ export default function Rewards() {
 
   // getRewardsStats
   useEffect(() => {
-    const url = 'http://localhost:5000/api/getRewardsStats'
+    const url = 'https://bdsm-backend.onrender.com/api/getRewardsStats'
     const fetchTasks = async () => {
       const res = await fetch(url, {
         method: 'GET',

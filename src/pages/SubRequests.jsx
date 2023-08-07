@@ -30,13 +30,16 @@ export default function SubRequests() {
   }, [subscriptionDetails])
   useEffect(() => {
     const fetchSubRequests = async () => {
-      const res = await fetch(`http://localhost:5000/api/fetchSubRequests`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${Cookies.get('token')}`,
-          'Content-Type': 'application/json',
+      const res = await fetch(
+        `https://bdsm-backend.onrender.com/api/fetchSubRequests`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json',
+          },
         },
-      })
+      )
 
       const resData = await res.json()
 

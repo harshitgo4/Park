@@ -7,15 +7,18 @@ function Newsletter() {
   const handleSubmit = async () => {
     if (email.includes('@') && email.includes('.')) {
       setDisabled(true)
-      const res = await fetch(`http://localhost:5000/api/createSubscriber`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const res = await fetch(
+        `https://bdsm-backend.onrender.com/api/createSubscriber`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userEmail: email,
+          }),
         },
-        body: JSON.stringify({
-          userEmail: email,
-        }),
-      })
+      )
 
       const resData = await res.json()
 

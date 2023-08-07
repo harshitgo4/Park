@@ -18,7 +18,7 @@ const Card = ({
 
   const removeConn = async (e, email) => {
     e.preventDefault()
-    const res = await fetch(`http://localhost:5000/api/removeReq`, {
+    const res = await fetch(`https://bdsm-backend.onrender.com/api/removeReq`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${Cookies.get('token')}`,

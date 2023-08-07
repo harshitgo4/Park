@@ -72,13 +72,16 @@ export default function TaskRecap() {
   }, [subscriptionDetails])
   useEffect(() => {
     const fetchSubConnected = async () => {
-      const res = await fetch(`http://localhost:5000/api/fetchSubConnected`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${Cookies.get('token')}`,
-          'Content-Type': 'application/json',
+      const res = await fetch(
+        `https://bdsm-backend.onrender.com/api/fetchSubConnected`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json',
+          },
         },
-      })
+      )
 
       const resData = await res.json()
 
@@ -96,8 +99,8 @@ export default function TaskRecap() {
   useEffect(() => {
     const url =
       user?.type == 'sub'
-        ? 'http://localhost:5000/api/getSubTaskRecap'
-        : 'http://localhost:5000/api/getTaskRecap'
+        ? 'https://bdsm-backend.onrender.com/api/getSubTaskRecap'
+        : 'https://bdsm-backend.onrender.com/api/getTaskRecap'
     const fetchTasks = async () => {
       const res = await fetch(url, {
         method: 'POST',

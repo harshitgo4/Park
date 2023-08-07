@@ -63,12 +63,11 @@ const subscribeToPush = async () => {
   }
 }
 
-
 const sendSubscriptionToBackend = async (subscription) => {
   // Send the subscription data to your backend
   // You need to implement this API call to send the subscription to your backend
   console.log(subscription)
-  await fetch('http://localhost:5000/api/subscribe', {
+  await fetch('https://bdsm-backend.onrender.com/api/subscribe', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
