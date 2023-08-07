@@ -31,17 +31,14 @@ function SubPage() {
 
   useEffect(() => {
     const fetchSub = async () => {
-      const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/subDetails`,
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${Cookies.get('token')}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ id }),
+      const res = await fetch(`http://localhost:5000/api/subDetails`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+          'Content-Type': 'application/json',
         },
-      )
+        body: JSON.stringify({ id }),
+      })
 
       const resData = await res.json()
 

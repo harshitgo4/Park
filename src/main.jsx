@@ -49,8 +49,7 @@ const subscribeToPush = async () => {
 
     const options = {
       userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(applicationServerKey),
-      gcm_sender_id: '103953800507',
+      applicationServerKey: applicationServerKey,
     }
 
     const subscription = await registration.pushManager.subscribe(options)
@@ -64,28 +63,18 @@ const subscribeToPush = async () => {
   }
 }
 
-// Helper function to convert base64 string to Uint8Array
-function urlBase64ToUint8Array(base64String) {
-  const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
-  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/')
-  const rawData = window.atob(base64)
-  const outputArray = new Uint8Array(rawData.length)
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i)
-  }
-  return outputArray
-}
+
 const sendSubscriptionToBackend = async (subscription) => {
   // Send the subscription data to your backend
   // You need to implement this API call to send the subscription to your backend
   console.log(subscription)
-  await fetch('https://bdsm-backend.onrender.com/api/subscribe', {
+  await fetch('http://localhost:5000/api/subscribe', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${Cookies.get('token')}`,
     },
-    body: JSON.stringify(subscription),
+    body: JSON.stringify({ subscription }),
   })
 }
 

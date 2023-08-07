@@ -106,21 +106,18 @@ const Card = ({
     e.preventDefault()
 
     if (data.rewardName && data.rewardPoints) {
-      const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/updateReward`,
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${Cookies.get('token')}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            id,
-            data,
-            selectedOptions,
-          }),
+      const res = await fetch(`http://localhost:5000/api/updateReward`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+          'Content-Type': 'application/json',
         },
-      )
+        body: JSON.stringify({
+          id,
+          data,
+          selectedOptions,
+        }),
+      })
 
       const resData = await res.json()
 
@@ -160,19 +157,16 @@ const Card = ({
   }
   const handlePause = async (e) => {
     e.preventDefault()
-    const res = await fetch(
-      `https://bdsm-backend.onrender.com/api/pauseReward`,
-      {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${Cookies.get('token')}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          id,
-        }),
+    const res = await fetch(`http://localhost:5000/api/pauseReward`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${Cookies.get('token')}`,
+        'Content-Type': 'application/json',
       },
-    )
+      body: JSON.stringify({
+        id,
+      }),
+    })
 
     const resData = await res.json()
 
@@ -199,19 +193,16 @@ const Card = ({
 
   const handleDelete = async (e) => {
     e.preventDefault()
-    const res = await fetch(
-      `https://bdsm-backend.onrender.com/api/deleteReward`,
-      {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${Cookies.get('token')}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          id,
-        }),
+    const res = await fetch(`http://localhost:5000/api/deleteReward`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${Cookies.get('token')}`,
+        'Content-Type': 'application/json',
       },
-    )
+      body: JSON.stringify({
+        id,
+      }),
+    })
 
     const resData = await res.json()
 
