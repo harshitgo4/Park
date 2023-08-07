@@ -13,16 +13,19 @@ function Verify() {
   useEffect(() => {
     const verifyEmail = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/verify`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+        const response = await fetch(
+          `https://bdsm-backend.onrender.com/api/verify`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              otp,
+              email: email,
+            }),
           },
-          body: JSON.stringify({
-            otp,
-            email: email,
-          }),
-        })
+        )
 
         const res = await response.json()
         console.log(res)

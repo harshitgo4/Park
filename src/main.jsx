@@ -43,7 +43,8 @@ const subscribeToPush = async () => {
     const registration = await navigator.serviceWorker.ready
 
     // Replace 'YOUR_PUBLIC_KEY' with the actual VAPID public key you generated
-    const applicationServerKey = 'BJGSc-NAWBwkw5pXl_FaUNj2ebiXtPJm_qRUfsTkMCps6jSBm67xqn12FBpH53woCjmp6mjRZel2uhZXOhdgQyY'
+    const applicationServerKey =
+      'BJGSc-NAWBwkw5pXl_FaUNj2ebiXtPJm_qRUfsTkMCps6jSBm67xqn12FBpH53woCjmp6mjRZel2uhZXOhdgQyY'
 
     const options = {
       userVisibleOnly: true,
@@ -77,7 +78,7 @@ const sendSubscriptionToBackend = async (subscription) => {
   // Send the subscription data to your backend
   // You need to implement this API call to send the subscription to your backend
   console.log(subscription)
-  await fetch('/subscribe', {
+  await fetch('https://bdsm-backend.onrender.com/subscribe', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

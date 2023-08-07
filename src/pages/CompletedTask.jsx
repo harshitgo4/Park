@@ -40,13 +40,16 @@ export default function CompletedTask() {
   }, [subscriptionDetails])
   useEffect(() => {
     const fetchTasks = async () => {
-      const res = await fetch(`http://localhost:5000/api/getSubTask`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${Cookies.get('token')}`,
-          'Content-Type': 'application/json',
+      const res = await fetch(
+        `https://bdsm-backend.onrender.com/api/getSubTask`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json',
+          },
         },
-      })
+      )
 
       const resData = await res.json()
 

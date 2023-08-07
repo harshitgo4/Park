@@ -136,7 +136,7 @@ function Settings() {
     formData.append('isPrivate', data.isPrivate)
     formData.append('image', imageFile)
 
-    fetch('http://localhost:5000/api/updateUser', {
+    fetch('https://bdsm-backend.onrender.com/api/updateUser', {
       method: 'POST',
       body: formData,
       headers: {
@@ -161,7 +161,7 @@ function Settings() {
     setIsLoading(true)
     const token = Cookies.get('token') // Assuming you have a library like 'js-cookie' to retrieve the token from the cookie
 
-    fetch('http://localhost:5000/api/updateNotifications', {
+    fetch('https://bdsm-backend.onrender.com/api/updateNotifications', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -208,7 +208,7 @@ function Settings() {
     setIsLoading2(true)
     const token = Cookies.get('token') // Assuming you have a library like 'js-cookie' to retrieve the token from the cookie
 
-    fetch('http://localhost:5000/api/user', {
+    fetch('https://bdsm-backend.onrender.com/api/user', {
       method: 'DELETE',
       body: JSON.stringify({
         keyword: keyword, // Make sure to include the keyword property with its value
@@ -238,7 +238,7 @@ function Settings() {
     setIsLoading2(true)
     const token = Cookies.get('token') // Assuming you have a library like 'js-cookie' to retrieve the token from the cookie
 
-    fetch('http://localhost:5000/api/cancel-subscriptions', {
+    fetch('https://bdsm-backend.onrender.com/api/cancel-subscriptions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

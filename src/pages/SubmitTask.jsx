@@ -53,7 +53,7 @@ export default function SubmitTask() {
   useEffect(() => {
     const fetchTasks = async () => {
       const res = await fetch(
-        `http://localhost:5000/api/getSubPendingSubmissions`,
+        `https://bdsm-backend.onrender.com/api/getSubPendingSubmissions`,
         {
           method: 'GET',
           headers: {
@@ -134,7 +134,7 @@ export default function SubmitTask() {
         formData2.append(`image`, imageFile[i])
       }
 
-      fetch('http://localhost:5000/api/submitTask', {
+      fetch('https://bdsm-backend.onrender.com/api/submitTask', {
         method: 'POST',
         body: formData2,
         headers: {
