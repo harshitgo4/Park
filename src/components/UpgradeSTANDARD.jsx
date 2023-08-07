@@ -16,7 +16,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchStripe = async () => {
       const stripe = await loadStripe(
-        'pk_test_51MlBRCFJwKeowJ2dBZEQ6CsIxuOV8BNmUpppAL6sVBKSh9bZdoBl7sJBn0yAzJplJYLVbV5pd4MrzOH1agbTa5Dj00NO0xFdJy',
+        'pk_live_8R2AsiPPsSxYz7ZVSPcEF9Fz',
       )
       setStripe(stripe)
     }
