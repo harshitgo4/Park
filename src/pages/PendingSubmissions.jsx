@@ -37,8 +37,8 @@ export default function PendingSubmissions() {
   useEffect(() => {
     const url =
       user?.type == 'sub'
-        ? 'https://bdsm-backend.onrender.com/api/getSubPendingSubmissions'
-        : 'https://bdsm-backend.onrender.com/api/getPendingSubmissions'
+        ? 'http://localhost:5000/api/getSubPendingSubmissions'
+        : 'http://localhost:5000/api/getPendingSubmissions'
     const fetchTasks = async () => {
       const res = await fetch(url, {
         method: 'GET',

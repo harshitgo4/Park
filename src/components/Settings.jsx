@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import Header2 from './Header2'
 import Cookies from 'js-cookie'
-import { Link } from 'react-router-dom'
-import { Button, Checkbox, Input } from '@chakra-ui/react'
+import { Form, Link } from 'react-router-dom'
+import {
+  Button,
+  Checkbox,
+  CheckboxGroup,
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
+} from '@chakra-ui/react'
 import { ArrowUpTrayIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { CheckCircleIcon } from '@heroicons/react/20/solid'
 import { useDisclosure } from '@chakra-ui/react'
@@ -47,6 +55,7 @@ function Settings() {
   const { colorMode, toggleColorMode } = useColorMode()
   const toast = useToast()
   const [isModalOpen, setModalOpen] = useState(false)
+
   const openModal = () => {
     setModalOpen(true)
   }
@@ -54,6 +63,17 @@ function Settings() {
   const closeModal = () => {
     setModalOpen(false)
   }
+
+  const [isModalOpen2, setModalOpen2] = useState(false)
+  const openModal2 = () => {
+    setModalOpen2(true)
+  }
+
+  const closeModal2 = () => {
+    setModalOpen2(false)
+  }
+
+  const [notifications, setNotifications] = useState(null)
 
   const handleFileChange = (event) => {
     const file = event.target.files[0]
@@ -80,7 +100,26 @@ function Settings() {
         email: user.email,
         isPrivate: user.isPrivate,
       })
-      console.log(user)
+
+      setNotifications({
+        receiving: user.notifications.receiving,
+        method: user.notifications.method,
+        reminderDueTime: user.notifications.reminderDueTime,
+        types: {
+          'New Sub request': user.notifications.types['New Sub request'],
+          'Request accepted': user.notifications.types['Request accepted'],
+          'New Task Assigned': user.notifications.types['New Task Assigned'],
+          'New Task Submission':
+            user.notifications.types['New Task Submission'],
+          'Task Status update': user.notifications.types['Task Status update'],
+          'Reward redemption request':
+            user.notifications.types['Reward redemption request'],
+          'Reward Approved': user.notifications.types['Reward Approved'],
+          disconnects: user.notifications.types['disconnects'],
+          'Reminder before due time':
+            user.notifications.types['Reminder before due time'],
+        },
+      })
     }
   }, [user])
 
@@ -97,7 +136,7 @@ function Settings() {
     formData.append('isPrivate', data.isPrivate)
     formData.append('image', imageFile)
 
-    fetch('https://bdsm-backend.onrender.com/api/updateUser', {
+    fetch('http://localhost:5000/api/updateUser', {
       method: 'POST',
       body: formData,
       headers: {
@@ -116,13 +155,60 @@ function Settings() {
         console.error(error)
       })
   }
+
+  const updateNotifications = async (e) => {
+    e.preventDefault()
+    setIsLoading(true)
+    const token = Cookies.get('token') // Assuming you have a library like 'js-cookie' to retrieve the token from the cookie
+
+    fetch('http://localhost:5000/api/updateNotifications', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ notifications }),
+    })
+      .then((response) => response.json())
+      .then((res2) => {
+        setIsLoading(false)
+        if (res2.message) {
+          toast({
+            title: 'Notifications Updated!',
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+          })
+          setUser(res2.user)
+          setSubscriptionDetails({ ...subscriptionDetails, user: res2.user })
+          closeModal2()
+        } else {
+          toast({
+            title: 'Something went wrong!',
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          })
+        }
+      })
+      .catch((error) => {
+        setIsLoading(false)
+        console.error(error)
+        toast({
+          title: 'Something went wrong!',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        })
+      })
+  }
   const handleDelete = async (e, keyword) => {
     e.preventDefault()
     closeModal()
     setIsLoading2(true)
     const token = Cookies.get('token') // Assuming you have a library like 'js-cookie' to retrieve the token from the cookie
 
-    fetch('https://bdsm-backend.onrender.com/api/user', {
+    fetch('http://localhost:5000/api/user', {
       method: 'DELETE',
       body: JSON.stringify({
         keyword: keyword, // Make sure to include the keyword property with its value
@@ -152,7 +238,7 @@ function Settings() {
     setIsLoading2(true)
     const token = Cookies.get('token') // Assuming you have a library like 'js-cookie' to retrieve the token from the cookie
 
-    fetch('https://bdsm-backend.onrender.com/api/cancel-subscriptions', {
+    fetch('http://localhost:5000/api/cancel-subscriptions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -309,6 +395,7 @@ function Settings() {
                 className="mt-6"
                 bg="brand"
                 textColor="white"
+                size="sm"
                 isLoading={isLoading}
                 rightIcon={<CheckCircleIcon className="w-5" />}
                 onClick={(e) => handleSubmit(e)}
@@ -317,7 +404,18 @@ function Settings() {
               </Button>
               <Button
                 className="mt-6"
+                colorScheme="yellow"
+                size="sm"
+                isLoading={isLoading}
+                rightIcon={<CheckCircleIcon className="w-5" />}
+                onClick={openModal2}
+              >
+                Manage Notifications
+              </Button>
+              <Button
+                className="mt-6"
                 colorScheme="red"
+                size="sm"
                 isLoading={isLoading2}
                 onClick={(e) =>
                   Swal.fire({
@@ -342,6 +440,7 @@ function Settings() {
               <Button
                 className="mt-6"
                 colorScheme="red"
+                size="sm"
                 isLoading={isLoading2}
                 onClick={openModal}
                 rightIcon={<TrashIcon className="w-5" />}
@@ -432,6 +531,263 @@ function Settings() {
           </ModalBody>
           <ModalFooter>
             <button onClick={closeModal}>Close</button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+      <Modal isOpen={isModalOpen2} onClose={closeModal2} size="xl">
+        <ModalOverlay />
+        <ModalContent
+          bg={colorMode == 'light' ? 'white' : '#1A202C'}
+          className="p-4"
+        >
+          <ModalHeader>
+            <div className="text-xl">Manage Notifications</div>
+            <div className="py-2 text-[#716868] text-sm">
+              Manage your account notifications according to your preferences.
+            </div>
+          </ModalHeader>
+          <ModalBody className="space-y-4">
+            <FormControl>
+              <FormLabel>Do you want to receive notifications?</FormLabel>
+              <Select
+                value={notifications?.receiving}
+                onChange={(e) =>
+                  setNotifications({
+                    ...notifications,
+                    receiving: !notifications?.receiving,
+                  })
+                }
+              >
+                <option value={true}>Yes</option>
+                <option value={false}>No</option>
+              </Select>
+            </FormControl>
+            <br />
+            <FormControl>
+              <FormLabel>How do you want to receive notifications?</FormLabel>
+              <Select
+                value={notifications?.method}
+                onChange={(e) =>
+                  setNotifications({ ...notifications, method: e.target.value })
+                }
+                isDisabled={!notifications?.receiving}
+              >
+                <option value="">Select Notification Method</option>
+                <option value="Email">Email</option>
+                <option value="PWA Notification">PWA Notification</option>
+              </Select>
+            </FormControl>
+            <br />
+            <FormLabel>Notification Options:</FormLabel>
+            <CheckboxGroup isDisabled={!notifications?.receiving}>
+              <div className="flex flex-col">
+                <Checkbox
+                  hidden={user && user.type == 'sub'}
+                  isChecked={notifications?.types['New Sub request']}
+                  onChange={(e) =>
+                    setNotifications({
+                      ...notifications,
+                      types: {
+                        ...notifications.types,
+                        'New Sub request': !notifications?.types[
+                          'New Sub request'
+                        ],
+                      },
+                    })
+                  }
+                >
+                  New Sub request
+                </Checkbox>
+                <Checkbox
+                  hidden={user && user.type == 'dom'}
+                  isChecked={notifications?.types['Request accepted']}
+                  onChange={(e) =>
+                    setNotifications({
+                      ...notifications,
+                      types: {
+                        ...notifications.types,
+                        'Request accepted': !notifications?.types[
+                          'Request accepted'
+                        ],
+                      },
+                    })
+                  }
+                >
+                  Request accepted
+                </Checkbox>
+                <Checkbox
+                  hidden={user && user.type == 'dom'}
+                  isChecked={notifications?.types['New Task Assigned']}
+                  onChange={(e) =>
+                    setNotifications({
+                      ...notifications,
+                      types: {
+                        ...notifications.types,
+                        'New Task Assigned': !notifications?.types[
+                          'New Task Assigned'
+                        ],
+                      },
+                    })
+                  }
+                >
+                  New Task Assigned
+                </Checkbox>
+                <Checkbox
+                  hidden={user && user.type == 'sub'}
+                  isChecked={notifications?.types['New Task Submission']}
+                  onChange={(e) =>
+                    setNotifications({
+                      ...notifications,
+                      types: {
+                        ...notifications.types,
+                        'New Task Submission': !notifications?.types[
+                          'New Task Submission'
+                        ],
+                      },
+                    })
+                  }
+                >
+                  New Task Submission
+                </Checkbox>
+                <Checkbox
+                  hidden={user && user.type == 'dom'}
+                  isChecked={notifications?.types['Task Status update']}
+                  onChange={(e) =>
+                    setNotifications({
+                      ...notifications,
+                      types: {
+                        ...notifications.types,
+                        'Task Status update': !notifications?.types[
+                          'Task Status update'
+                        ],
+                      },
+                    })
+                  }
+                >
+                  Task Status update
+                </Checkbox>
+                <Checkbox
+                  hidden={user && user.type == 'sub'}
+                  isChecked={notifications?.types['Reward redemption request']}
+                  onChange={(e) =>
+                    setNotifications({
+                      ...notifications,
+                      types: {
+                        ...notifications.types,
+                        'Reward redemption request': !notifications?.types[
+                          'Reward redemption request'
+                        ],
+                      },
+                    })
+                  }
+                >
+                  Reward redemption request
+                </Checkbox>
+                <Checkbox
+                  hidden={user && user.type == 'dom'}
+                  isChecked={notifications?.types['Reward Approved']}
+                  onChange={(e) =>
+                    setNotifications({
+                      ...notifications,
+                      types: {
+                        ...notifications.types,
+                        'Reward Approved': !notifications?.types[
+                          'Reward Approved'
+                        ],
+                      },
+                    })
+                  }
+                >
+                  Reward Approved
+                </Checkbox>
+
+                <Checkbox
+                  isChecked={notifications?.types['disconnects']}
+                  onChange={(e) =>
+                    setNotifications({
+                      ...notifications,
+                      types: {
+                        ...notifications.types,
+                        disconnects: !notifications?.types['disconnects'],
+                      },
+                    })
+                  }
+                >
+                  {`${
+                    user && user.type == 'sub' ? 'Dom' : 'Sub'
+                  } disconnects from you`}
+                </Checkbox>
+
+                <FormControl hidden={user && user.type === 'dom'}>
+                  <Checkbox
+                    hidden={user && user.type === 'dom'}
+                    isChecked={notifications?.types['Reminder before due time']}
+                    onChange={(e) =>
+                      setNotifications({
+                        ...notifications,
+                        types: {
+                          ...notifications.types,
+                          'Reminder before due time': !notifications?.types[
+                            'Reminder before due time'
+                          ],
+                        },
+                      })
+                    }
+                  >
+                    Reminder {notifications?.reminderDueTime} hour
+                    {notifications?.reminderDueTime === '1' ? '' : 's'} before
+                    due time
+                  </Checkbox>
+                  <br />
+                  <div className="pl-6">
+                    <FormLabel
+                      disabled={!notifications?.receiving}
+                      hidden={user && user.type === 'dom'}
+                    >
+                      Customize Reminder Hours:
+                    </FormLabel>
+                    <Select
+                      onChange={(e) =>
+                        setNotifications({
+                          ...notifications,
+                          reminderDueTime: e.target.value,
+                        })
+                      }
+                      value={notifications?.reminderDueTime}
+                      hidden={user && user.type === 'dom'}
+                      disabled={!notifications?.receiving}
+                    >
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      {/* Add more options as needed */}
+                    </Select>
+                  </div>
+                </FormControl>
+              </div>
+            </CheckboxGroup>
+          </ModalBody>
+          <ModalFooter className="space-x-2">
+            <Button
+              className="mt-6"
+              bg="brand"
+              textColor="white"
+              size="sm"
+              isLoading={isLoading}
+              rightIcon={<CheckCircleIcon className="w-5" />}
+              onClick={(e) => updateNotifications(e)}
+            >
+              Save Changes
+            </Button>
+            <Button
+              className="mt-6"
+              colorScheme="red"
+              size="sm"
+              isLoading={isLoading}
+              rightIcon={<TrashIcon className="w-5" />}
+              onClick={closeModal2}
+            >
+              Cancel
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

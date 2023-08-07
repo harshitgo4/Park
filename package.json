@@ -50,6 +50,8 @@
     "react-year-picker": "^0.3.7",
     "reactjs-social-login": "^2.6.2",
     "sweetalert2": "^11.7.5",
+    "vite-plugin-pwa": "^0.16.4",
+    "web-push": "^3.6.4",
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {

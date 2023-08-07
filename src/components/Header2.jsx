@@ -58,7 +58,7 @@ function Header2({
       } else {
         // Fetch subscription details from the API
         const response = await fetch(
-          'https://bdsm-backend.onrender.com/api/getSubscription',
+          'http://localhost:5000/api/getSubscription',
           {
             headers: {
               Authorization: `Bearer ${authToken}`,

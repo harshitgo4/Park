@@ -41,8 +41,8 @@ export default function FailedTask() {
   useEffect(() => {
     const url =
       user?.type == 'sub'
-        ? 'https://bdsm-backend.onrender.com/api/getSubTask'
-        : 'https://bdsm-backend.onrender.com/api/getTask'
+        ? 'http://localhost:5000/api/getSubTask'
+        : 'http://localhost:5000/api/getTask'
     const fetchTasks = async () => {
       const res = await fetch(url, {
         method: 'GET',

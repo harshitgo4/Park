@@ -27,17 +27,14 @@ function TaskPage() {
   }, [subscriptionDetails])
   useEffect(() => {
     const fetchTasks = async () => {
-      const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/getTaskDetails`,
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${Cookies.get('token')}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ id }),
+      const res = await fetch(`http://localhost:5000/api/getTaskDetails`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+          'Content-Type': 'application/json',
         },
-      )
+        body: JSON.stringify({ id }),
+      })
 
       const resData = await res.json()
 
