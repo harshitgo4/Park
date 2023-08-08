@@ -5,6 +5,23 @@ import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import App from './App';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import Cookies from 'js-cookie';
+import * as Sentry from '@sentry/react'
+
+Sentry.init({
+  dsn: "https://10eca5a3bc0b8e4389bfc7e433ef988f@o97713.ingest.sentry.io/4505669107646464",
+  integrations: [
+    new Sentry.BrowserTracing({
+      // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
+      tracePropagationTargets: ["localhost", "http:yourserver.io/api/"],
+    }),
+    new Sentry.Replay(),
+  ],
+  // Performance Monitoring
+  tracesSampleRate: 1.0, // Capture 100% of the transactions, reduce in production!
+  // Session Replay
+  replaysSessionSampleRate: 0.1, // This sets the sample rate at 10%. You may want to change it to 100% while in development and then sample at a lower rate in production.
+  replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
+});
 
 const theme = extendTheme({
   colors: {
