@@ -369,7 +369,7 @@ const Card = ({ id, data2, tasks, setTasks, email, connections }) => {
                   </Select>
                 </FormControl>
                 <FormControl>
-                  <FormLabel className="text-[#6D7D86]">Due time</FormLabel>
+                  <FormLabel className="text-[#6D7D86]">Due time (UTC)</FormLabel>
                   <Input
                     placeholder="Select Date and Time"
                     size="md"

@@ -263,7 +263,7 @@ export default function CreateTask() {
                   </Select>
                 </FormControl>
                 <FormControl>
-                  <FormLabel className="text-[#6D7D86]">Due time*</FormLabel>
+                  <FormLabel className="text-[#6D7D86]">Due time* (UTC)</FormLabel>
                   <Input
                     placeholder="Select Date and Time"
                     size="md"
