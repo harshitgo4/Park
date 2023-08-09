@@ -20,8 +20,25 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      srcDir: 'src', // Replace 'src' with the path to your service worker file
-      filename: 'sw.js', // Ensure the filename matches your service worker file name
+      manifest: {
+        name: 'TideUp',
+        short_name: 'TiedUp',
+        description: 'TiedUp - Task Management for DOM/SUB',
+        icons: [
+          {
+            src: '/512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any maskable',
+          },
+          {
+            src: '/144.png',
+            sizes: '144x144',
+            type: 'image/png',
+            purpose: 'any maskable',
+          },
+        ],
+      },
     }),
   ],
   resolve: {
