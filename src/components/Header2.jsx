@@ -219,11 +219,7 @@ function Header2({
                     (notification) => !notification.isRead,
                   ) && (
                     <span className="text-xs text-white" id="red-dot">
-                      {
-                        notifications?.filter(
-                          (notification) => !notification.isRead,
-                        ).length
-                      }
+                      {notifications?.filter(notification => !notification.isRead).length}
                     </span>
                   )}
                 </MenuButton>

@@ -100,10 +100,11 @@
 
 #red-dot {
   position: absolute;
-  top: -6px; /* Adjust this value to fine-tune the position */
-  right: -6px; /* Adjust this value to fine-tune the position */
-  width: 16px;
-  height: 16px;
+  top: -8px; /* Adjust this value to fine-tune the position */
+  right: -8px; /* Adjust this value to fine-tune the position */
+  min-width: 18px;
+  min-height: 18px;
+  padding: 1px;
   background-color: red;
   border-radius: 50%;
 }
