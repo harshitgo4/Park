@@ -217,9 +217,17 @@ function Header2({
                   <BellAlertIcon className="my-2 h-[1.5rem] w-[1.5rem]" />
                   {notifications?.some(
                     (notification) => !notification.isRead,
-                  ) && <span id="red-dot"></span>}
+                  ) && (
+                    <span className="text-xs text-white" id="red-dot">
+                      {
+                        notifications?.filter(
+                          (notification) => !notification.isRead,
+                        ).length
+                      }
+                    </span>
+                  )}
                 </MenuButton>
-                <MenuList className="w-[30rem]">
+                <MenuList className="w-[30rem] h-[20rem] overflow-y-scroll">
                   {notifications?.map((notification) => (
                     <MenuItem
                       style={{ textAlign: 'left' }}
@@ -234,13 +242,17 @@ function Header2({
                         <Text fontWeight="bold">{notification.title}</Text>
                         <Text>{notification.desc}</Text>
                         <div className="flex flex-row text-sm mt-4 py-4">
-                          <Text>
-                            {notification.createdAt.split('T')[0] +
-                              ' ' +
-                              notification.createdAt
-                                .split('T')[1]
-                                .split('.')[0]}
-                          </Text>
+                          <div className="flex flex-col">
+                            <Text>{notification.createdAt.split('T')[0]}</Text>
+                            <Text>
+                              {
+                                notification.createdAt
+                                  .split('T')[1]
+                                  .split('.')[0]
+                              }
+                            </Text>
+                          </div>
+
                           {!notification.isRead && (
                             <Button
                               variant="outline"
