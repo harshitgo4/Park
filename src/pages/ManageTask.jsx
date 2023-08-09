@@ -33,7 +33,7 @@ export default function ManageTask() {
   useEffect(() => {
     const fetchTasks = async () => {
       const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/getAllTask`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/getAllTask`,
         {
           method: 'GET',
           headers: {
@@ -57,7 +57,7 @@ export default function ManageTask() {
   useEffect(() => {
     const fetchSubConnected = async () => {
       const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/fetchSubConnected`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/fetchSubConnected`,
         {
           method: 'GET',
           headers: {

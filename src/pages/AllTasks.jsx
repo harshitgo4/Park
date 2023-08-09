@@ -36,8 +36,8 @@ export default function AllTask() {
   useEffect(() => {
     const url =
       user?.type == 'sub'
-        ? 'https://bdsm-backend.onrender.com/api/getAllSubTask'
-        : 'https://bdsm-backend.onrender.com/api/getAllTask'
+        ? `${import.meta.env.VITE_BACKEND_URL}/api/getAllSubTask`
+        : `${import.meta.env.VITE_BACKEND_URL}/api/getAllTask`
     const fetchTasks = async () => {
       const res = await fetch(url, {
         method: 'GET',

@@ -8,7 +8,7 @@ function Newsletter() {
     if (email.includes('@') && email.includes('.')) {
       setDisabled(true)
       const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/createSubscriber`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/createSubscriber`,
         {
           method: 'POST',
           headers: {

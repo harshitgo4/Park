@@ -9,16 +9,19 @@ const Card = ({ id, email, subName, imageURL, data, setRequests }) => {
   const toast = useToast()
   const removeReq = async (e, email) => {
     e.preventDefault()
-    const res = await fetch(`https://bdsm-backend.onrender.com/api/removeReq`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${Cookies.get('token')}`,
-        'Content-Type': 'application/json',
+    const res = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/removeReq`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+        }),
       },
-      body: JSON.stringify({
-        email,
-      }),
-    })
+    )
 
     const resData = await res.json()
 
@@ -44,16 +47,19 @@ const Card = ({ id, email, subName, imageURL, data, setRequests }) => {
   }
   const acceptReq = async (e, email) => {
     e.preventDefault()
-    const res = await fetch(`https://bdsm-backend.onrender.com/api/acceptReq`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${Cookies.get('token')}`,
-        'Content-Type': 'application/json',
+    const res = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/acceptReq`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+        }),
       },
-      body: JSON.stringify({
-        email,
-      }),
-    })
+    )
 
     const resData = await res.json()
 

@@ -97,3 +97,13 @@
 .time-picker .react-time-picker__inputGroup__input {
   background-color: #000; /* Set your desired background color */
 }
+
+#red-dot {
+  position: absolute;
+  top: 0px; /* Adjust this value to fine-tune the position */
+  right: -4px; /* Adjust this value to fine-tune the position */
+  width: 8px;
+  height: 8px;
+  background-color: red;
+  border-radius: 50%;
+}

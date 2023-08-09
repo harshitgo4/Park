@@ -32,7 +32,7 @@ export default function ManageRewards() {
   useEffect(() => {
     const fetchTasks = async () => {
       const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/getBoughtRewards`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/getBoughtRewards`,
         {
           method: 'GET',
           headers: {

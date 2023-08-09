@@ -18,7 +18,7 @@ function ResetPassword() {
     if (email && email.includes('.') && email.includes('@')) {
       setDisabled(true)
       const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/resetPassword1`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/resetPassword1`,
         {
           method: 'POST',
           headers: {
@@ -59,7 +59,7 @@ function ResetPassword() {
             const otp = document.getElementById('otp').value
             const password = document.getElementById('password').value
             return fetch(
-              'https://bdsm-backend.onrender.com/api/resetPassword2',
+              `${import.meta.env.VITE_BACKEND_URL}/api/resetPassword2`,
               {
                 method: 'POST',
                 headers: {

@@ -73,7 +73,7 @@ export default function TaskRecap() {
   useEffect(() => {
     const fetchSubConnected = async () => {
       const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/fetchSubConnected`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/fetchSubConnected`,
         {
           method: 'GET',
           headers: {
@@ -99,8 +99,8 @@ export default function TaskRecap() {
   useEffect(() => {
     const url =
       user?.type == 'sub'
-        ? 'https://bdsm-backend.onrender.com/api/getSubTaskRecap'
-        : 'https://bdsm-backend.onrender.com/api/getTaskRecap'
+        ? `${import.meta.env.VITE_BACKEND_URL}/api/getSubTaskRecap`
+        : `${import.meta.env.VITE_BACKEND_URL}/api/getTaskRecap`
     const fetchTasks = async () => {
       const res = await fetch(url, {
         method: 'POST',

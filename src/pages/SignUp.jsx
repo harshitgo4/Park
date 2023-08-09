@@ -58,21 +58,24 @@ function SignUp() {
       data.password.length > 2
     ) {
       setDisabled(true)
-      const res = await fetch(`https://bdsm-backend.onrender.com/api/signup`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const res = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/signup`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            fName: data.fName,
+            lName: data.lName,
+            email: data.email,
+            password: data.password,
+            phone: data.phone,
+            type: data.type,
+            subscribed,
+          }),
         },
-        body: JSON.stringify({
-          fName: data.fName,
-          lName: data.lName,
-          email: data.email,
-          password: data.password,
-          phone: data.phone,
-          type: data.type,
-          subscribed,
-        }),
-      })
+      )
 
       const res2 = await res.json()
       console.log(res2)
@@ -97,7 +100,7 @@ function SignUp() {
           confirmButtonText: 'Submit',
           showLoaderOnConfirm: true,
           preConfirm: (otp) => {
-            return fetch(`https://bdsm-backend.onrender.com/api/verify`, {
+            return fetch(`${import.meta.env.VITE_BACKEND_URL}/api/verify`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -167,7 +170,7 @@ function SignUp() {
 
   const handleSubmitGoogle = async (googleAccessToken) => {
     setDisabled(true)
-    const res = await fetch(`https://bdsm-backend.onrender.com/api/signup`, {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -217,7 +220,7 @@ function SignUp() {
 
   const handleSubmitFB = async (fb) => {
     setDisabled(true)
-    const res = await fetch(`https://bdsm-backend.onrender.com/api/signup`, {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

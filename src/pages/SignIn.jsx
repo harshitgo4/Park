@@ -32,7 +32,7 @@ function SignIn() {
       setDisabled(true)
       try {
         const response = await fetch(
-          'https://bdsm-backend.onrender.com/api/signin',
+          `${import.meta.env.VITE_BACKEND_URL}/api/signin`,
           {
             method: 'POST',
             headers: {
@@ -94,7 +94,7 @@ function SignIn() {
     setDisabled(true)
     try {
       const response = await fetch(
-        'https://bdsm-backend.onrender.com/api/signin',
+        `${import.meta.env.VITE_BACKEND_URL}/api/signin`,
         {
           method: 'POST',
           headers: {
@@ -144,7 +144,7 @@ function SignIn() {
   const handleSubmitFB = async (data) => {
     console.log(data)
     setDisabled(true)
-    const res = await fetch(`https://bdsm-backend.onrender.com/api/signin`, {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/signin`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

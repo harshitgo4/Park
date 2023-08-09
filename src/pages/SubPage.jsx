@@ -32,7 +32,7 @@ function SubPage() {
   useEffect(() => {
     const fetchSub = async () => {
       const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/subDetails`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/subDetails`,
         {
           method: 'POST',
           headers: {

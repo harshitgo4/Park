@@ -38,8 +38,8 @@ export default function AllRewardsBought() {
   useEffect(() => {
     const url =
       user?.type == 'sub'
-        ? 'https://bdsm-backend.onrender.com/api/getSubBoughtRewards'
-        : 'https://bdsm-backend.onrender.com/api/getBoughtRewards'
+        ? `${import.meta.env.VITE_BACKEND_URL}/api/getSubBoughtRewards`
+        : `${import.meta.env.VITE_BACKEND_URL}/api/getBoughtRewards`
     const fetchRewardsBought = async () => {
       const res = await fetch(url, {
         method: 'GET',

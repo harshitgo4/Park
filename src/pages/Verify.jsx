@@ -14,7 +14,7 @@ function Verify() {
     const verifyEmail = async () => {
       try {
         const response = await fetch(
-          `https://bdsm-backend.onrender.com/api/verify`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/verify`,
           {
             method: 'POST',
             headers: {

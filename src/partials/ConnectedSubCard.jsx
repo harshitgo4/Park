@@ -18,16 +18,19 @@ const Card = ({
 
   const removeConn = async (e, email) => {
     e.preventDefault()
-    const res = await fetch(`https://bdsm-backend.onrender.com/api/removeReq`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${Cookies.get('token')}`,
-        'Content-Type': 'application/json',
+    const res = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/removeReq`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+        }),
       },
-      body: JSON.stringify({
-        email,
-      }),
-    })
+    )
 
     const resData = await res.json()
 

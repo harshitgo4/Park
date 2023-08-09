@@ -19,7 +19,7 @@ const Card = ({
   const connectDOM = async (e, email) => {
     e.preventDefault()
     const res = await fetch(
-      `https://bdsm-backend.onrender.com/api/connectDOM`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/connectDOM`,
       {
         method: 'POST',
         headers: {

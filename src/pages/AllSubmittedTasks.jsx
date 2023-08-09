@@ -29,8 +29,8 @@ export default function AllSubmittedTasks() {
   useEffect(() => {
     const url =
       user?.type == 'dom'
-        ? 'https://bdsm-backend.onrender.com/api/getSubmittedTask'
-        : 'https://bdsm-backend.onrender.com/api/getSubSubmittedTask'
+        ? `${import.meta.env.VITE_BACKEND_URL}/api/getSubmittedTask`
+        : `${import.meta.env.VITE_BACKEND_URL}/api/getSubSubmittedTask`
     const fetchTasks = async () => {
       const res = await fetch(url, {
         method: 'GET',

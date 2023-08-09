@@ -43,7 +43,7 @@ const Card = ({ id, title, points, dom, user }) => {
             }).then(async (result) => {
               if (result.isConfirmed) {
                 const res = await fetch(
-                  `https://bdsm-backend.onrender.com/api/BuyReward`,
+                  `${import.meta.env.VITE_BACKEND_URL}/api/BuyReward`,
                   {
                     method: 'POST',
                     headers: {

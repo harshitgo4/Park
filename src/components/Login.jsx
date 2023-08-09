@@ -28,16 +28,19 @@ export default function Login() {
       data.password.length > 2
     ) {
       setDisabled(true)
-      const res = await fetch(`https://bdsm-backend.onrender.com/api/signin`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const res = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/signin`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: data.email,
+            password: data.password,
+          }),
         },
-        body: JSON.stringify({
-          email: data.email,
-          password: data.password,
-        }),
-      })
+      )
 
       const resData = await res.json()
 

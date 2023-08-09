@@ -34,19 +34,22 @@ export default function Register() {
       data.password.length > 2
     ) {
       setDisabled(true)
-      const res = await fetch(`https://bdsm-backend.onrender.com/api/signup`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const res = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/signup`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            fName: data.fName,
+            lName: data.lName,
+            email: data.email,
+            password: data.password,
+            companyName: data.companyName,
+          }),
         },
-        body: JSON.stringify({
-          fName: data.fName,
-          lName: data.lName,
-          email: data.email,
-          password: data.password,
-          companyName: data.companyName,
-        }),
-      })
+      )
 
       const res2 = await res.json()
       console.log(res2)
@@ -61,7 +64,7 @@ export default function Register() {
           confirmButtonText: 'Submit',
           showLoaderOnConfirm: true,
           preConfirm: (otp) => {
-            return fetch(`https://bdsm-backend.onrender.com/api/verify`, {
+            return fetch(`${import.meta.env.VITE_BACKEND_URL}/api/verify`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

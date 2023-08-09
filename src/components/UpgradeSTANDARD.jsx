@@ -15,9 +15,7 @@ const Dashboard = () => {
   const [user, setUser] = useState(null)
   useEffect(() => {
     const fetchStripe = async () => {
-      const stripe = await loadStripe(
-        'pk_live_8R2AsiPPsSxYz7ZVSPcEF9Fz',
-      )
+      const stripe = await loadStripe('pk_live_8R2AsiPPsSxYz7ZVSPcEF9Fz')
       setStripe(stripe)
     }
     fetchStripe()
@@ -26,7 +24,7 @@ const Dashboard = () => {
   const createSubscription = async (priceId) => {
     try {
       const response = await axios.post(
-        'https://bdsm-backend.onrender.com/api/createCheckoutSession',
+        `${import.meta.env.VITE_BACKEND_URL}/api/createCheckoutSession`,
         {
           priceId,
         },

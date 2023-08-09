@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
+import {
+  Button,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Text,
+  useToast,
+} from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import { useColorModeValue } from '@chakra-ui/react'
@@ -41,6 +49,57 @@ function Header2({
   setSubscriptionDetails,
 }) {
   const [isLoading, setLoading] = useState(true)
+  const [notifications, setNotification] = useState()
+  const [isOpen2, setIsOpen2] = useState(false)
+  const toast = useToast()
+  const handleMenuClick = () => {
+    setIsOpen2(!isOpen2)
+  }
+
+  const handleMarkAsRead = async (e, notificationId) => {
+    e.preventDefault()
+    const res = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/markAsRead`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          notificationId,
+        }),
+      },
+    )
+
+    const resData = await res.json()
+
+    if (resData.error) {
+      console.log('Error updating notification!')
+      toast({
+        title: 'Something went wrong!',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    } else if (resData.message) {
+      const temp = notifications.map((el) => {
+        if (el._id == notificationId) {
+          el.isRead = true
+          return el
+        } else {
+          return el
+        }
+      })
+      setNotification(temp)
+      toast({
+        title: 'Marked as read!',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
+  }
   const authToken = Cookies.get('token')
   const router = useNavigate()
 
@@ -58,7 +117,7 @@ function Header2({
       } else {
         // Fetch subscription details from the API
         const response = await fetch(
-          'https://bdsm-backend.onrender.com/api/getSubscription',
+          `${import.meta.env.VITE_BACKEND_URL}/api/getSubscription`,
           {
             headers: {
               Authorization: `Bearer ${authToken}`,
@@ -84,8 +143,22 @@ function Header2({
         localStorage.setItem('subscriptionDetails', JSON.stringify(data))
       }
     }
+    const getNotification = async () => {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/getNotifications`,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        },
+      )
+      const data = await response.json()
+      console.log(data)
+      setNotification(data.notifications)
+    }
 
     fetchSubscriptionDetails()
+    getNotification()
   }, [authToken])
   if (!authToken) {
     router('/signin')
@@ -122,7 +195,7 @@ function Header2({
         <div className="flex-1 flex relative justify-center items-center ">
           <div className="">
             <div className="m-2 text-lg md:text-3xl font-semibold text-blue-300">
-              TiedUp.App
+              <img src="/tied-transparent-logo.png" width={200} />
             </div>
           </div>
           {/* User */}
@@ -136,8 +209,57 @@ function Header2({
               >
                 <Bars3Icon className="h-6 w-6" />
               </button>
-              <BellAlertIcon className="my-2  h-[1.5rem] w-[1.5rem]" />
-              <ChatBubbleLeftEllipsisIcon className="my-2  h-[1.5rem] w-[1.5rem]" />
+              <Menu>
+                <MenuButton
+                  style={{ position: 'relative', display: 'inline-block' }}
+                  onClick={handleMenuClick}
+                >
+                  <BellAlertIcon className="my-2 h-[1.5rem] w-[1.5rem]" />
+                  {notifications?.some(
+                    (notification) => !notification.isRead,
+                  ) && <span id="red-dot"></span>}
+                </MenuButton>
+                <MenuList className="w-[30rem]">
+                  {notifications?.map((notification) => (
+                    <MenuItem
+                      style={{ textAlign: 'left' }}
+                      className={`flex flex-col text-left  `}
+                      key={notification._id}
+                    >
+                      <div
+                        className={`text-left rounded-lg p-2 ${
+                          !notification.isRead ? 'bg-green-200' : null
+                        }`}
+                      >
+                        <Text fontWeight="bold">{notification.title}</Text>
+                        <Text>{notification.desc}</Text>
+                        <div className="flex flex-row text-sm mt-4 py-4">
+                          <Text>
+                            {notification.createdAt.split('T')[0] +
+                              ' ' +
+                              notification.createdAt
+                                .split('T')[1]
+                                .split('.')[0]}
+                          </Text>
+                          {!notification.isRead && (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              colorScheme="red"
+                              onClick={(e) =>
+                                handleMarkAsRead(e, notification._id)
+                              }
+                              className="flex ml-auto justify-end"
+                            >
+                              Mark as Read
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    </MenuItem>
+                  ))}
+                </MenuList>
+              </Menu>
             </div>
             <div className="flex flex-row">
               {user && user.avatar ? (

@@ -33,7 +33,7 @@ export default function Rewards() {
 
   // getRewardsStats
   useEffect(() => {
-    const url = 'https://bdsm-backend.onrender.com/api/getRewardsStats'
+    const url = `${import.meta.env.VITE_BACKEND_URL}/api/getRewardsStats`
     const fetchTasks = async () => {
       const res = await fetch(url, {
         method: 'GET',
@@ -49,6 +49,7 @@ export default function Rewards() {
       } else if (resData.monthlyRewards) {
         console.log(resData.monthlyRewards)
         setData(resData.monthlyRewards)
+        console.log(resData.user)
         setUser(resData.user)
       }
     }

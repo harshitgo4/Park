@@ -31,7 +31,7 @@ export default function SubRequests() {
   useEffect(() => {
     const fetchSubRequests = async () => {
       const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/fetchSubRequests`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/fetchSubRequests`,
         {
           method: 'GET',
           headers: {

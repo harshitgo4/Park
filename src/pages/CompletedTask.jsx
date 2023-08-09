@@ -41,7 +41,7 @@ export default function CompletedTask() {
   useEffect(() => {
     const fetchTasks = async () => {
       const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/getSubTask`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/getSubTask`,
         {
           method: 'GET',
           headers: {

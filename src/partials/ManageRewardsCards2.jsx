@@ -107,7 +107,7 @@ const Card = ({
 
     if (data.rewardName && data.rewardPoints) {
       const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/updateReward`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/updateReward`,
         {
           method: 'POST',
           headers: {
@@ -161,7 +161,7 @@ const Card = ({
   const handlePause = async (e) => {
     e.preventDefault()
     const res = await fetch(
-      `https://bdsm-backend.onrender.com/api/pauseReward`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/pauseReward`,
       {
         method: 'PUT',
         headers: {
@@ -200,7 +200,7 @@ const Card = ({
   const handleDelete = async (e) => {
     e.preventDefault()
     const res = await fetch(
-      `https://bdsm-backend.onrender.com/api/deleteReward`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/deleteReward`,
       {
         method: 'DELETE',
         headers: {

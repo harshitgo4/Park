@@ -13,7 +13,7 @@ const Card = ({ id, rewardName, desc, rewardPoints, subEmail, subName }) => {
     const token = Cookies.get('token')
     console.log(id, status)
 
-    fetch('https://bdsm-backend.onrender.com/api/updateRewardsStatus', {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/updateRewardsStatus`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,

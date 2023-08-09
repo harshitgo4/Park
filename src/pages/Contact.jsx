@@ -59,15 +59,18 @@ function Contact() {
       data.checkbox
     ) {
       setDisabled(true)
-      const res = await fetch(`https://bdsm-backend.onrender.com/api/contact`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const res = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/contact`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            data,
+          }),
         },
-        body: JSON.stringify({
-          data,
-        }),
-      })
+      )
 
       const resData = await res.json()
 

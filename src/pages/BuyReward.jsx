@@ -30,7 +30,7 @@ export default function BuyReward() {
     }
   }, [subscriptionDetails])
   useEffect(() => {
-    const url = 'https://bdsm-backend.onrender.com/api/getSubRewards'
+    const url = `${import.meta.env.VITE_BACKEND_URL}/api/getSubRewards`
     const fetchBuyRewards = async () => {
       const res = await fetch(url, {
         method: 'GET',

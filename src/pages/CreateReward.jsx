@@ -44,7 +44,7 @@ export default function CreateReward() {
   useEffect(() => {
     const fetchSubConnected = async () => {
       const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/fetchSubConnected`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/fetchSubConnected`,
         {
           method: 'GET',
           headers: {
@@ -84,7 +84,7 @@ export default function CreateReward() {
 
     if (data.rewardName && data.rewardPoints) {
       const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/createReward`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/createReward`,
         {
           method: 'POST',
           headers: {

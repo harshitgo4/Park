@@ -67,8 +67,8 @@ export default function Home({ folder, initialNamespace }) {
   useEffect(() => {
     const url =
       user?.type == 'sub'
-        ? 'https://bdsm-backend.onrender.com/api/getSubTaskDash'
-        : 'https://bdsm-backend.onrender.com/api/getTaskDash'
+        ? `${import.meta.env.VITE_BACKEND_URL}/api/getSubTaskDash`
+        : `${import.meta.env.VITE_BACKEND_URL}/api/getTaskDash`
     const fetchTasks = async () => {
       const res = await fetch(url, {
         method: 'GET',

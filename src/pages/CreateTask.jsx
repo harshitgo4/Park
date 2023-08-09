@@ -41,7 +41,7 @@ export default function CreateTask() {
   useEffect(() => {
     const fetchSubConnected = async () => {
       const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/fetchSubConnected`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/fetchSubConnected`,
         {
           method: 'GET',
           headers: {
@@ -105,7 +105,7 @@ export default function CreateTask() {
 
     if (data.taskName && data.rewardPoints && data.userName && dueTime) {
       const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/createTask`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/createTask`,
         {
           method: 'POST',
           headers: {

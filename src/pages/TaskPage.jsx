@@ -28,7 +28,7 @@ function TaskPage() {
   useEffect(() => {
     const fetchTasks = async () => {
       const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/getTaskDetails`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/getTaskDetails`,
         {
           method: 'POST',
           headers: {

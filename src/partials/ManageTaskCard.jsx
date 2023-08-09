@@ -88,7 +88,7 @@ const Card = ({ id, data2, tasks, setTasks, email, connections }) => {
       dueTime
     ) {
       const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/updateTask`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/updateTask`,
         {
           method: 'PUT',
           headers: {
@@ -141,7 +141,7 @@ const Card = ({ id, data2, tasks, setTasks, email, connections }) => {
   const handlePause = async (e) => {
     e.preventDefault()
     const res = await fetch(
-      `https://bdsm-backend.onrender.com/api/handlePause`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/handlePause`,
       {
         method: 'PUT',
         headers: {
@@ -180,7 +180,7 @@ const Card = ({ id, data2, tasks, setTasks, email, connections }) => {
   const handleDelete = async (e) => {
     e.preventDefault()
     const res = await fetch(
-      `https://bdsm-backend.onrender.com/api/deleteTask`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/deleteTask`,
       {
         method: 'DELETE',
         headers: {

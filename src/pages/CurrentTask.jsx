@@ -35,7 +35,7 @@ export default function CurrentTask() {
   useEffect(() => {
     const fetchTasks = async () => {
       const res = await fetch(
-        `https://bdsm-backend.onrender.com/api/getSubPendingSubmissions`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/getSubPendingSubmissions`,
         {
           method: 'GET',
           headers: {

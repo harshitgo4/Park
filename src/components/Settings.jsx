@@ -136,7 +136,7 @@ function Settings() {
     formData.append('isPrivate', data.isPrivate)
     formData.append('image', imageFile)
 
-    fetch('https://bdsm-backend.onrender.com/api/updateUser', {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/updateUser`, {
       method: 'POST',
       body: formData,
       headers: {
@@ -161,7 +161,7 @@ function Settings() {
     setIsLoading(true)
     const token = Cookies.get('token') // Assuming you have a library like 'js-cookie' to retrieve the token from the cookie
 
-    fetch('https://bdsm-backend.onrender.com/api/updateNotifications', {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/updateNotifications`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -208,7 +208,7 @@ function Settings() {
     setIsLoading2(true)
     const token = Cookies.get('token') // Assuming you have a library like 'js-cookie' to retrieve the token from the cookie
 
-    fetch('https://bdsm-backend.onrender.com/api/user', {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user`, {
       method: 'DELETE',
       body: JSON.stringify({
         keyword: keyword, // Make sure to include the keyword property with its value
@@ -238,7 +238,7 @@ function Settings() {
     setIsLoading2(true)
     const token = Cookies.get('token') // Assuming you have a library like 'js-cookie' to retrieve the token from the cookie
 
-    fetch('https://bdsm-backend.onrender.com/api/cancel-subscriptions', {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/cancel-subscriptions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
