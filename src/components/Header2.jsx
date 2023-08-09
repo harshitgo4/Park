@@ -103,6 +103,23 @@ function Header2({
   const authToken = Cookies.get('token')
   const router = useNavigate()
 
+  const getNotification = async (count) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/getNotifications`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify({ count }),
+      },
+    )
+    const data = await response.json()
+    console.log(data)
+    setNotification(data.notifications)
+  }
+
   useEffect(() => {
     const fetchSubscriptionDetails = async () => {
       // Check if subscription details exist in localStorage
@@ -143,22 +160,9 @@ function Header2({
         localStorage.setItem('subscriptionDetails', JSON.stringify(data))
       }
     }
-    const getNotification = async () => {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/api/getNotifications`,
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        },
-      )
-      const data = await response.json()
-      console.log(data)
-      setNotification(data.notifications)
-    }
 
     fetchSubscriptionDetails()
-    getNotification()
+    getNotification(5)
   }, [authToken])
   if (!authToken) {
     router('/signin')
@@ -219,11 +223,15 @@ function Header2({
                     (notification) => !notification.isRead,
                   ) && (
                     <span className="text-xs text-white" id="red-dot">
-                      {notifications?.filter(notification => !notification.isRead).length}
+                      {
+                        notifications?.filter(
+                          (notification) => !notification.isRead,
+                        ).length
+                      }
                     </span>
                   )}
                 </MenuButton>
-                <MenuList className="w-[30rem] h-[20rem] overflow-y-scroll">
+                <MenuList className="w-[80vw] max-w-[30rem] h-[20rem] overflow-y-scroll">
                   {notifications?.map((notification) => (
                     <MenuItem
                       style={{ textAlign: 'left' }}
@@ -266,6 +274,13 @@ function Header2({
                       </div>
                     </MenuItem>
                   ))}
+                  <Button
+                    onClick={() => getNotification(notifications.length + 5)}
+                    colorScheme="blue"
+                    className="mx-4"
+                  >
+                    Load more...
+                  </Button>
                 </MenuList>
               </Menu>
             </div>
