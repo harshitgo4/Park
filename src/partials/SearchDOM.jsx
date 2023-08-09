@@ -64,7 +64,7 @@ const Card = ({
         p={2}
         shadow="md"
       >
-        <img className="mb-4 w-[12rem]" src={imageUrl} />
+        <img className="mb-4 w-[12rem] m-auto rounded-lg" src={imageUrl} />
         <h3 className="text-xl font-semibold">{title}</h3>
         <div className="space-x-2">
           <Button onClick={() => router(`/dom/${id}`)} className="mt-4">
