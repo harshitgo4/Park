@@ -116,7 +116,7 @@ const Card = ({ id, data2, tasks, setTasks, email, connections }) => {
           isClosable: true,
         })
       } else if (resData.message) {
-        closeModal()
+        setModalOpen(false)
         toast({
           title: 'Task Updated!',
           status: 'success',
