@@ -82,7 +82,6 @@ const Card = ({ id, data2, tasks, setTasks, email, connections }) => {
 
     if (
       data.taskName &&
-      data.description &&
       data.rewardPoints &&
       data.userName &&
       dueTime

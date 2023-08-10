@@ -331,8 +331,7 @@ function SignUp() {
                       </span>
                     </button>
                   </div>
-                  <div className="w-full px-3 my-2">
-                    {/* btn px-0 text-white bg-blue-600 hover:bg-blue-700 w-full relative flex items-center */}
+                  {/* <div className="w-full px-3 my-2">
                     <FacebookLogin
                       appId={import.meta.env.VITE_FB_CLIENT_ID}
                       autoLoad={false}
@@ -350,7 +349,7 @@ function SignUp() {
                         color: 'white',
                       }}
                     />
-                  </div>
+                  </div> */}
                 </div>
                 <div className="flex items-center my-6">
                   <div
