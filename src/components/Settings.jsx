@@ -182,6 +182,14 @@ function Settings() {
           setUser(res2.user)
           setSubscriptionDetails({ ...subscriptionDetails, user: res2.user })
           closeModal2()
+        } else if (res2.error) {
+          toast({
+            title: res2.error,
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          })
+          setUser(user)
         } else {
           toast({
             title: 'Something went wrong!',
@@ -575,6 +583,7 @@ function Settings() {
                 <option value="">Select Notification Method</option>
                 <option value="Email">Email</option>
                 <option value="PWA Notification">PWA Notification</option>
+                <option value="SMS">SMS</option>
               </Select>
             </FormControl>
             <br />
