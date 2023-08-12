@@ -103,7 +103,7 @@ export default function CreateReward() {
       if (resData.error) {
         console.log('Error creating reward')
         toast({
-          title: 'Something went wrong!',
+          title: resData.error,
           status: 'error',
           duration: 9000,
           isClosable: true,

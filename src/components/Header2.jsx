@@ -168,11 +168,8 @@ function Header2({
     router('/signin')
   }
 
-  const chatTextColor = useColorModeValue('text-slate-300', 'text-slate-300')
-  const settingsTextColor = useColorModeValue(
-    'text-slate-300',
-    'text-slate-300',
-  )
+  const notificationColor = useColorModeValue('bg-green-200', 'bg-green-400')
+
 
   const bg = useColorModeValue('bg-white', 'bg-slate-800')
 
@@ -240,7 +237,7 @@ function Header2({
                     >
                       <div
                         className={`text-left rounded-lg p-2 ${
-                          !notification.isRead ? 'bg-green-200' : null
+                          !notification.isRead ? notificationColor : null
                         }`}
                       >
                         <Text fontWeight="bold">{notification.title}</Text>

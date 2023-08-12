@@ -127,7 +127,7 @@ export default function CreateTask() {
       if (resData.error) {
         console.log('Error creating task')
         toast({
-          title: 'Something went wrong!',
+          title: resData.error,
           status: 'error',
           duration: 9000,
           isClosable: true,
