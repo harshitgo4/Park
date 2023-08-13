@@ -484,7 +484,7 @@ export default function Home({ folder, initialNamespace }) {
                 </Button>
               </div>
               <div className="flex justify-center items-center m-auto">
-                <ClipboardDocumentCheckIcon className="w-16" />
+                <ClipboardDocumentCheckIcon className="w-12" />
               </div>
             </div>
             <div
@@ -508,7 +508,7 @@ export default function Home({ folder, initialNamespace }) {
                 </Button>
               </div>
               <div className="flex justify-center items-center m-auto">
-                <ClipboardDocumentCheckIcon className="w-16" />
+                <ClipboardDocumentCheckIcon className="w-12" />
               </div>
             </div>
             <div
@@ -530,7 +530,7 @@ export default function Home({ folder, initialNamespace }) {
                 </Button>
               </div>
               <div className="flex justify-center items-center m-auto">
-                <GiftIcon className="w-16" />
+                <GiftIcon className="w-12" />
               </div>
             </div>
             <div
@@ -552,7 +552,7 @@ export default function Home({ folder, initialNamespace }) {
                 </Button>
               </div>
               <div className="flex justify-center items-center m-auto">
-                <DocumentCheckIcon className="w-16" />
+                <DocumentCheckIcon className="w-12" />
               </div>
             </div>
             <div
@@ -576,7 +576,7 @@ export default function Home({ folder, initialNamespace }) {
                 </Button>
               </div>
               <div className="flex justify-center items-center m-auto">
-                <ClockIcon className="w-16" />
+                <ClockIcon className="w-12" />
               </div>
             </div>
             <div
@@ -598,7 +598,7 @@ export default function Home({ folder, initialNamespace }) {
                 </Button>
               </div>
               <div className="flex justify-center items-center m-auto">
-                <BriefcaseIcon className="w-16" />
+                <BriefcaseIcon className="w-12" />
               </div>
             </div>
             <div className={`rounded-lg  ${bg} p-4 m-2`}>
