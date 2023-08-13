@@ -485,13 +485,12 @@ function SignUp() {
                   </Checkbox>
                 </div>
                 <div className="text-sm text-gray-500 text-center">
-                  I agree to be contacted by Open PRO about this offer as per
-                  the{' '}
+                  I agree to be contacted by TiedUp or any subsidiaries regarding any news or updates. 
                   <a
-                    href="#"
+                    href="/privacy"
                     className="border-b border-gray-600 border-dotted"
                   >
-                    privacy policy
+                    Privacy Policy
                   </a>
                   .
                 </div>

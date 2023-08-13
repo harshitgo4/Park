@@ -107,14 +107,14 @@ function Settings() {
         reminderDueTime: user.notifications.reminderDueTime,
         types: {
           'New Sub request': user.notifications.types['New Sub request'],
-          'Request accepted': user.notifications.types['Request accepted'],
+          'Request Status': user.notifications.types['Request Status'],
           'New Task Assigned': user.notifications.types['New Task Assigned'],
           'New Task Submission':
             user.notifications.types['New Task Submission'],
           'Task Status update': user.notifications.types['Task Status update'],
           'Reward redemption request':
             user.notifications.types['Reward redemption request'],
-          'Reward Approved': user.notifications.types['Reward Approved'],
+          'Reward Status': user.notifications.types['Reward Status'],
           disconnects: user.notifications.types['disconnects'],
           'Reminder before due time':
             user.notifications.types['Reminder before due time'],
@@ -609,20 +609,20 @@ function Settings() {
                 </Checkbox>
                 <Checkbox
                   hidden={user && user.type == 'dom'}
-                  isChecked={notifications?.types['Request accepted']}
+                  isChecked={notifications?.types['Request Status']}
                   onChange={(e) =>
                     setNotifications({
                       ...notifications,
                       types: {
                         ...notifications.types,
-                        'Request accepted': !notifications?.types[
-                          'Request accepted'
+                        'Request Status': !notifications?.types[
+                          'Request Status'
                         ],
                       },
                     })
                   }
                 >
-                  Request accepted
+                  Request Status
                 </Checkbox>
                 <Checkbox
                   hidden={user && user.type == 'dom'}
@@ -694,20 +694,20 @@ function Settings() {
                 </Checkbox>
                 <Checkbox
                   hidden={user && user.type == 'dom'}
-                  isChecked={notifications?.types['Reward Approved']}
+                  isChecked={notifications?.types['Reward Status']}
                   onChange={(e) =>
                     setNotifications({
                       ...notifications,
                       types: {
                         ...notifications.types,
-                        'Reward Approved': !notifications?.types[
-                          'Reward Approved'
+                        'Reward Status': !notifications?.types[
+                          'Reward Status'
                         ],
                       },
                     })
                   }
                 >
-                  Reward Approved
+                  Reward Status
                 </Checkbox>
 
                 <Checkbox

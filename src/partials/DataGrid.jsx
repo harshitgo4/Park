@@ -2,7 +2,13 @@ import React, { useMemo } from 'react'
 import { useTable, usePagination } from 'react-table'
 import ReactPaginate from 'react-paginate'
 import { useNavigate } from 'react-router-dom'
-import { Button, useColorMode } from '@chakra-ui/react'
+import {
+  Button,
+  Modal,
+  ModalOverlay,
+  Spinner,
+  useColorMode,
+} from '@chakra-ui/react'
 
 export default function Table({ columns, data }) {
   const {
@@ -64,7 +70,7 @@ export default function Table({ columns, data }) {
                     onClick={() => router(`/task/${row.original.taskId}`)}
                     className="border-b py-2 px-4"
                   >
-                    <Button>View Task </Button>
+                    <Button>View Task</Button>
                   </td>
                 </tr>
               )

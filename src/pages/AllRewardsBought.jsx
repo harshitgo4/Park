@@ -1,5 +1,6 @@
 import React from 'react'
 import { useRef, useState, useEffect, useMemo } from 'react'
+import { Modal, ModalOverlay, Spinner } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import Header2 from '../components/Header2'
 import { Box, Button, useColorModeValue, useColorMode } from '@chakra-ui/react'
@@ -12,6 +13,7 @@ export default function AllRewardsBought() {
   const router = useNavigate()
   const [showDrawer, setShowDrawer] = useState(false)
   const [user, setUser] = useState(null)
+  const [isLoading, setLoading] = useState(true)
   const [data, setData] = useState([
     {
       rewardId: null,
@@ -61,6 +63,7 @@ export default function AllRewardsBought() {
         })
         setData(temp)
       }
+      setLoading(false)
     }
     fetchRewardsBought()
   }, [user])
@@ -87,6 +90,15 @@ export default function AllRewardsBought() {
 
   return (
     <div className="h-[100vh] overflow-y-auto overflow-x-hidden">
+      <Modal isCentered isOpen={isLoading}>
+        <ModalOverlay
+          bg="blackAlpha.300"
+          backdropFilter="blur(10px) hue-rotate(90deg)"
+          className="items-center flex justify-center"
+        >
+          <Spinner size="xl" />
+        </ModalOverlay>
+      </Modal>
       <Header2
         isOpen={isOpen}
         onOpen={onOpen}

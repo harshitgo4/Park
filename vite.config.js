@@ -21,7 +21,7 @@ export default defineConfig({
     react(),
     VitePWA({
       manifest: {
-        name: 'TideUp',
+        name: 'TiedUp',
         short_name: 'TiedUp',
         description: 'TiedUp - Task Management for DOM/SUB',
         icons: [

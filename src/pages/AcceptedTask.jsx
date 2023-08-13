@@ -2,7 +2,15 @@ import React from 'react'
 import { useRef, useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header2 from '../components/Header2'
-import { Box, Button, useColorModeValue, useColorMode } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  useColorModeValue,
+  useColorMode,
+  Modal,
+  ModalOverlay,
+  Spinner,
+} from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
 import SideBar from '../components/sidebar/Main'
 import Table from '../partials/DataGrid'
@@ -25,6 +33,7 @@ export default function AcceptedTask() {
   ])
   const [email, setEmail] = useState(null)
   const [user, setUser] = useState(null)
+  const [isLoading, setLoading] = useState(true)
   useEffect(() => {
     if (user && user.type === 'dom') {
       router('/404')
@@ -67,6 +76,7 @@ export default function AcceptedTask() {
         console.log(temp)
         setData(temp)
       }
+      setLoading(false)
     }
     fetchTasks()
   }, [user])
@@ -88,6 +98,15 @@ export default function AcceptedTask() {
 
   return (
     <div className="h-[100vh] overflow-y-auto overflow-x-hidden">
+      <Modal isCentered isOpen={isLoading}>
+        <ModalOverlay
+          bg="blackAlpha.300"
+          backdropFilter="blur(10px) hue-rotate(90deg)"
+          className="items-center flex justify-center"
+        >
+          <Spinner size="xl" />
+        </ModalOverlay>
+      </Modal>
       <Header2
         isOpen={isOpen}
         onOpen={onOpen}

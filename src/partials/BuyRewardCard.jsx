@@ -33,7 +33,7 @@ const Card = ({ id, title, points, dom, user }) => {
           isDisabled={user?.rewards < points}
           onClick={() => {
             Swal.fire({
-              title: `Are you sure you want to use ${points} on this`,
+              title: `Are you sure you want to spend  ${points} points on this`,
               text: "You won't be able to revert this!",
               icon: 'warning',
               showCancelButton: true,

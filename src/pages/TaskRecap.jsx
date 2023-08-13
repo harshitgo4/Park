@@ -17,6 +17,7 @@ import Table from '../partials/DataGrid'
 import PieChart from '../partials/PieChart'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
 import Cookies from 'js-cookie'
+import { Modal, ModalOverlay, Spinner } from '@chakra-ui/react'
 
 export default function TaskRecap() {
   const router = useNavigate()
@@ -28,6 +29,7 @@ export default function TaskRecap() {
   const [pieData, setPieData] = useState(null)
   const [email, setEmail] = useState(null)
   const [user, setUser] = useState(null)
+  const [isLoading, setLoading] = useState(true)
 
   const [selectedOption, setSelectedOption] = useState('Daily')
 
@@ -170,6 +172,7 @@ export default function TaskRecap() {
           ])
         }
       }
+      setLoading(false)
     }
     fetchTasks()
   }, [user])
@@ -220,6 +223,15 @@ export default function TaskRecap() {
 
   return (
     <div className="h-[100vh] overflow-y-auto overflow-x-hidden">
+      <Modal isCentered isOpen={isLoading}>
+        <ModalOverlay
+          bg="blackAlpha.300"
+          backdropFilter="blur(10px) hue-rotate(90deg)"
+          className="items-center flex justify-center"
+        >
+          <Spinner size="xl" />
+        </ModalOverlay>
+      </Modal>
       <Header2
         isOpen={isOpen}
         onOpen={onOpen}

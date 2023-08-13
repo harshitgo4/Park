@@ -256,7 +256,6 @@ function Header2({
 
                           {!notification.isRead && (
                             <Button
-                              variant="outline"
                               size="sm"
                               colorScheme="red"
                               onClick={(e) =>

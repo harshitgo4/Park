@@ -8,10 +8,13 @@ import SideBar from '../components/sidebar/Main'
 import Table from '../partials/DataGrid'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
 import Cookies from 'js-cookie'
+import { Modal, ModalOverlay, Spinner } from '@chakra-ui/react'
+
 export default function PendingTask() {
   const router = useNavigate()
 
   const [showDrawer, setShowDrawer] = useState(false)
+  const [isLoading, setLoading] = useState(true)
   const [data, setData] = useState([
     {
       taskId: null,
@@ -68,6 +71,7 @@ export default function PendingTask() {
         console.log(temp)
         setData(temp)
       }
+      setLoading(false)
     }
     fetchTasks()
   }, [user])
@@ -93,6 +97,15 @@ export default function PendingTask() {
 
   return (
     <div className="h-[100vh] overflow-y-auto overflow-x-hidden">
+    <Modal isCentered isOpen={isLoading}>
+        <ModalOverlay
+          bg="blackAlpha.300"
+          backdropFilter="blur(10px) hue-rotate(90deg)"
+          className="items-center flex justify-center"
+        >
+          <Spinner size="xl" />
+        </ModalOverlay>
+      </Modal>
       <Header2
         isOpen={isOpen}
         onOpen={onOpen}

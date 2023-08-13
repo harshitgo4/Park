@@ -8,11 +8,14 @@ import SideBar from '../components/sidebar/Main'
 import Table from '../partials/DataGrid'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
 import Cookies from 'js-cookie'
+import { Modal, ModalOverlay, Spinner } from '@chakra-ui/react'
+
 export default function PendingSubmissions() {
   const router = useNavigate()
 
   const [showDrawer, setShowDrawer] = useState(false)
   const [subscriptionDetails, setSubscriptionDetails] = useState(false)
+  const [isLoading, setLoading] = useState(true)
   const [tasks, setTasks] = useState(null)
   const [user, setUser] = useState(null)
   const [data2, setData2] = useState([
@@ -68,6 +71,7 @@ export default function PendingSubmissions() {
         console.log(temp)
         setData2(temp)
       }
+      setLoading(false)
     }
     if (user) {
       fetchTasks()
@@ -96,6 +100,15 @@ export default function PendingSubmissions() {
 
   return (
     <div className="h-[100vh] overflow-y-auto overflow-x-hidden">
+    <Modal isCentered isOpen={isLoading}>
+        <ModalOverlay
+          bg="blackAlpha.300"
+          backdropFilter="blur(10px) hue-rotate(90deg)"
+          className="items-center flex justify-center"
+        >
+          <Spinner size="xl" />
+        </ModalOverlay>
+      </Modal>
       <Header2
         isOpen={isOpen}
         onOpen={onOpen}
@@ -124,7 +137,7 @@ export default function PendingSubmissions() {
           <div className={`${bg} m-2 flex flex-row rounded-lg p-8`}>
             <div className="w-full">
               {' '}
-              <h1 className="font-semibold mb-8">Pending Submissions</h1>
+              <h1 className="font-semibold mb-8 w-1/2">Submissions that are available but have not been completed yetSubmissions that are available but have not been completed yet.</h1>
               {data2.length > 0 ? (
                 <Table columns={columns} data={data2} />
               ) : (
