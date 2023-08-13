@@ -74,7 +74,7 @@ function SideBar({
       {' '}
       <Box
         display={{ base: 'none', md: 'block' }}
-        className={`pt-2 pl-2 pr-0 z-99 overflow-y-scroll w-[15rem] fixed left-0 h-screen flex flex-col border-[#CEC7C7] border-r-2`}
+        className={`pt-2 pl-2 pr-0 z-99 overflow-y-scroll overflow-x-hidden w-[15rem] fixed left-0 h-screen flex flex-col border-[#CEC7C7] border-r-2`}
         id="responsive"
       >
         <div className="my-8 pb-12 w-full my-8 space-y-4">
