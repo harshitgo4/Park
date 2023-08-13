@@ -196,7 +196,7 @@ function Header2({
         <div className="flex-1 flex relative justify-center items-center ">
           <div className="">
             <div className="m-2 text-lg md:text-3xl font-semibold text-blue-300">
-              <img src="/tied-transparent-logo.png" width={200} />
+              <img onClick={()=> router('/')} src="/tied-transparent-logo.png" width={200} />
             </div>
           </div>
           {/* User */}
