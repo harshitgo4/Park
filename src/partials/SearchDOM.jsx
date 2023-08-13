@@ -137,7 +137,7 @@ export default function SearchDOM({ data, connections, setConnections }) {
             key={item._id}
             id={item._id}
             title={item.fName + ' ' + item.lName}
-            imageUrl={item.avatar}
+            imageUrl={!item.isPrivate ? item.avatar : ''}
             email={item.email}
             isConfirmed={connections.some(
               (el) => el.domEmail === item.email && el.isConfirmed,
