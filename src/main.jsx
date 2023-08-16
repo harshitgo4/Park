@@ -122,6 +122,19 @@ const Main = () => {
       }
     }
     initializePushNotifications()
+    // Dynamically add the usetiful script to the head of the document
+    const script = document.createElement('script')
+    script.async = true
+    script.src = 'https://www.usetiful.com/dist/usetiful.js'
+    script.dataset.token = 'e14550a592dc64167f785861d9e8ce7e'
+    script.id = 'usetifulScript'
+
+    document.head.appendChild(script)
+
+    return () => {
+      // Clean up the script tag when the component unmounts
+      document.head.removeChild(script)
+    }
   }, [])
 
   return (
