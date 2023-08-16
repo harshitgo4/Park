@@ -17,7 +17,6 @@ import PageNotFound from './pages/PageNotFound'
 import Settings from './components/Settings'
 import DirectoryPage from './pages/IndexPage'
 import CompletedTask from './pages/CompletedTask'
-import AssignedTask from './pages/AssignedTask'
 import PendingTask from './pages/PendingTask'
 import TaskRecap from './pages/TaskRecap'
 import Rewards from './pages/Rewards'
@@ -84,7 +83,6 @@ function App() {
         <Route path="/AllSubmittedTasks" element={<AllSubmittedTasks />} />
         <Route path="/FailedTask" element={<FailedTask />} />
         <Route path="/AcceptedTask" element={<AcceptedTask />} />
-        <Route path="/AssignedTask" element={<AssignedTask />} />
         <Route path="/PendingTask" element={<PendingTask />} />
         <Route path="/PendingRewards" element={<PendingRewards />} />
         <Route path="/SearchDOM" element={<SearchDOM />} />

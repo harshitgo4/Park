@@ -42,7 +42,6 @@ function SideBar({
     } else if (
       window.location.pathname === '/SubmitTask' ||
       window.location.pathname === '/CurrentTask' ||
-      window.location.pathname === '/AssignedTask' ||
       window.location.pathname === '/AllTask' ||
       window.location.pathname === '/createTask' ||
       window.location.pathname === '/ManageTask' ||
@@ -134,18 +133,6 @@ function SideBar({
             >
               <CalendarDaysIcon className="w-5 mx-2" />
               Current Task
-            </button>
-            <button
-              onClick={() => router('/AssignedTask')}
-              hidden={user?.type == 'dom'}
-              className={`flex flex-row text-right ${
-                window.location.pathname === '/AssignedTask'
-                  ? `w-full py-4 rounded-lg ${bg} ${txt}`
-                  : null
-              }`}
-            >
-              <CalendarDaysIcon className="w-5 mx-2" />
-              Assigned Tasks
             </button>
             <button
               onClick={() => router('/AllTask')}
