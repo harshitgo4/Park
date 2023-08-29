@@ -546,7 +546,7 @@ export default function Home({ folder, initialNamespace }) {
                 <h1 className="font-semibold">
                   {user?.type === 'sub' ? 'Accepted Submissions' : 'All Tasks'}
                 </h1>
-                <p className="text-3xl">{data.All}</p>
+                <p className="text-3xl">{user?.type === 'sub' ? data.Accepted : data.All }</p>
                 <Button rightIcon={<ArrowRightIcon className="w-5" />}>
                   View Details
                 </Button>
