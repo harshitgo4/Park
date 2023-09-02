@@ -46,9 +46,10 @@ export default function ManageRewards() {
 
       if (resData.error) {
         console.log('Error fetching user')
-      } else if (resData.boughtRewards) {
-        console.log(resData.boughtRewards)
-        setData(resData.boughtRewards)
+      } else if (resData.rewardBought) {
+        console.log(resData.rewardBought)
+        const temp = resData.rewardBought.filter((el)=>el.status === "Pending")
+        setData(temp)
       }
     }
     fetchTasks()

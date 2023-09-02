@@ -59,8 +59,9 @@ export default function AllRewardsBought() {
         console.log(resData.rewardBought)
         const temp = resData.rewardBought.filter((d) => {
           d.updatedAt = d.updatedAt.split('T')[0]
-          return true
+          return d.status == "Accepted"
         })
+        console.log(temp, "temp")
         setData(temp)
       }
       setLoading(false)
