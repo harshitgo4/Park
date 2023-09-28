@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import Modal from '../utils/Modal'
 
-import HeroImage from '../images/hero-image-01.jpg'
+import Parking from '../images/parking.jpg'
+import Contact_Booking from '../pages/Booking_slot'
+
 
 function HeroHome() {
   const [videoModalOpen, setVideoModalOpen] = useState(false)
@@ -45,34 +47,17 @@ function HeroHome() {
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
             <h1 className="h1 mb-4" data-aos="fade-up">
-              Document Conversational AI
+              Find A Easy Parking Spot With ParkEase 
             </h1>
             <p
               className="text-xl text-gray-400 mb-8"
               data-aos="fade-up"
               data-aos-delay="200"
             >
-              Supercharge your workflow with Document Conversational AI! Elevate
-              collaboration, productivity, and efficiency. Embrace the future
-              today!
+              Get ahead With Traffic and Everyone Book A Parking Spot with us Right Now and Save the Hassle
             </p>
             <div className="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center">
-              <div data-aos="fade-up" data-aos-delay="400">
-                <a
-                  className="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-4 sm:w-auto sm:mb-0"
-                  href="#0"
-                >
-                  Start free trial
-                </a>
-              </div>
-              <div data-aos="fade-up" data-aos-delay="600">
-                <a
-                  className="btn text-white bg-gray-700 hover:bg-gray-800 w-full sm:w-auto sm:ml-4"
-                  href="#0"
-                >
-                  Learn more
-                </a>
-              </div>
+            <Contact_Booking/>
             </div>
           </div>
 
@@ -85,7 +70,7 @@ function HeroHome() {
             >
               <img
                 className="mx-auto"
-                src={HeroImage}
+                src={Parking}
                 width="1024"
                 height="504"
                 alt="Hero"

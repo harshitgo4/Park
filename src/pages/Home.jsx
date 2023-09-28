@@ -30,11 +30,15 @@ function Home() {
         {/*  Page sections */}
         <HeroHome />
         <Process />
-        <FeaturesHome />
-        <Tabs />
+        {
+       // <FeaturesHome />
+        }
+        {
+
+        //<Tabs />
+        }
         <Target />
-        <News />
-        <Newsletter />
+       
       </main>
 
       {/*  Site footer */}

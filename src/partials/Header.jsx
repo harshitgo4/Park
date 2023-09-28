@@ -63,6 +63,14 @@ function Header() {
           <nav className="hidden md:flex md:grow">
             {/* Desktop menu links */}
             <ul className="flex grow justify-end flex-wrap items-center">
+            <li>
+                <Link
+                  to="/"
+                  className={`${colorMode === "light" ? 'text-black' : 'text-gray-300'}  hover:text-gray-200 px-4 py-2 flex items-center transition duration-150 ease-in-out`}
+                >
+                  Home
+                </Link>
+              </li>
               <li>
                 <Link
                   to="/features"

@@ -9,7 +9,7 @@ function Process() {
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
             <h2 className="h2 mb-4" data-aos="fade-up">Built exclusively for you</h2>
-            <p className="text-xl text-gray-400" data-aos="fade-up" data-aos-delay="200">Streamline document management effortlessly with our conversational chatbot. Perfect for students, researchers, and businesses. Experience the easy approach.</p>
+            <p className="text-xl text-gray-400" data-aos="fade-up" data-aos-delay="200">"Welcome to your ultimate parking solution! Get ready to revolutionize your parking experience with our user-friendly Website"</p>
           </div>
 
           {/* Items */}
@@ -21,7 +21,7 @@ function Process() {
               <svg className="w-16 h-16 mb-4" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
                 <rect className="fill-current text-purple-600" width="64" height="64" rx="32" />
                 <path className="stroke-current text-purple-300" strokeWidth="2" strokeLinecap="square" d="M21 23h22v18H21z" fill="none" fillRule="evenodd" />
-                <path className="stroke-current text-purple-100" d="M26 28h12M26 32h12M26 36h5" strokeWidth="2" strokeLinecap="square" />
+                <path className="stroke-current text-purple-100" d="M26 28h12M26 32h12M26 365" strokeWidth="2" strokeLinecap="square" />
               </svg>
               <h4 className="h4 mb-2"><span className="text-gray-400">1</span>. Sign Up/In</h4>
               <p className="text-lg text-gray-400 text-center">Create an account with your credentials. Your sessions are securely managed with our authenticated mechanisms.</p>
@@ -37,8 +37,8 @@ function Process() {
                   <path className="stroke-current text-purple-100" strokeWidth="2" strokeLinecap="square" d="M36 32l-4-3-4 3V22h8z" />
                 </g>
               </svg>
-              <h4 className="h4 mb-2"><span className="text-gray-400">2</span>. Upload/Connect</h4>
-              <p className="text-lg text-gray-400 text-center">Use our intuitive user interface for a drag and drop, upload or connect your PDFs, text, ePub, or Powerpoint documents.</p>
+              <h4 className="h4 mb-2"><span className="text-gray-400">2</span>. Book a slot</h4>
+              <p className="text-lg text-gray-400 text-center">Book a Slot With Your registered Number and Vehicle Details to get a Booking</p>
             </div>
 
             {/* 3rd item */}
@@ -48,8 +48,8 @@ function Process() {
                 <path className="stroke-current text-purple-300" strokeWidth="2" strokeLinecap="square" d="M21 35l4 4 12-15" fill="none" fillRule="evenodd" />
                 <path className="stroke-current text-purple-100" d="M42 29h-3M42 34h-7M42 39H31" strokeWidth="2" strokeLinecap="square" />
               </svg>
-              <h4 className="h4 mb-2"><span className="text-gray-400">3</span>. Explore/Interact</h4>
-              <p className="text-lg text-gray-400 text-center">Enjoy our preview questions experience to start conversing with the chatbot with enabled inteligient document queries.</p>
+              <h4 className="h4 mb-2"><span className="text-gray-400">3</span>. Drive In</h4>
+              <p className="text-lg text-gray-400 text-center">Drive In to the Venue get yourself checked and park at the booked Up place</p>
             </div>
 
           </div>

@@ -1,16 +1,16 @@
 import React from 'react';
 
-import TargetImage from '../images/features-02-image.png';
+import TargetImage from '../images/car_img.jpeg';
 
 function Target() {
-  return (
+  return (  
     <section>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="py-12 md:py-20 border-t border-gray-800">
 
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-            <h2 className="h2" data-aos="fade-up">From the big picture to every tiny detail, DocuBot got you covered.</h2>
+            <h2 className="h2" data-aos="fade-up">Have A Vehicle Then ,Get a Parkease</h2>
           </div>
 
           {/* Items */}
@@ -27,19 +27,16 @@ function Target() {
               {/* Content */}
               <div className="max-w-xl md:max-w-none md:w-full mx-auto md:col-span-7 lg:col-span-6">
                 <div className="md:pl-4 lg:pl-12 xl:pl-16">
-                  <div className="font-architects-daughter text-xl text-purple-600 mb-2" data-aos="fade-left" data-aos-anchor="[data-aos-id-target]">Be the change you want to see</div>
+                  <div className="font-architects-daughter text-xl text-purple-600 mb-2" data-aos="fade-left" data-aos-anchor="[data-aos-id-target]">We Got You Covered</div>
                   <div className="mt-6" data-aos="fade-left" data-aos-delay="200" data-aos-anchor="[data-aos-id-target]">
-                    <h4 className="h4 mb-2"><span className="text-purple-600">.</span> For students</h4>
-                    <p className="text-lg text-gray-400">DocuBot can assist students in managing their research papers, lecture notes, and assignments efficiently.</p>
+                    <h4 className="h4 mb-2"><span className="text-purple-600">.</span>Parking Sense</h4>
+                    <p className="text-lg text-gray-400">"Parking sense is a technology that uses sensors and data to help drivers find available parking spaces quickly and safely, reducing congestion and improving the parking experience."</p>
                   </div>
                   <div className="mt-6" data-aos="fade-left" data-aos-delay="400" data-aos-anchor="[data-aos-id-target]">
-                    <h4 className="h4 mb-2"><span className="text-teal-500">.</span> For researchers</h4>
-                    <p className="text-lg text-gray-400">Researchers can benefit from DocuBot's document search and summarization features to analyze and extract relevant information from vast amounts of research papers and articles.</p>
+                    <h4 className="h4 mb-2"><span className="text-teal-500">.</span> Urban Mobility</h4>
+                    <p className="text-lg text-gray-400">"Urban mobility refers to the efficient movement of people and goods within cities, encompassing various transportation options, infrastructure, and policies aimed at reducing congestion and improving transportation sustainability."</p>
                   </div>
-                  <div className="mt-6" data-aos="fade-left" data-aos-delay="600" data-aos-anchor="[data-aos-id-target]">
-                    <h4 className="h4 mb-2"><span className="text-pink-500">.</span> For businesses</h4>
-                    <p className="text-lg text-gray-400">DocuBot can aid businesses in organizing and retrieving important documents, contracts, and reports swiftly. It can also facilitate collaboration among team members.</p>
-                  </div>
+
                 </div>
               </div>
 
